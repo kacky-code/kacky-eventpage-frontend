@@ -6,6 +6,7 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/oswald": "^4.5.9",
     "@tanstack/react-table": "^8.0.0-beta.9",
     "framer-motion": "^6.3.11",
     "luxon": "^3.0.1",
