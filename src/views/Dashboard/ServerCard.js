@@ -68,13 +68,20 @@ const ServerCard = ({
           px={{ base: 4, md: 8 }}
           w="full"
           h="full"
-          bgGradient={{
-            base: `linear(to-r, background 0%, blackAlpha.800 40%,  blackAlpha.800 40%)`,
-            sm: `linear(to-r, background 0%, blackAlpha.800 40%,  transparent 100%)`,
-            xl: `linear(to-r, background, ${
+          bgGradient={[
+            `linear(to-r, background 0%, ${
+              colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
+            }`,
+            `linear(to-r, background 0%, ${
+              colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
+            },  transparent 100%)`,
+            null,
+            null,
+            `linear(to-r, background, ${
               colorMode === 'dark' ? 'rgba(6,6,6,0.8)' : 'rgba(255,255,255,0.8)'
             }, background)`,
-          }}
+            null,
+          ]}
         >
           <Flex
             direction={{ base: 'column', xl: 'row' }}
