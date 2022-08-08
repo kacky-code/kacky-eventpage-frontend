@@ -6,7 +6,6 @@ import {
   useColorMode,
   Flex,
   HStack,
-  VStack,
   Text,
   Badge,
   Image,
@@ -18,7 +17,11 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { DateTime } from 'luxon';
-import { MdOutlineDns, MdOutlineCheckCircle } from 'react-icons/md';
+import {
+  MdOutlineDns,
+  MdOutlineCheckCircle,
+  MdAccessTime,
+} from 'react-icons/md';
 import { BsArrowsAngleExpand } from 'react-icons/bs';
 import MapImageModal from '../../components/MapImageModal';
 
@@ -52,7 +55,7 @@ const ServerCard = ({
       bgRepeat="no-repeat"
       bgSize="cover"
       w="full"
-      h={32}
+      h={{ base: 'column', xl: isCompactView ? 16 : 32 }}
     >
       <Box
         w="full"
@@ -65,11 +68,23 @@ const ServerCard = ({
           px={{ base: 4, md: 8 }}
           w="full"
           h="full"
-          bgGradient={`linear(to-r, background, ${
-            colorMode === 'dark' ? 'rgba(6,6,6,0.8)' : 'rgba(255,255,255,0.8)'
-          }, background)`}
+          bgGradient={{
+            base: `linear(to-r, background 0%, blackAlpha.800 40%,  blackAlpha.800 40%)`,
+            sm: `linear(to-r, background 0%, blackAlpha.800 40%,  transparent 100%)`,
+            xl: `linear(to-r, background, ${
+              colorMode === 'dark' ? 'rgba(6,6,6,0.8)' : 'rgba(255,255,255,0.8)'
+            }, background)`,
+          }}
         >
-          <Flex justify="space-between" w="container.xl">
+          <Flex
+            direction={{ base: 'column', xl: 'row' }}
+            align={{ base: 'flex-start', xl: 'center' }}
+            pl={{ base: 8, sm: 16, xl: 0 }}
+            py={8}
+            gap={{ base: 8, xl: 0 }}
+            justify="space-between"
+            w="container.xl"
+          >
             {/* SERVER */}
             <HStack w="220px" spacing={4}>
               <Icon
@@ -79,17 +94,22 @@ const ServerCard = ({
               <Text textShadow="glow" letterSpacing="0.1em">
                 Server
               </Text>
-              <Text textShadow="glow" w="50px" fontSize="5xl">
+              <Text
+                textShadow="glow"
+                w={isCompactView ? '40px' : '50px'}
+                fontSize={isCompactView ? '4xl' : '5xl'}
+                lineHeight={isCompactView ? '36px' : '48px'}
+              >
                 {serverNumber}
               </Text>
               <Badge variant={serverDifficulty}>{serverDifficulty}</Badge>
             </HStack>
 
             {/* MAP NUMBER */}
-            <HStack w="320px">
+            <HStack w={isCompactView ? '240px' : '320px'}>
               <Text
-                fontSize="2xl"
-                lineHeight="24px"
+                fontSize={isCompactView ? 'md' : '2xl'}
+                lineHeight={isCompactView ? '16px' : '24px'}
                 letterSpacing="0.4em"
                 fontWeight="light"
                 align="right"
@@ -99,11 +119,11 @@ const ServerCard = ({
                 <br />
                 Reloaded
               </Text>
-              <HStack spacing="0">
+              <HStack spacing={0}>
                 <Text
-                  lineHeight="60px"
+                  lineHeight={isCompactView ? '48px' : '60px'}
                   textShadow="glow"
-                  fontSize="6xl"
+                  fontSize={isCompactView ? '5xl' : '6xl'}
                   letterSpacing="0.1em"
                   fontWeight="bold"
                 >
@@ -126,8 +146,8 @@ const ServerCard = ({
             </HStack>
 
             {/* MAP IMAGE */}
-            <Box position="relative">
-              <Image h={32} alt="Map" src={mapImageUrl} />
+            <Box display={{ base: 'none', xl: 'initial' }} position="relative">
+              <Image h={isCompactView ? 16 : 32} alt="Map" src={mapImageUrl} />
               <Flex
                 onClick={onOpen}
                 role="group"
@@ -170,18 +190,22 @@ const ServerCard = ({
             </Box>
 
             {/* NEXT MAPS */}
-            <HStack w="120px">
+            <Flex
+              direction={isCompactView ? 'column-reverse' : 'row'}
+              gap={isCompactView ? 1 : 2}
+              w={isCompactView ? 'auto' : '120px'}
+            >
               <Flex
-                h="88px"
-                direction="column"
+                h={isCompactView ? 'auto' : '88px'}
+                direction={isCompactView ? 'row' : 'column'}
                 spacing={0}
                 justify="stretch"
                 align="center"
               >
                 <Box
                   bg={colorMode === 'dark' ? 'white' : 'black'}
-                  w="2px"
-                  h="full"
+                  w={isCompactView ? 'full' : '2px'}
+                  h={isCompactView ? '2px' : 'full'}
                   boxShadow="glow"
                 />
                 <Box
@@ -194,13 +218,24 @@ const ServerCard = ({
                     height="12px"
                     width="12px"
                   >
-                    <polygon points="0,0 12,0 6,12" />
+                    <polygon
+                      points={isCompactView ? '0,0 12,6 0,12' : '0,0 12,0 6,12'}
+                    />
                   </svg>
                 </Box>
               </Flex>
-              <VStack align="flex-start" spacing={2}>
+              <Flex
+                direction={isCompactView ? 'row' : 'column'}
+                align="flex-start"
+                gap={isCompactView ? 6 : 2}
+              >
                 {mapNumbers.slice(1).map((mapNumber, index) => (
-                  <HStack key={mapNumber}>
+                  <HStack
+                    w={isCompactView ? '75px' : 'auto'}
+                    justify="flex-start"
+                    spacing={1}
+                    key={mapNumber}
+                  >
                     <Text
                       lineHeight="24px"
                       fontWeight={nextMapsFontWeight[index]}
@@ -214,7 +249,6 @@ const ServerCard = ({
                       <Icon
                         color={colorMode === 'dark' ? 'green.300' : 'green.500'}
                         boxSize="20px"
-                        alignSelf="flex-start"
                         filter={
                           colorMode === 'dark'
                             ? theme.shadows.finGlowDark
@@ -225,28 +259,52 @@ const ServerCard = ({
                     ) : null}
                   </HStack>
                 ))}
-              </VStack>
-            </HStack>
+              </Flex>
+            </Flex>
 
             {/* TIME LEFT */}
-            <VStack justify="center">
-              <CircularProgress
-                trackColor="transparent"
-                thickness="2px"
-                color={colorMode === 'dark' ? 'white' : 'black'}
-                value={(timeLeft / timeLimit) * 100}
-                size="114px"
-              >
-                <CircularProgressLabel
-                  fontWeight="normal"
-                  fontSize="2xl"
-                  letterSpacing="0.1em"
-                  sx={{ fontVariantNumeric: 'tabular-nums' }}
+            <Flex justify="center" align="center">
+              {isCompactView ? (
+                <>
+                  <Icon
+                    filter={
+                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                    }
+                    boxSize="24px"
+                    as={MdAccessTime}
+                  />
+                  <Text
+                    align="left"
+                    width="75px"
+                    ml={4}
+                    fontWeight="semilight"
+                    fontSize="2xl"
+                    lineHeight="24px"
+                    letterSpacing="0.1em"
+                    textShadow="glow"
+                  >
+                    {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
+                  </Text>
+                </>
+              ) : (
+                <CircularProgress
+                  trackColor="transparent"
+                  thickness="2px"
+                  color={colorMode === 'dark' ? 'white' : 'black'}
+                  value={(timeLeft / timeLimit) * 100}
+                  size="114px"
                 >
-                  {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
-                </CircularProgressLabel>
-              </CircularProgress>
-            </VStack>
+                  <CircularProgressLabel
+                    fontWeight="semilight"
+                    fontSize="2xl"
+                    letterSpacing="0.1em"
+                    sx={{ fontVariantNumeric: 'tabular-nums' }}
+                  >
+                    {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
+                  </CircularProgressLabel>
+                </CircularProgress>
+              )}
+            </Flex>
           </Flex>
         </Center>
       </Box>
