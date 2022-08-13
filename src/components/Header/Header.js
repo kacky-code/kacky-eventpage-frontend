@@ -89,11 +89,11 @@ const Header = () => {
 
   const tabsMobile = [
     // can be added again if a homepage is needed
-    /* {
+    {
       key: 0,
       text: 'Home',
       TabIcon: MdOutlineHome,
-    }, */
+    },
     {
       key: 8,
       isSpacer: true,
@@ -221,7 +221,7 @@ const Header = () => {
         />
       </Center>
 
-      <Box pt={{ base: '16px', md: '100px' }}>
+      <Box pt={{ base: '16px', md: '100px', xl: '130px' }}>
         <Outlet />
       </Box>
     </>
