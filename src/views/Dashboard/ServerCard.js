@@ -35,7 +35,6 @@ const ServerCard = ({
   timeLimit,
   timeLeft,
   mapsFinished,
-  // eslint-disable-next-line no-unused-vars
   isCompactView,
 }) => {
   const theme = useTheme();
@@ -68,20 +67,21 @@ const ServerCard = ({
           px={{ base: 4, md: 8 }}
           w="full"
           h="full"
-          bgGradient={[
-            `linear(to-r, background 0%, ${
+          bgGradient={{
+            base: `linear(to-r, background 0%, ${
               colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
-            }`,
-            `linear(to-r, background 0%, ${
+            },  ${
+              colorMode === 'dark'
+                ? 'blackAlpha.600 100%'
+                : 'whiteAlpha.700 100%'
+            })`,
+            md: `linear(to-r, background 0%, ${
               colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
             },  transparent 100%)`,
-            null,
-            null,
-            `linear(to-r, background, ${
+            xl: `linear(to-r, background, ${
               colorMode === 'dark' ? 'rgba(6,6,6,0.8)' : 'rgba(255,255,255,0.8)'
             }, background)`,
-            null,
-          ]}
+          }}
         >
           <Flex
             direction={{ base: 'column', xl: 'row' }}
@@ -109,7 +109,14 @@ const ServerCard = ({
               >
                 {serverNumber}
               </Text>
-              <Badge variant={serverDifficulty}>{serverDifficulty}</Badge>
+              <Badge
+                visibility={
+                  serverDifficulty === 'undefined' ? 'hidden' : 'visible'
+                }
+                variant={serverDifficulty}
+              >
+                {serverDifficulty}
+              </Badge>
             </HStack>
 
             {/* MAP NUMBER */}
