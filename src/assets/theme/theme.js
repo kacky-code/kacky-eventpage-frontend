@@ -8,9 +8,114 @@ const theme = extendTheme({
         textTransform: 'uppercase',
         fontWeight: 300,
       },
+      '&::-webkit-scrollbar': {
+        width: '16px',
+      },
+      '&::-webkit-scrollbar-track': {
+        border: '1px',
+        borderColor:
+          props.colorMode === 'dark' ? 'whiteAlpha.100' : 'blackAlpha.100',
+        background: props.colorMode === 'dark' ? 'black' : 'white',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        border: '4px',
+        borderColor: props.colorMode === 'dark' ? 'black' : 'white',
+        background:
+          props.colorMode === 'dark' ? 'whiteAlpha.300' : 'blackAlpha.300',
+        borderRadius: '100vw',
+      },
     }),
   },
   components: {
+    Switch: {
+      baseStyle: props => ({
+        track: {
+          bg: props.colorMode === 'dark' ? 'whiteAlpha.300' : 'blackAlpha.300',
+          _checked: {
+            bg:
+              props.colorMode === 'dark' ? 'whiteAlpha.700' : 'blackAlpha.700',
+          },
+        },
+      }),
+    },
+    Table: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        table: {
+          fontVariantNumeric: 'lining-nums tabular-nums',
+          borderCollapse: 'collapse',
+          width: 'full',
+        },
+        th: {
+          fontFamily: 'heading',
+          fontWeight: 'normal',
+          textTransform: 'uppercase',
+          letterSpacing: 'wider',
+          textAlign: 'start',
+        },
+        td: {
+          textAlign: 'start',
+        },
+      }),
+      variants: {
+        simple: {
+          th: {
+            bg: 'blackAlpha.200',
+            color: 'blackAlpha.700',
+            borderColor: 'whiteAlpha.400',
+            _dark: {
+              bg: 'whiteAlpha.200',
+              color: 'whiteAlpha.700',
+              borderColor: 'whiteAlpha.400',
+            },
+          },
+          td: {
+            borderColor: 'whiteAlpha.400',
+          },
+        },
+      },
+      sizes: {
+        sm: {
+          th: {
+            px: '4',
+            py: '1',
+            h: 8,
+            lineHeight: '4',
+            fontSize: 'sm',
+          },
+          td: {
+            px: '4',
+            py: '1',
+            h: 12,
+            fontSize: 'md',
+            lineHeight: '4',
+          },
+        },
+      },
+    },
+    FormLabel: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        letterSpacing: '0.1em',
+        fontWeight: 'hairline',
+      }),
+    },
+    Input: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        field: { fontWeight: 'hairline', letterSpacing: '0.1em' },
+      }),
+      variants: {
+        outline: {
+          field: { background: 'whiteAlpha.200' },
+        },
+      },
+    },
+    Popover: {
+      baseStyle: props => ({
+        content: { bg: props.colorMode === 'dark' ? '#060606' : 'white' },
+      }),
+    },
     Menu: {
       baseStyle: props => ({
         list: {
@@ -66,6 +171,21 @@ const theme = extendTheme({
           bg: 'green.300',
           color: 'green.900',
           boxShadow: '0px 2px 4px rgba(104, 211, 145, 0.5);',
+        },
+        yellow: {
+          bg: 'yellow.300',
+          color: 'yellow.900',
+          boxShadow: '0px 2px 4px rgba(250, 240, 137, 0.5);',
+        },
+        orange: {
+          bg: 'orange.300',
+          color: 'orange.900',
+          boxShadow: '0px 2px 4px rgba(246, 173, 85, 0.5);',
+        },
+        purple: {
+          bg: 'purple.300',
+          color: 'purple.900',
+          boxShadow: '0px 2px 4px rgba(183, 148, 244, 0.5);',
         },
         blue: {
           bg: 'blue.300',
