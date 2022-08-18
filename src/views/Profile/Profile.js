@@ -9,20 +9,24 @@ import {
   Button,
   IconButton,
   Divider,
+  Stack,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MdInfoOutline } from 'react-icons/md';
 
+// eslint-disable-next-line arrow-body-style
 const Profile = () => {
-  const text = '';
-
   return (
-    <Center w="100%">
+    <Center px={8} w="100%">
       <VStack spacing={6} align="flex-start" w="container.xl">
         <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
-          {text}Your Profile
+          Your Profile
         </Text>
-        <HStack spacing={8} w="full">
+        <Stack
+          direction={{ base: 'column', xl: 'row' }}
+          spacing={8}
+          w={{ base: 'full', md: '330px', xl: 'full' }}
+        >
           <FormControl>
             <HStack spacing={4} mb={2}>
               <FormLabel m="0">TMNF Login</FormLabel>
@@ -68,24 +72,22 @@ const Profile = () => {
               <Button>Save</Button>
             </HStack>
           </FormControl>
-        </HStack>
+        </Stack>
         <Divider />
-        <FormControl maxW="330px">
+        <FormControl maxW={{ base: 'full', md: '330px' }} align="left">
           <FormLabel>Enter new E-Mail</FormLabel>
           <Input placeholder="New E-Mail" />
           <Button mt={4}>Update E-Mail</Button>
         </FormControl>
         <Divider />
-        <FormControl maxW="330px">
+        <FormControl maxW={{ base: 'full', md: '330px' }} align="left">
           <FormLabel>Enter new Password</FormLabel>
           <Input placeholder="New Password" />{' '}
           <Input placeholder="Confirm new Password" mt={4} />
           <Button mt={4}>Update Password</Button>
         </FormControl>
         <Divider />
-        <Button bg="red.400" color="red.900">
-          Delete Account
-        </Button>
+        <Button variant="danger">Delete Account</Button>
       </VStack>
     </Center>
   );
