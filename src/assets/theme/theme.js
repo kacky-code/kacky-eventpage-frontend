@@ -119,6 +119,11 @@ const theme = extendTheme({
         content: { bg: props.colorMode === 'dark' ? '#060606' : 'white' },
       }),
     },
+    Modal: {
+      baseStyle: props => ({
+        dialog: { bg: props.colorMode === 'dark' ? '#060606' : 'white' },
+      }),
+    },
     Menu: {
       baseStyle: props => ({
         list: {
