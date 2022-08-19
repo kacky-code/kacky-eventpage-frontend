@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React from 'react';
 import {
   Modal,
@@ -17,21 +18,27 @@ import { MdOutlineCheckCircle } from 'react-icons/md';
 
 import PropTypes from 'prop-types';
 
-const MapImageModal = ({
-  isOpen,
-  onClose,
-  mapImageUrl,
-  mapNumber,
-  isFinished,
-}) => {
+import mapImageFallback from '../assets/images/mapImageFallback.jpg';
+import { getMapImageUrl } from '../api/api';
+
+const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
+
+  const getFallbackImage = ev => {
+    // eslint-disable-next-line no-param-reassign
+    ev.target.src = mapImageFallback;
+  };
 
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent maxW="1024px">
-        <Image alt="Map" src={mapImageUrl} />
+        <Image
+          onError={getFallbackImage}
+          alt="Map"
+          src={getMapImageUrl(mapNumber)}
+        />
         <Flex
           direction="column"
           role="group"
@@ -89,7 +96,7 @@ const MapImageModal = ({
               by
             </Text>
             <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em">
-              Adralonter
+              {author}
             </Text>
           </HStack>
           <ModalCloseButton
@@ -109,9 +116,9 @@ const MapImageModal = ({
 MapImageModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  mapImageUrl: PropTypes.string.isRequired,
-  mapNumber: PropTypes.string.isRequired,
+  mapNumber: PropTypes.number.isRequired,
   isFinished: PropTypes.bool.isRequired,
+  author: PropTypes.string.isRequired,
 };
 
 export default MapImageModal;
