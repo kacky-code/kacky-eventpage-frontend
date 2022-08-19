@@ -18,8 +18,6 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { DateTime } from 'luxon';
 
-import mapImage1 from '../../assets/images/Map1.jpg';
-
 import MapNumberCell from './MapNumberCell';
 import MapDifficultyCell from './MapDifficultyCell';
 import MapFinishedCell from './MapFinishedCell';
@@ -136,7 +134,6 @@ const defaultColumns = [
       <MapNumberCell
         finished={info.row.original.finished}
         number={info.row.original.number.toString()}
-        mapImageUrl={mapImage1}
       />
     ),
   }),

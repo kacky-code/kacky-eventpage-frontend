@@ -5,20 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import ServerCard from './ServerCard';
 
-import mapImage1 from '../../assets/images/Map1.jpg';
-
 import { getDashboardData } from '../../api/api';
-
-const getMapsFinished = () => {
-  const mapsFinishedArr = [];
-  const getKey = key => key.toString();
-  for (let i = 151; i <= 300; i += 1) {
-    const randomBoolean = Math.random() < 0.3;
-    mapsFinishedArr.push({ [getKey(i)]: randomBoolean });
-  }
-  return mapsFinishedArr;
-};
-const mapsFinished = getMapsFinished();
 
 const Dashboard = () => {
   const [isCompactView, setIsCompactView] = useBoolean();
@@ -32,19 +19,13 @@ const Dashboard = () => {
     if (isSuccess) {
       const timeLeftArr = [];
       const formattedData = [];
-      data.serverinfo.forEach((server, index) => {
-        timeLeftArr.push(server[`Server ${index + 1}`][1]);
+      data.servers.forEach(server => {
+        timeLeftArr.push(server.timeLeft);
         const formattedServer = {
-          serverNumber: (index + 1).toString(),
-          mapImageUrl: mapImage1,
-          mapNumbers: [
-            server[`Server ${index + 1}`][2][0].toString(),
-            server[`Server ${index + 1}`][2][1].toString(),
-            server[`Server ${index + 1}`][2][2].toString(),
-            server[`Server ${index + 1}`][2][3].toString(),
-          ],
-          serverDifficulty: 'undefined',
-          timeLimit: server[`Server ${index + 1}`][2] * 60,
+          serverNumber: server.serverNumber.toString(),
+          maps: server.maps,
+          serverDifficulty: server.serverDifficulty,
+          timeLimit: server.timeLimit * 60,
         };
         formattedData.push(formattedServer);
       });
@@ -90,7 +71,6 @@ const Dashboard = () => {
           <ServerCard
             {...server}
             timeLeft={counter[index]}
-            mapsFinished={mapsFinished}
             isCompactView={isCompactView}
             key={server.serverNumber}
           />
