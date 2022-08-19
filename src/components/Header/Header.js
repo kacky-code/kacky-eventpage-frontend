@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useRef } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -28,11 +29,14 @@ import {
 
 import KrLogo from '../../assets/logos/krLogo';
 import HeaderTab from './HeaderTab';
+import AuthModal from './AuthModal/AuthModal';
 
 const Header = () => {
   const theme = useTheme();
   const { colorMode, toggleColorMode } = useColorMode();
   const { pathname } = useLocation();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoSize = useBreakpointValue({
     base: '120px',
@@ -79,6 +83,7 @@ const Header = () => {
     {
       key: 6,
       TabIcon: MdOutlineLogout,
+      onClick: onOpen,
     },
     {
       key: 7,
@@ -204,6 +209,7 @@ const Header = () => {
               </MenuList>
             </Menu>
           ) : null}
+          <AuthModal isOpen={isOpen} onClose={onClose} />
         </HStack>
         <Box
           ref={indicatorElement}

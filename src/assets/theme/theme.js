@@ -107,13 +107,21 @@ const theme = extendTheme({
       }),
       variants: {
         outline: {
-          field: { background: 'whiteAlpha.200' },
+          field: {
+            background: 'blackAlpha.50',
+            _dark: { background: 'whiteAlpha.200' },
+          },
         },
       },
     },
     Popover: {
       baseStyle: props => ({
         content: { bg: props.colorMode === 'dark' ? '#060606' : 'white' },
+      }),
+    },
+    Modal: {
+      baseStyle: props => ({
+        dialog: { bg: props.colorMode === 'dark' ? '#060606' : 'white' },
       }),
     },
     Menu: {
@@ -151,6 +159,20 @@ const theme = extendTheme({
             },
             bg: 'blackAlpha.300',
             _dark: { bg: 'whiteAlpha.300' },
+          },
+        },
+        danger: {
+          boxShadow: '0px 2px 4px rgba(252, 129, 129, 0.5);',
+          color: 'red.900',
+          bg: 'red.300',
+          _dark: { bg: 'red.300' },
+          _hover: {
+            _disabled: {
+              bg: 'red.300',
+              _dark: { bg: 'red.300' },
+            },
+            bg: 'red.400',
+            _dark: { bg: 'red.400' },
           },
         },
       },
