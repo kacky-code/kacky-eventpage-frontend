@@ -8,7 +8,7 @@ import { MdOutlineImage } from 'react-icons/md';
 
 import MapImageModal from '../../components/MapImageModal';
 
-const MapNumberCell = ({ number, finished, mapImageUrl }) => {
+const MapNumberCell = ({ number, finished }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -31,7 +31,7 @@ const MapNumberCell = ({ number, finished, mapImageUrl }) => {
       />
       <MapImageModal
         mapNumber={number}
-        mapImageUrl={mapImageUrl}
+        author="placeholder"
         isFinished={finished}
         isOpen={isOpen}
         onClose={onClose}
@@ -43,7 +43,6 @@ const MapNumberCell = ({ number, finished, mapImageUrl }) => {
 MapNumberCell.propTypes = {
   number: PropTypes.string.isRequired,
   finished: PropTypes.bool,
-  mapImageUrl: PropTypes.string.isRequired,
 };
 
 MapNumberCell.defaultProps = {
