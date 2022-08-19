@@ -25,16 +25,17 @@ import {
 import { BsArrowsAngleExpand } from 'react-icons/bs';
 import MapImageModal from '../../components/MapImageModal';
 
+import { getMapImageUrl } from '../../api/api';
+import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
+
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
 const ServerCard = ({
   serverNumber,
-  mapImageUrl,
   serverDifficulty,
-  mapNumbers,
+  maps,
   timeLimit,
   timeLeft,
-  mapsFinished,
   isCompactView,
 }) => {
   const theme = useTheme();
@@ -42,14 +43,16 @@ const ServerCard = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const isFinished = mapNumber =>
-    mapsFinished.filter(map => Object.keys(map).toString() === mapNumber)[0][
-      mapNumber
-    ];
+  const getFallbackImage = ev => {
+    // eslint-disable-next-line no-param-reassign
+    ev.target.src = mapImageFallback;
+  };
 
   return (
     <Box
-      bgImage={`url(${mapImageUrl})`}
+      bgImage={`url(${getMapImageUrl(
+        maps[0].number
+      )}), url(${mapImageFallback})`}
       bgPosition="center"
       bgRepeat="no-repeat"
       bgSize="cover"
@@ -141,9 +144,9 @@ const ServerCard = ({
                   letterSpacing="0.1em"
                   fontWeight="bold"
                 >
-                  {mapNumbers[0]}
+                  {maps[0].number}
                 </Text>
-                {isFinished(mapNumbers[0]) ? (
+                {maps[0].finished ? (
                   <Icon
                     color={colorMode === 'dark' ? 'green.300' : 'green.500'}
                     boxSize="20px"
@@ -161,7 +164,12 @@ const ServerCard = ({
 
             {/* MAP IMAGE */}
             <Box display={{ base: 'none', xl: 'initial' }} position="relative">
-              <Image h={isCompactView ? 16 : 32} alt="Map" src={mapImageUrl} />
+              <Image
+                h={isCompactView ? 16 : 32}
+                alt="Map"
+                onError={getFallbackImage}
+                src={getMapImageUrl(maps[0].number)}
+              />
               <Flex
                 onClick={onOpen}
                 role="group"
@@ -195,9 +203,9 @@ const ServerCard = ({
                 />
               </Flex>
               <MapImageModal
-                mapNumber={mapNumbers[0]}
-                mapImageUrl={mapImageUrl}
-                isFinished={isFinished(mapNumbers[0])}
+                mapNumber={maps[0].number}
+                author={maps[0].author}
+                isFinished={maps[0].finished}
                 isOpen={isOpen}
                 onClose={onClose}
               />
@@ -243,12 +251,12 @@ const ServerCard = ({
                 align="flex-start"
                 gap={isCompactView ? 6 : 2}
               >
-                {mapNumbers.slice(1).map((mapNumber, index) => (
+                {maps.slice(1).map((map, index) => (
                   <HStack
                     w={isCompactView ? '75px' : 'auto'}
                     justify="flex-start"
                     spacing={1}
-                    key={mapNumber}
+                    key={map.number}
                   >
                     <Text
                       lineHeight="24px"
@@ -257,9 +265,9 @@ const ServerCard = ({
                       letterSpacing="0.1em"
                       textShadow="glow"
                     >
-                      {mapNumber}
+                      {map.number}
                     </Text>
-                    {isFinished(mapNumber) ? (
+                    {map.finished ? (
                       <Icon
                         color={colorMode === 'dark' ? 'green.300' : 'green.500'}
                         boxSize="20px"
@@ -328,13 +336,16 @@ const ServerCard = ({
 
 ServerCard.propTypes = {
   serverNumber: PropTypes.string.isRequired,
-  mapImageUrl: PropTypes.string.isRequired,
   serverDifficulty: PropTypes.string.isRequired,
-  mapNumbers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  maps: PropTypes.arrayOf(
+    PropTypes.shape({
+      number: PropTypes.number,
+      finished: PropTypes.bool,
+      author: PropTypes.string,
+    })
+  ).isRequired,
   timeLimit: PropTypes.number.isRequired,
   timeLeft: PropTypes.number.isRequired,
-  mapsFinished: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.bool))
-    .isRequired,
   isCompactView: PropTypes.bool.isRequired,
 };
 
