@@ -100,6 +100,15 @@ const theme = extendTheme({
         fontWeight: 'hairline',
       }),
     },
+    FormError: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        text: {
+          letterSpacing: '0.1em',
+          fontWeight: 'normal',
+        },
+      }),
+    },
     Input: {
       // eslint-disable-next-line no-unused-vars
       baseStyle: props => ({
