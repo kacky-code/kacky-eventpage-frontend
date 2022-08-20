@@ -27,7 +27,7 @@ import AuthContext from '../../../context/AuthContext';
 const Login = ({ setMode, onClose }) => {
   const toast = useToast();
 
-  const { setIsLoggedIn, setToken } = useContext(AuthContext);
+  const { setAuthentication } = useContext(AuthContext);
 
   const [serverError, setServerError] = useState({
     isError: false,
@@ -44,8 +44,11 @@ const Login = ({ setMode, onClose }) => {
     onSuccess: response => {
       const cookies = new Cookies();
       cookies.set('token', response.access_token, { path: '/' });
-      setToken(response.access_token);
-      setIsLoggedIn(true);
+
+      setAuthentication({
+        isLoggedIn: true,
+        token: response.access_token,
+      });
 
       toast({
         title: 'Login',

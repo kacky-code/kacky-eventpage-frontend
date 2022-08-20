@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -24,12 +24,13 @@ const diffBadgeColorArr = [
 
 const MapDifficultyCell = ({ difficulty }) => {
   // eslint-disable-next-line no-unused-vars
-  const { token, isLoggedIn } = useContext(AuthContext);
+  const { authentication } = useContext(AuthContext);
+  const [currentDifficulty, setCurrentDifficulty] = useState(difficulty);
 
   return (
     <Menu autoSelect={false}>
       <MenuButton
-        disabled={!isLoggedIn}
+        disabled={!authentication.isLoggedIn}
         _hover={{ bg: 'whiteAlpha.200' }}
         px={{ base: 0, lg: 6 }}
         textAlign="left"
@@ -39,18 +40,23 @@ const MapDifficultyCell = ({ difficulty }) => {
       >
         <Badge
           visibility={
-            diffBadgeColorArr[difficulty].text === 'undefined'
+            diffBadgeColorArr[currentDifficulty].text === 'undefined'
               ? 'hidden'
               : 'visible'
           }
-          variant={diffBadgeColorArr[difficulty].variant}
+          variant={diffBadgeColorArr[currentDifficulty].variant}
         >
-          {diffBadgeColorArr[difficulty].text}
+          {diffBadgeColorArr[currentDifficulty].text}
         </Badge>
       </MenuButton>
       <MenuList minW="0" w="140px" fontSize="xs">
-        {diffBadgeColorArr.map(diff => (
-          <MenuItem key={diff.text} px={6} h={10}>
+        {diffBadgeColorArr.map((diff, index) => (
+          <MenuItem
+            onClick={() => setCurrentDifficulty(index)}
+            key={diff.text}
+            px={6}
+            h={10}
+          >
             {diff.text === 'undefined' ? (
               <Text>none</Text>
             ) : (

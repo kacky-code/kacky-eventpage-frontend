@@ -35,35 +35,54 @@ import { defaultColumns } from './Spreadsheet.service';
 import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
-  const { token, isLoggedIn } = useContext(AuthContext);
+  const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
-  const { data, isSuccess } = useQuery(['maps'], () =>
-    getSpreadsheetData(token)
+  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
+    getSpreadsheetData(authentication.token)
   );
   useEffect(() => {
     if (isSuccess) {
       const formattedData = [];
-      data.forEach(map => {
-        const formattedMap = {
-          finished: isLoggedIn ? map.finished : false,
-          number: map.kacky_id.toString(),
-          difficulty: isLoggedIn ? map.map_diff : 0,
-          upcomingIn: map.upcomingIn,
-          server: map.server,
-          personalBest: isLoggedIn ? map.map_pb : 0,
-          local: isLoggedIn ? map.map_rank : 0,
-          clip: isLoggedIn ? map.clip : '',
-          discordPing: isLoggedIn ? map.alarm : false,
-        };
-        formattedData.push(formattedMap);
-      });
+
+      if (authentication.isLoggedIn) {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: map.finished,
+            number: map.kacky_id.toString(),
+            difficulty: map.map_diff,
+            upcomingIn: map.upcomingIn,
+            server: map.server,
+            personalBest: map.map_pb,
+            local: map.map_rank,
+            clip: map.clip,
+            discordPing: map.alarm,
+          };
+          formattedData.push(formattedMap);
+        });
+      } else {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: false,
+            number: map.kacky_id.toString(),
+            difficulty: 0,
+            upcomingIn: map.upcomingIn,
+            server: map.server,
+            personalBest: 0,
+            local: 0,
+            clip: '',
+            discordPing: false,
+          };
+          formattedData.push(formattedMap);
+        });
+      }
+
       setTableData(formattedData);
     }
-  }, [data, isLoggedIn, isSuccess]);
+  }, [data, authentication.isLoggedIn, isSuccess]);
 
   const [sorting, setSorting] = useState([]);
 
