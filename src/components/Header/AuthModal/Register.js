@@ -44,15 +44,12 @@ const Register = ({ setMode }) => {
     {
       onSuccess: () => {
         setIsRegistered(true);
-        console.log('SUCCESS');
       },
       onError: () => {
         setServerError({
           isError: true,
           message: 'Username or E-Mail already taken',
         });
-        console.log('ERROR');
-        console.log(mutation);
       },
     }
   );

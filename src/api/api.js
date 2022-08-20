@@ -17,6 +17,17 @@ export async function login(username, password) {
   return response.json();
 }
 
+export async function logoutServer(token) {
+  const response = await fetch(`${url}/logout`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export async function registerUser(username, password, mailadress) {
   const response = await fetch(`${url}/register`, {
     method: 'POST',
