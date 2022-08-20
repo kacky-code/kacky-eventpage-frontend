@@ -18,8 +18,8 @@ const cookies = new Cookies();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState(() => cookies.get('token') || '');
+  const [token, setToken] = useState(cookies.get('token') || '');
+  const [isLoggedIn, setIsLoggedIn] = useState(token !== '');
 
   return (
     <QueryClientProvider client={queryClient}>
