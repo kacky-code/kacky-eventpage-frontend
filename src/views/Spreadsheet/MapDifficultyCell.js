@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -10,6 +10,8 @@ import {
   MenuButton,
 } from '@chakra-ui/react';
 
+import AuthContext from '../../context/AuthContext';
+
 const diffBadgeColorArr = [
   { variant: 'undefined', text: 'undefined' },
   { variant: 'white', text: 'Free' },
@@ -20,40 +22,46 @@ const diffBadgeColorArr = [
   { variant: 'purple', text: 'Imp' },
 ];
 
-const MapDifficultyCell = ({ difficulty }) => (
-  <Menu autoSelect={false}>
-    <MenuButton
-      _hover={{ bg: 'whiteAlpha.200' }}
-      px={{ base: 0, lg: 6 }}
-      textAlign="left"
-      w="full"
-      h="full"
-      borderRadius="none"
-    >
-      <Badge
-        visibility={
-          diffBadgeColorArr[difficulty].text === 'undefined'
-            ? 'hidden'
-            : 'visible'
-        }
-        variant={diffBadgeColorArr[difficulty].variant}
+const MapDifficultyCell = ({ difficulty }) => {
+  // eslint-disable-next-line no-unused-vars
+  const { token, isLoggedIn } = useContext(AuthContext);
+
+  return (
+    <Menu autoSelect={false}>
+      <MenuButton
+        disabled={!isLoggedIn}
+        _hover={{ bg: 'whiteAlpha.200' }}
+        px={{ base: 0, lg: 6 }}
+        textAlign="left"
+        w="full"
+        h="full"
+        borderRadius="none"
       >
-        {diffBadgeColorArr[difficulty].text}
-      </Badge>
-    </MenuButton>
-    <MenuList minW="0" w="140px" fontSize="xs">
-      {diffBadgeColorArr.map(diff => (
-        <MenuItem key={diff.text} px={6} h={10}>
-          {diff.text === 'undefined' ? (
-            <Text>none</Text>
-          ) : (
-            <Badge variant={diff.variant}>{diff.text}</Badge>
-          )}
-        </MenuItem>
-      ))}
-    </MenuList>
-  </Menu>
-);
+        <Badge
+          visibility={
+            diffBadgeColorArr[difficulty].text === 'undefined'
+              ? 'hidden'
+              : 'visible'
+          }
+          variant={diffBadgeColorArr[difficulty].variant}
+        >
+          {diffBadgeColorArr[difficulty].text}
+        </Badge>
+      </MenuButton>
+      <MenuList minW="0" w="140px" fontSize="xs">
+        {diffBadgeColorArr.map(diff => (
+          <MenuItem key={diff.text} px={6} h={10}>
+            {diff.text === 'undefined' ? (
+              <Text>none</Text>
+            ) : (
+              <Badge variant={diff.variant}>{diff.text}</Badge>
+            )}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
+  );
+};
 
 MapDifficultyCell.propTypes = {
   difficulty: PropTypes.number,
