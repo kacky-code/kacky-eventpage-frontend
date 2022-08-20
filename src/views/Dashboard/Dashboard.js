@@ -1,5 +1,5 @@
 import { Button, Center, useBoolean, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery } from '@tanstack/react-query';
 
@@ -7,13 +7,18 @@ import ServerCard from './ServerCard';
 
 import { getDashboardData } from '../../api/api';
 
+import AuthContext from '../../context/AuthContext';
+
 const Dashboard = () => {
   const [isCompactView, setIsCompactView] = useBoolean();
 
   const [servers, setServers] = useState([]);
   const [counter, setCounter] = useState([0]);
 
-  const { data, isSuccess } = useQuery(['servers'], getDashboardData);
+  const { authentication } = useContext(AuthContext);
+  const { data, isSuccess } = useQuery(['servers', authentication.token], () =>
+    getDashboardData(authentication.token)
+  );
 
   useEffect(() => {
     if (isSuccess) {

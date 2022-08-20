@@ -33,7 +33,6 @@ import Cookies from 'universal-cookie';
 import KrLogo from '../../assets/logos/krLogo';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
-
 import AuthContext from '../../context/AuthContext';
 import { logoutServer } from '../../api/api';
 
@@ -43,16 +42,17 @@ const Header = () => {
   const { pathname } = useLocation();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoggedIn, setIsLoggedIn, token, setToken } =
-    useContext(AuthContext);
+  const { authentication, setAuthentication } = useContext(AuthContext);
 
   function logout() {
-    logoutServer(token);
+    logoutServer(authentication.token);
     const cookies = new Cookies();
     cookies.remove('token', { path: '/' });
 
-    setIsLoggedIn(false);
-    setToken('');
+    setAuthentication({
+      isLoggedIn: false,
+      token: '',
+    });
   }
 
   const logoSize = useBreakpointValue({
@@ -182,7 +182,7 @@ const Header = () => {
 
   const tabData = useBreakpointValue({
     base: tabsMobile,
-    md: isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop,
+    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop,
   });
 
   return (
@@ -229,7 +229,7 @@ const Header = () => {
                 as={HeaderTab}
               />
               <MenuList minW="0" w="160px" fontSize="xs">
-                {isLoggedIn ? (
+                {authentication.isLoggedIn ? (
                   <Link to="/profile">
                     <MenuItem
                       h={10}
@@ -242,7 +242,7 @@ const Header = () => {
                     </MenuItem>
                   </Link>
                 ) : null}
-                {isLoggedIn ? (
+                {authentication.isLoggedIn ? (
                   <MenuItem
                     onClick={() => logout}
                     h={10}

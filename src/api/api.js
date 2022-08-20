@@ -45,8 +45,20 @@ export async function registerUser(username, password, mailadress) {
   return response.json();
 }
 
-export async function getDashboardData() {
-  const response = await fetch(`${url}/data.json`);
+export async function getDashboardData(token) {
+  const config =
+    token === ''
+      ? {
+          Accept: 'application/json, text/plain, */*',
+        }
+      : {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json, text/plain, */*',
+        };
+
+  const response = await fetch(`${url}/data.json`, {
+    headers: config,
+  });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }

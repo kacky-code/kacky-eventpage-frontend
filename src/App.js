@@ -18,14 +18,14 @@ const cookies = new Cookies();
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [token, setToken] = useState(cookies.get('token') || '');
-  const [isLoggedIn, setIsLoggedIn] = useState(token !== '');
+  const [authentication, setAuthentication] = useState({
+    isLoggedIn: (cookies.get('token') || '') !== '',
+    token: cookies.get('token') || '',
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthContext.Provider
-        value={{ isLoggedIn, setIsLoggedIn, token, setToken }}
-      >
+      <AuthContext.Provider value={{ authentication, setAuthentication }}>
         <Box textAlign="center">
           <Routes>
             <Route path="/" element={<Header>Header</Header>}>

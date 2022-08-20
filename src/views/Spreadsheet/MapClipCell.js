@@ -25,17 +25,21 @@ import AuthContext from '../../context/AuthContext';
 const MapClipCell = ({ clip }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   // eslint-disable-next-line no-unused-vars
-  const { token, isLoggedIn } = useContext(AuthContext);
+  const { authentication } = useContext(AuthContext);
   return (
     <HStack>
       <Link
-        sx={(clip === '' || !isLoggedIn) && { pointerEvents: 'none' }}
+        sx={
+          (clip === '' || !authentication.isLoggedIn) && {
+            pointerEvents: 'none',
+          }
+        }
         href={clip}
         target="_blank"
         rel="noopener noreferrer"
       >
         <IconButton
-          disabled={clip === '' || !isLoggedIn}
+          disabled={clip === '' || !authentication.isLoggedIn}
           icon={<MdOutlinePlayCircle fontSize="24px" />}
         />
       </Link>
@@ -47,7 +51,7 @@ const MapClipCell = ({ clip }) => {
       >
         <PopoverTrigger>
           <IconButton
-            disabled={!isLoggedIn}
+            disabled={!authentication.isLoggedIn}
             onClick={onOpen}
             icon={
               clip === '' ? (
