@@ -220,9 +220,11 @@ const defaultColumns = [
     ),
     cell: info => (
       <Text letterSpacing="0.1em" textShadow="glow">
-        {DateTime.fromMillis(info.row.original.personalBest).toFormat(
-          'mm:ss.SSS'
-        )}
+        {info.row.original.personalBest !== 0
+          ? DateTime.fromMillis(info.row.original.personalBest).toFormat(
+              'mm:ss.SSS'
+            )
+          : '-'}
       </Text>
     ),
   }),
@@ -240,7 +242,7 @@ const defaultColumns = [
           #
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.row.original.local}
+          {info.row.original.local !== 0 ? info.row.original.local : '-'}
         </Text>
       </HStack>
     ),

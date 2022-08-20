@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -19,19 +19,23 @@ import {
   MdOutlineModeEdit,
 } from 'react-icons/md';
 
+import AuthContext from '../../context/AuthContext';
+
 // eslint-disable-next-line react/prop-types
 const MapClipCell = ({ clip }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
+  // eslint-disable-next-line no-unused-vars
+  const { token, isLoggedIn } = useContext(AuthContext);
   return (
     <HStack>
       <Link
-        sx={clip === '' && { pointerEvents: 'none' }}
+        sx={(clip === '' || !isLoggedIn) && { pointerEvents: 'none' }}
         href={clip}
         target="_blank"
         rel="noopener noreferrer"
       >
         <IconButton
-          disabled={clip === ''}
+          disabled={clip === '' || !isLoggedIn}
           icon={<MdOutlinePlayCircle fontSize="24px" />}
         />
       </Link>
@@ -43,6 +47,7 @@ const MapClipCell = ({ clip }) => {
       >
         <PopoverTrigger>
           <IconButton
+            disabled={!isLoggedIn}
             onClick={onOpen}
             icon={
               clip === '' ? (

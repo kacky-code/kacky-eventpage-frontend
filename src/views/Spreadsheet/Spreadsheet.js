@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import {
   TableContainer,
@@ -27,15 +27,45 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table';
 
-import { data, defaultColumns } from './Spreadsheet.service';
+import { useQuery } from '@tanstack/react-query';
+
+import AuthContext from '../../context/AuthContext';
+
+import { defaultColumns } from './Spreadsheet.service';
+import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
-  const [sorting, setSorting] = useState([]);
+  const { token, isLoggedIn } = useContext(AuthContext);
 
-  // eslint-disable-next-line no-unused-vars
-  const [tableData, setTableData] = useState(() => [...data]);
+  const [tableData, setTableData] = useState(() => []);
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
+
+  const { data, isSuccess } = useQuery(['maps'], () =>
+    getSpreadsheetData(token)
+  );
+  useEffect(() => {
+    if (isSuccess) {
+      const formattedData = [];
+      data.forEach(map => {
+        const formattedMap = {
+          finished: isLoggedIn ? map.finished : false,
+          number: map.kacky_id.toString(),
+          difficulty: isLoggedIn ? map.map_diff : 0,
+          upcomingIn: map.upcomingIn,
+          server: map.server,
+          personalBest: isLoggedIn ? map.map_pb : 0,
+          local: isLoggedIn ? map.map_rank : 0,
+          clip: isLoggedIn ? map.clip : '',
+          discordPing: isLoggedIn ? map.alarm : false,
+        };
+        formattedData.push(formattedMap);
+      });
+      setTableData(formattedData);
+    }
+  }, [data, isLoggedIn, isSuccess]);
+
+  const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
     data: tableData,
