@@ -42,7 +42,7 @@ const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
       toast({
         title: 'Error',
         description: 'An error occurred!',
-        status: 'success',
+        status: 'error',
         duration: 4000,
         isClosable: true,
       });

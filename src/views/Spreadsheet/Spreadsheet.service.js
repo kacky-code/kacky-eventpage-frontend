@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon, Text, Switch, HStack } from '@chakra-ui/react';
+import { Icon, Text, HStack } from '@chakra-ui/react';
 
 import {
   MdOutlineCheckCircle,
@@ -22,6 +22,7 @@ import MapNumberCell from './MapNumberCell';
 import MapDifficultyCell from './MapDifficultyCell';
 import MapFinishedCell from './MapFinishedCell';
 import MapClipCell from './MapClipCell';
+import MapDiscordCell from './MapDiscordCell';
 
 const columnHelper = createColumnHelper();
 
@@ -58,7 +59,6 @@ const defaultColumns = [
       <MapDifficultyCell
         difficulty={info.getValue()}
         rowIndex={info.row.index}
-        columnId={info.row.id}
         table={info.table}
         mapId={info.row.original.number}
       />
@@ -72,19 +72,19 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
       </>
     ),
-    cell: info => (
+    /* cell: info => (
       <HStack spacing={1}>
         <Text
-          visibility={info.getValue() >= 3600 ? 'visible' : 'hidden'}
+          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           letterSpacing="0.1em"
           textShadow="glow"
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.getValue()).toFormat('h')}
+          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h')}
         </Text>
         <Text
-          visibility={info.getValue() >= 3600 ? 'visible' : 'hidden'}
+          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           textTransform="lowercase"
         >
           h
@@ -96,11 +96,11 @@ const defaultColumns = [
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.getValue()).toFormat('mm')}
+          {DateTime.fromSeconds(info.getValue() * 60).toFormat('mm')}
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
-    ),
+    ), */
   }),
   columnHelper.accessor('server', {
     id: 'server',
@@ -164,7 +164,14 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Clip</Text>
       </>
     ),
-    cell: info => <MapClipCell clip={info.getValue()} />,
+    cell: info => (
+      <MapClipCell
+        rowIndex={info.row.index}
+        table={info.table}
+        mapId={info.row.original.number}
+        clip={info.getValue()}
+      />
+    ),
   }),
   columnHelper.accessor('discordPing', {
     id: 'discordPing',
@@ -174,7 +181,14 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Ping</Text>
       </>
     ),
-    cell: info => <Switch defaultChecked={info.getValue()} />,
+    cell: info => (
+      <MapDiscordCell
+        rowIndex={info.row.index}
+        table={info.table}
+        mapId={info.row.original.number}
+        discordPing={info.getValue()}
+      />
+    ),
   }),
 ];
 

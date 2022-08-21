@@ -1,8 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
+  config: { initialColorMode: 'dark', useSystemColorMode: false },
   styles: {
     global: props => ({
+      html: {
+        overflowY: 'scroll',
+      },
       body: {
         background: props.colorMode === 'dark' ? '#060606' : 'white',
         textTransform: 'uppercase',
@@ -62,7 +66,7 @@ const theme = extendTheme({
           th: {
             bg: 'blackAlpha.200',
             color: 'blackAlpha.700',
-            borderColor: 'whiteAlpha.400',
+            borderColor: 'blackAlpha.400',
             _dark: {
               bg: 'whiteAlpha.200',
               color: 'whiteAlpha.700',
@@ -70,7 +74,10 @@ const theme = extendTheme({
             },
           },
           td: {
-            borderColor: 'whiteAlpha.400',
+            borderColor: 'blackAlpha.400',
+            _dark: {
+              borderColor: 'whiteAlpha.400',
+            },
           },
         },
       },
