@@ -80,6 +80,20 @@ export async function getSpreadsheetData(token) {
   return response.json();
 }
 
+export async function postSpreadsheetData(data) {
+  const response = await fetch(`${url}/spreadsheet`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export function getMapImageUrl(mapNumber) {
   const imageUrl = `https://kackydev.dingens.me/static/media/images/${mapNumber}.jpg`;
   return imageUrl;
