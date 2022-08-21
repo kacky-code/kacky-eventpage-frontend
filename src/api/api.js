@@ -1,5 +1,4 @@
-const port = 8433;
-const url = `https://kackydev.dingens.me:${port}`;
+const url = `https://kackydev.dingens.me/api`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
@@ -56,7 +55,7 @@ export async function getDashboardData(token) {
           Accept: 'application/json, text/plain, */*',
         };
 
-  const response = await fetch(`${url}/data.json`, {
+  const response = await fetch(`${url}/dashboard`, {
     headers: config,
   });
   if (!response.ok) throw new Error('Network response was not ok');
