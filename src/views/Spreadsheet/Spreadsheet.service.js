@@ -29,7 +29,7 @@ const defaultColumns = [
   columnHelper.accessor('finished', {
     id: 'finished',
     header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
-    cell: info => <MapFinishedCell finished={info.row.original.finished} />,
+    cell: info => <MapFinishedCell finished={info.getValue()} />,
   }),
   columnHelper.accessor('number', {
     id: 'number',
@@ -42,7 +42,7 @@ const defaultColumns = [
     cell: info => (
       <MapNumberCell
         finished={info.row.original.finished}
-        number={info.row.original.number.toString()}
+        number={info.getValue().toString()}
       />
     ),
   }),
@@ -55,7 +55,13 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <MapDifficultyCell difficulty={info.row.original.difficulty} />
+      <MapDifficultyCell
+        difficulty={info.getValue()}
+        rowIndex={info.row.index}
+        columnId={info.row.id}
+        table={info.table}
+        mapId={info.row.original.number}
+      />
     ),
   }),
   columnHelper.accessor('upcomingIn', {
@@ -69,20 +75,16 @@ const defaultColumns = [
     cell: info => (
       <HStack spacing={1}>
         <Text
-          visibility={
-            info.row.original.upcomingIn >= 3600 ? 'visible' : 'hidden'
-          }
+          visibility={info.getValue() >= 3600 ? 'visible' : 'hidden'}
           letterSpacing="0.1em"
           textShadow="glow"
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.row.original.upcomingIn).toFormat('h')}
+          {DateTime.fromSeconds(info.getValue()).toFormat('h')}
         </Text>
         <Text
-          visibility={
-            info.row.original.upcomingIn >= 3600 ? 'visible' : 'hidden'
-          }
+          visibility={info.getValue() >= 3600 ? 'visible' : 'hidden'}
           textTransform="lowercase"
         >
           h
@@ -94,7 +96,7 @@ const defaultColumns = [
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.row.original.upcomingIn).toFormat('mm')}
+          {DateTime.fromSeconds(info.getValue()).toFormat('mm')}
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
@@ -114,7 +116,7 @@ const defaultColumns = [
           #
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.row.original.server}
+          {info.getValue()}
         </Text>
       </HStack>
     ),
@@ -129,10 +131,8 @@ const defaultColumns = [
     ),
     cell: info => (
       <Text letterSpacing="0.1em" textShadow="glow">
-        {info.row.original.personalBest !== 0
-          ? DateTime.fromMillis(info.row.original.personalBest).toFormat(
-              'mm:ss.SSS'
-            )
+        {info.getValue() !== 0
+          ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
           : '-'}
       </Text>
     ),
@@ -151,7 +151,7 @@ const defaultColumns = [
           #
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.row.original.local !== 0 ? info.row.original.local : '-'}
+          {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>
     ),
@@ -164,7 +164,7 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Clip</Text>
       </>
     ),
-    cell: info => <MapClipCell clip={info.row.original.clip} />,
+    cell: info => <MapClipCell clip={info.getValue()} />,
   }),
   columnHelper.accessor('discordPing', {
     id: 'discordPing',
@@ -174,7 +174,7 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Ping</Text>
       </>
     ),
-    cell: info => <Switch defaultChecked={info.row.original.discordPing} />,
+    cell: info => <Switch defaultChecked={info.getValue()} />,
   }),
 ];
 

@@ -25,6 +25,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
+  useSortBy,
 } from '@tanstack/react-table';
 
 import { useQuery } from '@tanstack/react-query';
@@ -92,10 +93,35 @@ const Spreadsheet = () => {
     state: {
       sorting,
     },
+    initialState: {
+      sortBy: [
+        {
+          id: 'number',
+          desc: false,
+        },
+      ],
+    },
+    useSortBy,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    debugAll: true,
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        setTableData(old =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex],
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
+    },
   });
 
   const tableContainerRef = useRef(null);

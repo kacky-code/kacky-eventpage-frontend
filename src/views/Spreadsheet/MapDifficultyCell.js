@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useContext, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,9 +9,13 @@ import {
   MenuList,
   MenuItem,
   MenuButton,
+  useToast,
 } from '@chakra-ui/react';
 
+import { useMutation } from '@tanstack/react-query';
+
 import AuthContext from '../../context/AuthContext';
+import { postSpreadsheetData } from '../../api/api';
 
 const diffBadgeColorArr = [
   { variant: 'undefined', text: 'undefined' },
@@ -22,11 +27,32 @@ const diffBadgeColorArr = [
   { variant: 'purple', text: 'Imp' },
 ];
 
-const MapDifficultyCell = memo(({ difficulty }) => {
-  // eslint-disable-next-line no-unused-vars
+const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
   const { authentication } = useContext(AuthContext);
-  const [currentDifficulty, setCurrentDifficulty] = useState(difficulty);
   const [renderMenuList, setRenderMenuList] = useState(false);
+
+  const toast = useToast();
+
+  let newDifficulty;
+  const mutation = useMutation(data => postSpreadsheetData(data), {
+    onSuccess: () => {
+      table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'An error occurred!',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      });
+    },
+  });
+
+  const onSubmit = data => {
+    newDifficulty = data.diff;
+    mutation.mutate(data);
+  };
 
   return (
     <Menu autoSelect={false}>
@@ -42,20 +68,26 @@ const MapDifficultyCell = memo(({ difficulty }) => {
       >
         <Badge
           visibility={
-            diffBadgeColorArr[currentDifficulty].text === 'undefined'
+            diffBadgeColorArr[difficulty].text === 'undefined'
               ? 'hidden'
               : 'visible'
           }
-          variant={diffBadgeColorArr[currentDifficulty].variant}
+          variant={diffBadgeColorArr[difficulty].variant}
         >
-          {diffBadgeColorArr[currentDifficulty].text}
+          {diffBadgeColorArr[difficulty].text}
         </Badge>
       </MenuButton>
       {renderMenuList ? (
         <MenuList minW="0" w="140px" fontSize="xs">
           {diffBadgeColorArr.map((diff, index) => (
             <MenuItem
-              onClick={() => setCurrentDifficulty(index)}
+              onClick={() =>
+                onSubmit({
+                  mapid: parseInt(mapId, 10),
+                  diff: index,
+                  token: authentication.token,
+                })
+              }
               key={diff.text}
               px={6}
               h={10}
