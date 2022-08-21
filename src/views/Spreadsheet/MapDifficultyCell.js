@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -22,14 +22,16 @@ const diffBadgeColorArr = [
   { variant: 'purple', text: 'Imp' },
 ];
 
-const MapDifficultyCell = ({ difficulty }) => {
+const MapDifficultyCell = memo(({ difficulty }) => {
   // eslint-disable-next-line no-unused-vars
   const { authentication } = useContext(AuthContext);
   const [currentDifficulty, setCurrentDifficulty] = useState(difficulty);
+  const [renderMenuList, setRenderMenuList] = useState(false);
 
   return (
     <Menu autoSelect={false}>
       <MenuButton
+        onClick={() => setRenderMenuList(true)}
         disabled={!authentication.isLoggedIn}
         _hover={{ bg: 'whiteAlpha.200' }}
         px={{ base: 0, lg: 6 }}
@@ -49,25 +51,27 @@ const MapDifficultyCell = ({ difficulty }) => {
           {diffBadgeColorArr[currentDifficulty].text}
         </Badge>
       </MenuButton>
-      <MenuList minW="0" w="140px" fontSize="xs">
-        {diffBadgeColorArr.map((diff, index) => (
-          <MenuItem
-            onClick={() => setCurrentDifficulty(index)}
-            key={diff.text}
-            px={6}
-            h={10}
-          >
-            {diff.text === 'undefined' ? (
-              <Text>none</Text>
-            ) : (
-              <Badge variant={diff.variant}>{diff.text}</Badge>
-            )}
-          </MenuItem>
-        ))}
-      </MenuList>
+      {renderMenuList ? (
+        <MenuList minW="0" w="140px" fontSize="xs">
+          {diffBadgeColorArr.map((diff, index) => (
+            <MenuItem
+              onClick={() => setCurrentDifficulty(index)}
+              key={diff.text}
+              px={6}
+              h={10}
+            >
+              {diff.text === 'undefined' ? (
+                <Text>none</Text>
+              ) : (
+                <Badge variant={diff.variant}>{diff.text}</Badge>
+              )}
+            </MenuItem>
+          ))}
+        </MenuList>
+      ) : null}
     </Menu>
   );
-};
+});
 
 MapDifficultyCell.propTypes = {
   difficulty: PropTypes.number,

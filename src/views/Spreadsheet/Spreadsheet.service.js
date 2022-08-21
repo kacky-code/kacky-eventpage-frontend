@@ -23,97 +23,6 @@ import MapDifficultyCell from './MapDifficultyCell';
 import MapFinishedCell from './MapFinishedCell';
 import MapClipCell from './MapClipCell';
 
-const data = [
-  {
-    finished: true,
-    number: '151',
-    difficulty: 1,
-    upcomingIn: 360,
-    server: '1',
-    personalBest: 514372,
-    local: '15',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '152',
-    difficulty: 6,
-    upcomingIn: 4450,
-    server: '2',
-    personalBest: 65165,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: true,
-    number: '153',
-    difficulty: 2,
-    upcomingIn: 60,
-    server: '4',
-    personalBest: 123456,
-    local: '5',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '154',
-    difficulty: 4,
-    upcomingIn: 1014,
-    server: '1',
-    personalBest: 123,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: true,
-    number: '155',
-    difficulty: 3,
-    upcomingIn: 360,
-    server: '1',
-    personalBest: 514372,
-    local: '15',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '156',
-    difficulty: 0,
-    upcomingIn: 4450,
-    server: '2',
-    personalBest: 65165,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: false,
-    number: '157',
-    difficulty: 5,
-    upcomingIn: 60,
-    server: '4',
-    personalBest: 123456,
-    local: '5',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '158',
-    difficulty: 4,
-    upcomingIn: 1014,
-    server: '1',
-    personalBest: 123,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-];
-
 const columnHelper = createColumnHelper();
 
 const defaultColumns = [
@@ -269,4 +178,4 @@ const defaultColumns = [
   }),
 ];
 
-export { data, defaultColumns };
+export default defaultColumns;

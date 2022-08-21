@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,6 +11,7 @@ import {
   Input,
   Button,
   Link,
+  Icon,
 } from '@chakra-ui/react';
 
 import {
@@ -21,57 +22,68 @@ import {
 
 import AuthContext from '../../context/AuthContext';
 
-// eslint-disable-next-line react/prop-types
-const MapClipCell = ({ clip }) => {
+const MapClipCell = memo(({ clip }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  // eslint-disable-next-line no-unused-vars
   const { authentication } = useContext(AuthContext);
+  const [renderPopOver, setRenderPopOver] = useState(false);
   return (
-    <HStack>
-      <Link
-        sx={
-          (clip === '' || !authentication.isLoggedIn) && {
-            pointerEvents: 'none',
-          }
-        }
-        href={clip}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <IconButton
-          disabled={clip === '' || !authentication.isLoggedIn}
-          icon={<MdOutlinePlayCircle fontSize="24px" />}
-        />
-      </Link>
-      <Popover
-        placement="right"
-        onOpen={onOpen}
-        onClose={onClose}
-        isOpen={isOpen}
-      >
-        <PopoverTrigger>
-          <IconButton
-            disabled={!authentication.isLoggedIn}
-            onClick={onOpen}
-            icon={
-              clip === '' ? (
-                <MdAddCircleOutline fontSize="24px" />
-              ) : (
-                <MdOutlineModeEdit fontSize="24px" />
-              )
+    <HStack
+      w="100px"
+      h="40px"
+      onMouseEnter={() => setRenderPopOver(true)}
+      onMouseLeave={() => setRenderPopOver(false)}
+    >
+      {renderPopOver || isOpen ? (
+        <>
+          <Link
+            sx={
+              (clip === '' || !authentication.isLoggedIn) && {
+                pointerEvents: 'none',
+              }
             }
-          />
-        </PopoverTrigger>
-        <PopoverContent>
-          <HStack>
-            <Input placeholder="Enter Clip Url" defaultValue={clip} />
-            <Button onClick={onClose}>Save</Button>
-          </HStack>
-        </PopoverContent>
-      </Popover>
+            href={clip}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton
+              disabled={clip === '' || !authentication.isLoggedIn}
+              icon={<MdOutlinePlayCircle fontSize="24px" />}
+            />
+          </Link>
+
+          <Popover
+            placement="right"
+            onOpen={onOpen}
+            onClose={onClose}
+            isOpen={isOpen}
+          >
+            <PopoverTrigger>
+              <IconButton
+                disabled={!authentication.isLoggedIn}
+                onClick={onOpen}
+                icon={
+                  clip === '' ? (
+                    <MdAddCircleOutline fontSize="24px" />
+                  ) : (
+                    <MdOutlineModeEdit fontSize="24px" />
+                  )
+                }
+              />
+            </PopoverTrigger>
+            <PopoverContent>
+              <HStack>
+                <Input placeholder="Enter Clip Url" defaultValue={clip} />
+                <Button onClick={onClose}>Save</Button>
+              </HStack>
+            </PopoverContent>
+          </Popover>
+        </>
+      ) : (
+        clip !== '' && <Icon m={2} boxSize="24px" as={MdOutlinePlayCircle} />
+      )}
     </HStack>
   );
-};
+});
 
 MapClipCell.propTypes = {
   clip: PropTypes.string,

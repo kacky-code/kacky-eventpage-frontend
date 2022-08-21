@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -8,11 +8,18 @@ import { MdOutlineImage } from 'react-icons/md';
 
 import MapImageModal from '../../components/MapImageModal';
 
-const MapNumberCell = ({ number, finished }) => {
+const MapNumberCell = memo(({ number, finished }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [renderImage, setRenderImage] = useState(false);
 
   return (
-    <HStack w="full" role="group" spacing={4}>
+    <HStack
+      w="100px"
+      onMouseEnter={() => setRenderImage(true)}
+      onMouseLeave={() => setRenderImage(false)}
+      role="group"
+      spacing={4}
+    >
       <Text
         letterSpacing="0.1em"
         textShadow="glow"
@@ -21,24 +28,28 @@ const MapNumberCell = ({ number, finished }) => {
       >
         {number}
       </Text>
-      <IconButton
-        onClick={onOpen}
-        visibility={{ base: 'visible', lg: 'hidden' }}
-        _groupHover={{
-          visibility: 'visible',
-        }}
-        icon={<MdOutlineImage fontSize="24px" />}
-      />
-      <MapImageModal
-        mapNumber={number}
-        author="placeholder"
-        isFinished={finished}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      {renderImage ? (
+        <>
+          <IconButton
+            onClick={onOpen}
+            visibility={{ base: 'visible', lg: 'hidden' }}
+            _groupHover={{
+              visibility: 'visible',
+            }}
+            icon={<MdOutlineImage fontSize="24px" />}
+          />
+          <MapImageModal
+            mapNumber={number}
+            author="placeholder"
+            isFinished={finished}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        </>
+      ) : null}
     </HStack>
   );
-};
+});
 
 MapNumberCell.propTypes = {
   number: PropTypes.string.isRequired,

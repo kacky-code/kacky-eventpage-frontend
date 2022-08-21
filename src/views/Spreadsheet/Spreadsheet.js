@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 
 import {
   TableContainer,
@@ -28,10 +28,11 @@ import {
 } from '@tanstack/react-table';
 
 import { useQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
 
-import { defaultColumns } from './Spreadsheet.service';
+import defaultColumns from './Spreadsheet.service';
 import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
@@ -79,7 +80,6 @@ const Spreadsheet = () => {
           formattedData.push(formattedMap);
         });
       }
-
       setTableData(formattedData);
     }
   }, [data, authentication.isLoggedIn, isSuccess]);
@@ -96,6 +96,16 @@ const Spreadsheet = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+  });
+
+  const tableContainerRef = useRef(null);
+  const { rows } = table.getRowModel();
+
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => tableContainerRef.current,
+    estimateSize: () => 49,
+    overscan: 10,
   });
 
   const columnFilterValue = table
@@ -120,7 +130,12 @@ const Spreadsheet = () => {
             placeholder="#000"
           />
         </HStack>
-        <TableContainer w="container.xl" borderWidth="1px" borderRadius="md">
+        <TableContainer
+          ref={tableContainerRef}
+          w="container.xl"
+          borderWidth="1px"
+          borderRadius="md"
+        >
           <Table size="sm">
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
@@ -159,18 +174,21 @@ const Spreadsheet = () => {
               ))}
             </Thead>
             <Tbody>
-              {table.getRowModel().rows.map(row => (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map(cell => (
-                    <Td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                const row = rows[virtualRow.index];
+                return (
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map(cell => (
+                      <Td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </TableContainer>

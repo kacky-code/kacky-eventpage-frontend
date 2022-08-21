@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon, useTheme, useColorMode } from '@chakra-ui/react';
 
 import { MdOutlineCheckCircle } from 'react-icons/md';
 
-const MapFinishedCell = ({ finished }) => {
+const MapFinishedCell = memo(({ finished }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
 
@@ -30,7 +30,7 @@ const MapFinishedCell = ({ finished }) => {
       as={MdOutlineCheckCircle}
     />
   );
-};
+});
 
 MapFinishedCell.propTypes = {
   finished: PropTypes.bool,
