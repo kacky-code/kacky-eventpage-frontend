@@ -20,6 +20,7 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
     <BrowserRouter>
+      {localStorage.setItem('chakra-ui-color-mode', 'dark')}
       <ColorModeScript />
       <ChakraProvider theme={theme}>
         <App />

@@ -106,7 +106,6 @@ const Spreadsheet = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    debugAll: true,
     meta: {
       updateData: (rowIndex, columnId, value) => {
         setTableData(old =>

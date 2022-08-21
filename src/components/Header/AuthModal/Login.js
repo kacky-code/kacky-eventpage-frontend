@@ -149,7 +149,8 @@ const Login = ({ setMode, onClose }) => {
         {/* <Text
           letterSpacing="0.1em"
           textDecoration="underline"
-          color="blue.100"
+          color="blue.500"
+          _dark={{ color: 'blue.100' }}
           fontSize="sm"
           textShadow="glow"
           _hover={{ color: 'blue.200', cursor: 'pointer' }}
@@ -165,7 +166,8 @@ const Login = ({ setMode, onClose }) => {
         <Text
           letterSpacing="0.1em"
           textDecoration="underline"
-          color="blue.100"
+          color="blue.500"
+          _dark={{ color: 'blue.100' }}
           fontSize="sm"
           textShadow="glow"
           _hover={{ color: 'blue.200', cursor: 'pointer' }}

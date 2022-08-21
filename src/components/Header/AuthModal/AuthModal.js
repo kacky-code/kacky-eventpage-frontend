@@ -22,7 +22,8 @@ const AuthModal = ({ isOpen, onClose }) => {
 
   return (
     <Modal
-      onOverlayClick={() => setMode('login')}
+      blockScrollOnMount={false}
+      closeOnOverlayClick={false}
       isCentered
       isOpen={isOpen}
       onClose={onClose}

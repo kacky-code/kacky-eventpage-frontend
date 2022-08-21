@@ -39,7 +39,7 @@ const MapNumberCell = memo(({ number, finished }) => {
             icon={<MdOutlineImage fontSize="24px" />}
           />
           <MapImageModal
-            mapNumber={number}
+            mapNumber={parseInt(number, 10)}
             author="placeholder"
             isFinished={finished}
             isOpen={isOpen}
