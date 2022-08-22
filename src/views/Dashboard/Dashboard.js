@@ -25,7 +25,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log('success');
       const timeLeftArr = [];
       const formattedData = [];
       data.servers.forEach(server => {
