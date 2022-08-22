@@ -94,6 +94,32 @@ export async function postSpreadsheetData(data) {
   return response.json();
 }
 
+export async function getProfileData(token) {
+  const response = await fetch(`${url}/usermgnt`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function postProfileData(data) {
+  const response = await fetch(`${url}/usermgnt`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${data.token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export function getMapImageUrl(mapNumber) {
   const imageUrl = `https://kackydev.dingens.me/static/media/images/${mapNumber}.jpg`;
   return imageUrl;

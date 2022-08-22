@@ -1,7 +1,7 @@
 import { Button, Center, useBoolean, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import ServerCard from './ServerCard';
 
@@ -19,6 +19,7 @@ const Dashboard = () => {
   const { data, isSuccess } = useQuery(['servers', authentication.token], () =>
     getDashboardData(authentication.token)
   );
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (isSuccess) {
@@ -44,12 +45,14 @@ const Dashboard = () => {
     const timer = setInterval(() => {
       counter.forEach((element, index) => {
         if (counterCopy[index] > 0) counterCopy[index] -= 1;
+        if (counterCopy[index] === 0)
+          queryClient.invalidateQueries(['servers']);
         if (counter.length - 1 === index) setCounter(counterCopy);
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [counter]);
+  }, [counter, queryClient]);
 
   return (
     <>
