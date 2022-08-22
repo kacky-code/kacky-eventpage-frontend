@@ -36,6 +36,8 @@ import AuthModal from './AuthModal/AuthModal';
 import AuthContext from '../../context/AuthContext';
 import { logoutServer } from '../../api/api';
 
+const leaderboardPageUrl = 'https://www.google.de/';
+
 const Header = () => {
   const theme = useTheme();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -82,12 +84,13 @@ const Header = () => {
       text: 'Spreadsheet',
       TabIcon: MdOutlineChecklist,
     },
-    /* {
+    {
       key: 3,
-      route: '/leaderboard',
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
-    }, */
+    },
     {
       key: 4,
       isSpacer: true,
@@ -122,12 +125,13 @@ const Header = () => {
       text: 'Spreadsheet',
       TabIcon: MdOutlineChecklist,
     },
-    /* {
+    {
       key: 3,
-      route: '/leaderboard',
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
-    }, */
+    },
     {
       key: 4,
       isSpacer: true,
@@ -168,12 +172,13 @@ const Header = () => {
       text: 'Spreadsheet',
       TabIcon: MdOutlineChecklist,
     },
-    /* {
+    {
       key: 3,
-      route: '/leaderboard',
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
-    }, */
+    },
     {
       key: 4,
       isSpacer: true,

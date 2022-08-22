@@ -79,7 +79,7 @@ const Register = ({ setMode }) => {
             fontSize="sm"
             textShadow="glow"
             _hover={{ color: 'blue.200', cursor: 'pointer' }}
-            onClick={() => setMode('register')}
+            onClick={() => setMode('login')}
           >
             Login now
           </Text>

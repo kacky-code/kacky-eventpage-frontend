@@ -47,6 +47,7 @@ const ServerCard = ({
     // eslint-disable-next-line no-param-reassign
     ev.target.src = mapImageFallback;
   };
+  console.log(timeLeft);
 
   return (
     <Box
@@ -286,7 +287,21 @@ const ServerCard = ({
 
             {/* TIME LEFT */}
             <Flex justify="center" align="center">
-              {isCompactView ? (
+              {timeLeft <= 0 ? (
+                <Text
+                  align="center"
+                  width={isCompactView ? '115px' : '114px'}
+                  ml={4}
+                  color="red.500"
+                  _dark={{ color: 'red.300' }}
+                  fontWeight="normal"
+                  fontSize={isCompactView ? 'sm' : 'md'}
+                  letterSpacing="0.1em"
+                  m={0}
+                >
+                  Switching to next Map
+                </Text>
+              ) : isCompactView ? (
                 <>
                   <Icon
                     filter={

@@ -9,6 +9,8 @@ import { getDashboardData } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 
+const mapChangeEstimate = 20;
+
 const Dashboard = () => {
   const [isCompactView, setIsCompactView] = useBoolean();
 
@@ -23,10 +25,11 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log('success');
       const timeLeftArr = [];
       const formattedData = [];
       data.servers.forEach(server => {
-        timeLeftArr.push(server.timeLeft);
+        timeLeftArr.push(server.timeLeft + mapChangeEstimate);
         const formattedServer = {
           serverNumber: server.serverNumber.toString(),
           maps: server.maps,
@@ -78,7 +81,7 @@ const Dashboard = () => {
         {servers.map((server, index) => (
           <ServerCard
             {...server}
-            timeLeft={counter[index]}
+            timeLeft={counter[index] - mapChangeEstimate}
             isCompactView={isCompactView}
             key={server.serverNumber}
           />
