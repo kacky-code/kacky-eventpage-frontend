@@ -47,7 +47,6 @@ const ServerCard = ({
     // eslint-disable-next-line no-param-reassign
     ev.target.src = mapImageFallback;
   };
-  console.log(timeLeft);
 
   return (
     <Box
