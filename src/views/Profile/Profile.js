@@ -36,8 +36,8 @@ const Profile = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setTmnfLogin(profileData.discord);
-      setTm2020Login(profileData.discord);
+      setTmnfLogin(profileData.tmnf);
+      setTm2020Login(profileData.tm20);
       setDiscordLogin(profileData.discord);
     }
   }, [profileData, isSuccess]);
