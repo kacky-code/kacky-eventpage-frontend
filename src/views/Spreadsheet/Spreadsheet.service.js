@@ -7,11 +7,13 @@ import {
   MdTag,
   MdOutlineLabel,
   MdAccessTime,
+  // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
   MdOutlinePlayCircle,
   MdOutlineDns,
 } from 'react-icons/md';
 
+// eslint-disable-next-line no-unused-vars
 import { FaDiscord } from 'react-icons/fa';
 
 import { createColumnHelper } from '@tanstack/react-table';
@@ -22,6 +24,7 @@ import MapNumberCell from './MapNumberCell';
 import MapDifficultyCell from './MapDifficultyCell';
 import MapFinishedCell from './MapFinishedCell';
 import MapClipCell from './MapClipCell';
+// eslint-disable-next-line no-unused-vars
 import MapDiscordCell from './MapDiscordCell';
 
 const columnHelper = createColumnHelper();
@@ -42,9 +45,25 @@ const defaultColumns = [
     ),
     cell: info => (
       <MapNumberCell
+        author={info.row.original.author}
         finished={info.row.original.finished}
         number={info.getValue().toString()}
       />
+    ),
+  }),
+  columnHelper.accessor('author', {
+    id: 'author',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdTag} />
+        <Text display={{ base: 'none', lg: 'inline' }}>Author</Text>
+      </>
+    ),
+    cell: info => (
+      <Text fontSize="xs" letterSpacing="0.1em">
+        {' '}
+        {info.getValue().toString()}
+      </Text>
     ),
   }),
   columnHelper.accessor('difficulty', {
@@ -72,7 +91,7 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
       </>
     ),
-    /* cell: info => (
+    cell: info => (
       <HStack spacing={1}>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
@@ -100,7 +119,7 @@ const defaultColumns = [
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
-    ), */
+    ),
   }),
   columnHelper.accessor('server', {
     id: 'server',
@@ -121,7 +140,7 @@ const defaultColumns = [
       </HStack>
     ),
   }),
-  columnHelper.accessor('personalBest', {
+  /* columnHelper.accessor('personalBest', {
     id: 'personalBest',
     header: () => (
       <>
@@ -136,8 +155,8 @@ const defaultColumns = [
           : '-'}
       </Text>
     ),
-  }),
-  columnHelper.accessor('local', {
+  }), */
+  /* columnHelper.accessor('local', {
     id: 'local',
     header: () => (
       <>
@@ -155,7 +174,7 @@ const defaultColumns = [
         </Text>
       </HStack>
     ),
-  }),
+  }), */
   columnHelper.accessor('clip', {
     id: 'clip',
     header: () => (
@@ -173,7 +192,7 @@ const defaultColumns = [
       />
     ),
   }),
-  columnHelper.accessor('discordPing', {
+  /* columnHelper.accessor('discordPing', {
     id: 'discordPing',
     header: () => (
       <>
@@ -189,7 +208,7 @@ const defaultColumns = [
         discordPing={info.getValue()}
       />
     ),
-  }),
+  }), */
 ];
 
 export default defaultColumns;

@@ -55,6 +55,7 @@ const Spreadsheet = () => {
           const formattedMap = {
             finished: map.finished,
             number: map.kacky_id.toString(),
+            author: map.author,
             difficulty: map.map_diff,
             upcomingIn: map.upcomingIn,
             server: map.server,
@@ -70,6 +71,7 @@ const Spreadsheet = () => {
           const formattedMap = {
             finished: false,
             number: map.kacky_id.toString(),
+            author: map.author,
             difficulty: 0,
             upcomingIn: map.upcomingIn,
             server: map.server,
