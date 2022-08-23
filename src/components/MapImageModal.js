@@ -31,7 +31,12 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
   };
 
   return (
-    <Modal isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal
+      blockScrollOnMount={false}
+      isCentered
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <ModalOverlay />
       <ModalContent maxW="1024px">
         <Image
