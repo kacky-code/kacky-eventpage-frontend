@@ -100,7 +100,7 @@ const defaultColumns = [
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h')}
+          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h') - 1}
         </Text>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
