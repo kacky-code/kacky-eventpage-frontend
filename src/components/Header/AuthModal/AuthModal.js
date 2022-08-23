@@ -22,9 +22,9 @@ const AuthModal = ({ isOpen, onClose }) => {
 
   return (
     <Modal
+      size={{ base: 'full', md: 'md' }}
       blockScrollOnMount={false}
       closeOnOverlayClick={false}
-      isCentered
       isOpen={isOpen}
       onClose={onClose}
     >
