@@ -46,7 +46,7 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { authentication, setAuthentication } = useContext(AuthContext);
 
-  function logout() {
+  const logout = () => {
     logoutServer(authentication.token);
     const cookies = new Cookies();
     cookies.remove('token', { path: '/' });
@@ -55,7 +55,7 @@ const Header = () => {
       isLoggedIn: false,
       token: '',
     });
-  }
+  };
 
   const logoSize = useBreakpointValue({
     base: '120px',
@@ -249,7 +249,7 @@ const Header = () => {
                 ) : null}
                 {authentication.isLoggedIn ? (
                   <MenuItem
-                    onClick={() => logout}
+                    onClick={logout}
                     h={10}
                     filter={
                       colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
