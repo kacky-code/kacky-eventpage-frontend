@@ -41,8 +41,6 @@ const ServerCard = ({
   const theme = useTheme();
   const { colorMode } = useColorMode();
 
-  console.log(maps);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const modalNextMap1 = useDisclosure();
   const modalNextMap2 = useDisclosure();
