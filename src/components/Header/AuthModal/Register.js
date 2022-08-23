@@ -126,8 +126,8 @@ const Register = ({ setMode }) => {
                 {...register('username', {
                   required: 'Username is required',
                   minLength: {
-                    value: 4,
-                    message: 'Minimum length should be 4',
+                    value: 1,
+                    message: 'Minimum length should be 1',
                   },
                   maxLength: {
                     value: 80,

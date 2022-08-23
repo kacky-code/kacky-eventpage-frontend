@@ -86,7 +86,7 @@ const Login = ({ setMode, onClose }) => {
           <Input
             {...register('username', {
               required: 'Username is required',
-              minLength: { value: 1, message: 'Minimum length should be 4' },
+              minLength: { value: 1, message: 'Minimum length should be 1' },
               maxLength: {
                 value: 80,
                 message: 'Really? Sleeping on your Keyboard?',
@@ -112,7 +112,7 @@ const Login = ({ setMode, onClose }) => {
           <Input
             {...register('password', {
               required: 'Password is required',
-              minLength: { value: 1, message: 'Minimum length should be 8' },
+              minLength: { value: 8, message: 'Minimum length should be 8' },
               maxLength: {
                 value: 80,
                 message: 'Really? Sleeping on your Keyboard?',

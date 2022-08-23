@@ -140,7 +140,7 @@ const Spreadsheet = () => {
     .headers[1].column.getFilterValue();
 
   return (
-    <Center px={{ base: 4, md: 8 }} w="full">
+    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">

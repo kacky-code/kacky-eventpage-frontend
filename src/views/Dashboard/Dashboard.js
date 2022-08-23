@@ -1,4 +1,10 @@
-import { Button, Center, useBoolean, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Center,
+  useBoolean,
+  VStack,
+  useColorMode,
+} from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,6 +18,7 @@ import AuthContext from '../../context/AuthContext';
 const mapChangeEstimate = 20;
 
 const Dashboard = () => {
+  const { colorMode } = useColorMode();
   const [isCompactView, setIsCompactView] = useBoolean();
 
   const [servers, setServers] = useState([]);
@@ -63,7 +70,17 @@ const Dashboard = () => {
           borderRadius="6px 0 0 6px"
           onClick={setIsCompactView.toggle}
           leftIcon={<MdOutlineViewHeadline />}
-          disabled={isCompactView}
+          borderColor={
+            isCompactView
+              ? colorMode === 'dark'
+                ? 'white'
+                : 'black'
+              : 'transparent'
+          }
+          borderWidth="1px"
+          pointerEvents={isCompactView ? 'none' : 'auto'}
+          shadow={isCompactView ? 'glow' : 'none'}
+          textShadow={isCompactView ? 'glow' : 'none'}
         >
           Compact View
         </Button>
@@ -71,12 +88,22 @@ const Dashboard = () => {
           borderRadius="0 6px 6px 0"
           onClick={setIsCompactView.toggle}
           rightIcon={<MdOutlineViewAgenda />}
-          disabled={!isCompactView}
+          borderColor={
+            !isCompactView
+              ? colorMode === 'dark'
+                ? 'white'
+                : 'black'
+              : 'transparent'
+          }
+          borderWidth="1px"
+          pointerEvents={!isCompactView ? 'none' : 'auto'}
+          shadow={!isCompactView ? 'glow' : 'none'}
+          textShadow={!isCompactView ? 'glow' : 'none'}
         >
           Large View
         </Button>
       </Center>
-      <VStack spacing={8}>
+      <VStack mb={{ base: 24, md: 0 }} spacing={8}>
         {servers.map((server, index) => (
           <ServerCard
             {...server}
