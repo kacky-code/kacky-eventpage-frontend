@@ -12,11 +12,12 @@ import {
   MenuButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   MdOutlineDashboard,
   MdOutlineChecklist,
+  // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
   MdPersonOutline,
   MdOutlineLogout,
@@ -27,9 +28,15 @@ import {
   MdOutlineMoreVert,
 } from 'react-icons/md';
 
+import Cookies from 'universal-cookie';
+
 import KrLogo from '../../assets/logos/krLogo';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
+import AuthContext from '../../context/AuthContext';
+import { logoutServer } from '../../api/api';
+
+const leaderboardPageUrl = 'https://www.google.de/';
 
 const Header = () => {
   const theme = useTheme();
@@ -37,6 +44,18 @@ const Header = () => {
   const { pathname } = useLocation();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { authentication, setAuthentication } = useContext(AuthContext);
+
+  function logout() {
+    logoutServer(authentication.token);
+    const cookies = new Cookies();
+    cookies.remove('token', { path: '/' });
+
+    setAuthentication({
+      isLoggedIn: false,
+      token: '',
+    });
+  }
 
   const logoSize = useBreakpointValue({
     base: '120px',
@@ -51,6 +70,47 @@ const Header = () => {
   const SwitchIcon = useColorModeValue(MdOutlineDarkMode, MdOutlineLightMode);
 
   const indicatorElement = useRef(null);
+
+  const tabsDesktopLoggedIn = [
+    {
+      key: 1,
+      route: '/',
+      text: 'Dashboard',
+      TabIcon: MdOutlineDashboard,
+    },
+    {
+      key: 2,
+      route: '/spreadsheet',
+      text: 'Spreadsheet',
+      TabIcon: MdOutlineChecklist,
+    },
+    {
+      key: 3,
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
+      text: 'Leaderboard',
+      TabIcon: MdOutlineLeaderboard,
+    },
+    {
+      key: 4,
+      isSpacer: true,
+    },
+    {
+      key: 5,
+      route: '/profile',
+      TabIcon: MdPersonOutline,
+    },
+    {
+      key: 6,
+      TabIcon: MdOutlineLogout,
+      onClick: logout,
+    },
+    {
+      key: 7,
+      TabIcon: SwitchIcon,
+      onClick: toggleColorMode,
+    },
+  ];
 
   const tabsDesktop = [
     {
@@ -67,7 +127,8 @@ const Header = () => {
     },
     {
       key: 3,
-      route: '/leaderboard',
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     },
@@ -76,12 +137,8 @@ const Header = () => {
       isSpacer: true,
     },
     {
-      key: 5,
-      route: '/profile',
-      TabIcon: MdPersonOutline,
-    },
-    {
-      key: 6,
+      key: 9,
+      text: 'Login',
       TabIcon: MdOutlineLogout,
       onClick: onOpen,
     },
@@ -94,15 +151,15 @@ const Header = () => {
 
   const tabsMobile = [
     // can be added again if a homepage is needed
-    {
+    /* {
       key: 0,
       text: 'Home',
       TabIcon: MdOutlineHome,
-    },
-    {
+    }, */
+    /* {
       key: 8,
       isSpacer: true,
-    },
+    }, */
     {
       key: 1,
       route: '/',
@@ -117,7 +174,8 @@ const Header = () => {
     },
     {
       key: 3,
-      route: '/leaderboard',
+      onClick: () => window.open(leaderboardPageUrl),
+      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     },
@@ -129,7 +187,7 @@ const Header = () => {
 
   const tabData = useBreakpointValue({
     base: tabsMobile,
-    md: tabsDesktop,
+    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop,
   });
 
   return (
@@ -176,26 +234,42 @@ const Header = () => {
                 as={HeaderTab}
               />
               <MenuList minW="0" w="160px" fontSize="xs">
-                <Link to="/profile">
+                {authentication.isLoggedIn ? (
+                  <Link to="/profile">
+                    <MenuItem
+                      h={10}
+                      filter={
+                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                      }
+                      icon={<MdPersonOutline fontSize="1.25rem" />}
+                    >
+                      Profile
+                    </MenuItem>
+                  </Link>
+                ) : null}
+                {authentication.isLoggedIn ? (
                   <MenuItem
+                    onClick={() => logout}
                     h={10}
                     filter={
                       colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                     }
-                    icon={<MdPersonOutline fontSize="1.25rem" />}
+                    icon={<MdOutlineLogout fontSize="1.25rem" />}
                   >
-                    Profile
+                    Logout
                   </MenuItem>
-                </Link>
-                <MenuItem
-                  h={10}
-                  filter={
-                    colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                  }
-                  icon={<MdOutlineLogout fontSize="1.25rem" />}
-                >
-                  Logout
-                </MenuItem>
+                ) : (
+                  <MenuItem
+                    onClick={onOpen}
+                    h={10}
+                    filter={
+                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                    }
+                    icon={<MdOutlineLogout fontSize="1.25rem" />}
+                  >
+                    Login
+                  </MenuItem>
+                )}
                 <MenuItem
                   h={10}
                   onClick={toggleColorMode}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 
 import {
   TableContainer,
@@ -25,17 +25,69 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
+  useSortBy,
 } from '@tanstack/react-table';
 
-import { data, defaultColumns } from './Spreadsheet.service';
+import { useQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+import AuthContext from '../../context/AuthContext';
+
+import defaultColumns from './Spreadsheet.service';
+import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
-  const [sorting, setSorting] = useState([]);
+  const { authentication } = useContext(AuthContext);
 
-  // eslint-disable-next-line no-unused-vars
-  const [tableData, setTableData] = useState(() => [...data]);
+  const [tableData, setTableData] = useState(() => []);
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
+
+  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
+    getSpreadsheetData(authentication.token)
+  );
+  useEffect(() => {
+    if (isSuccess) {
+      const formattedData = [];
+
+      if (authentication.isLoggedIn) {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: map.finished,
+            number: map.kacky_id.toString(),
+            author: map.author,
+            difficulty: map.map_diff,
+            upcomingIn: map.upcomingIn,
+            server: map.server,
+            personalBest: map.map_pb,
+            local: map.map_rank,
+            clip: map.clip,
+            discordPing: map.alarm,
+          };
+          formattedData.push(formattedMap);
+        });
+      } else {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: false,
+            number: map.kacky_id.toString(),
+            author: map.author,
+            difficulty: 0,
+            upcomingIn: map.upcomingIn,
+            server: map.server,
+            personalBest: 0,
+            local: 0,
+            clip: '',
+            discordPing: false,
+          };
+          formattedData.push(formattedMap);
+        });
+      }
+      setTableData(formattedData);
+    }
+  }, [data, authentication.isLoggedIn, isSuccess]);
+
+  const [sorting, setSorting] = useState([]);
 
   const table = useReactTable({
     data: tableData,
@@ -43,10 +95,44 @@ const Spreadsheet = () => {
     state: {
       sorting,
     },
+    initialState: {
+      sortBy: [
+        {
+          id: 'number',
+          desc: false,
+        },
+      ],
+    },
+    useSortBy,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        setTableData(old =>
+          old.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old[rowIndex],
+                [columnId]: value,
+              };
+            }
+            return row;
+          })
+        );
+      },
+    },
+  });
+
+  const tableContainerRef = useRef(null);
+  const { rows } = table.getRowModel();
+
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => tableContainerRef.current,
+    estimateSize: () => 49,
+    overscan: 10,
   });
 
   const columnFilterValue = table
@@ -54,7 +140,7 @@ const Spreadsheet = () => {
     .headers[1].column.getFilterValue();
 
   return (
-    <Center px={{ base: 4, md: 8 }} w="full">
+    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
@@ -71,7 +157,12 @@ const Spreadsheet = () => {
             placeholder="#000"
           />
         </HStack>
-        <TableContainer w="container.xl" borderWidth="1px" borderRadius="md">
+        <TableContainer
+          ref={tableContainerRef}
+          w="container.xl"
+          borderWidth="1px"
+          borderRadius="md"
+        >
           <Table size="sm">
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
@@ -110,18 +201,21 @@ const Spreadsheet = () => {
               ))}
             </Thead>
             <Tbody>
-              {table.getRowModel().rows.map(row => (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map(cell => (
-                    <Td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
+              {rowVirtualizer.getVirtualItems().map(virtualRow => {
+                const row = rows[virtualRow.index];
+                return (
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map(cell => (
+                      <Td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </TableContainer>

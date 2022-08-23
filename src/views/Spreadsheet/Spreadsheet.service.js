@@ -1,17 +1,19 @@
 import React from 'react';
 
-import { Icon, Text, Switch, HStack } from '@chakra-ui/react';
+import { Icon, Text, HStack } from '@chakra-ui/react';
 
 import {
   MdOutlineCheckCircle,
   MdTag,
   MdOutlineLabel,
   MdAccessTime,
+  // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
   MdOutlinePlayCircle,
   MdOutlineDns,
 } from 'react-icons/md';
 
+// eslint-disable-next-line no-unused-vars
 import { FaDiscord } from 'react-icons/fa';
 
 import { createColumnHelper } from '@tanstack/react-table';
@@ -22,97 +24,8 @@ import MapNumberCell from './MapNumberCell';
 import MapDifficultyCell from './MapDifficultyCell';
 import MapFinishedCell from './MapFinishedCell';
 import MapClipCell from './MapClipCell';
-
-const data = [
-  {
-    finished: true,
-    number: '151',
-    difficulty: 1,
-    upcomingIn: 360,
-    server: '1',
-    personalBest: 514372,
-    local: '15',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '152',
-    difficulty: 6,
-    upcomingIn: 4450,
-    server: '2',
-    personalBest: 65165,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: true,
-    number: '153',
-    difficulty: 2,
-    upcomingIn: 60,
-    server: '4',
-    personalBest: 123456,
-    local: '5',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '154',
-    difficulty: 4,
-    upcomingIn: 1014,
-    server: '1',
-    personalBest: 123,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: true,
-    number: '155',
-    difficulty: 3,
-    upcomingIn: 360,
-    server: '1',
-    personalBest: 514372,
-    local: '15',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '156',
-    difficulty: 0,
-    upcomingIn: 4450,
-    server: '2',
-    personalBest: 65165,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-  {
-    finished: false,
-    number: '157',
-    difficulty: 5,
-    upcomingIn: 60,
-    server: '4',
-    personalBest: 123456,
-    local: '5',
-    clip: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    discordPing: true,
-  },
-  {
-    finished: false,
-    number: '158',
-    difficulty: 4,
-    upcomingIn: 1014,
-    server: '1',
-    personalBest: 123,
-    local: '4',
-    clip: '',
-    discordPing: false,
-  },
-];
+// eslint-disable-next-line no-unused-vars
+import MapDiscordCell from './MapDiscordCell';
 
 const columnHelper = createColumnHelper();
 
@@ -120,7 +33,7 @@ const defaultColumns = [
   columnHelper.accessor('finished', {
     id: 'finished',
     header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
-    cell: info => <MapFinishedCell finished={info.row.original.finished} />,
+    cell: info => <MapFinishedCell finished={info.getValue()} />,
   }),
   columnHelper.accessor('number', {
     id: 'number',
@@ -132,9 +45,25 @@ const defaultColumns = [
     ),
     cell: info => (
       <MapNumberCell
+        author={info.row.original.author}
         finished={info.row.original.finished}
-        number={info.row.original.number.toString()}
+        number={info.getValue().toString()}
       />
+    ),
+  }),
+  columnHelper.accessor('author', {
+    id: 'author',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdTag} />
+        <Text display={{ base: 'none', lg: 'inline' }}>Author</Text>
+      </>
+    ),
+    cell: info => (
+      <Text fontSize="xs" letterSpacing="0.1em">
+        {' '}
+        {info.getValue().toString()}
+      </Text>
     ),
   }),
   columnHelper.accessor('difficulty', {
@@ -146,7 +75,12 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <MapDifficultyCell difficulty={info.row.original.difficulty} />
+      <MapDifficultyCell
+        difficulty={info.getValue()}
+        rowIndex={info.row.index}
+        table={info.table}
+        mapId={info.row.original.number}
+      />
     ),
   }),
   columnHelper.accessor('upcomingIn', {
@@ -160,20 +94,16 @@ const defaultColumns = [
     cell: info => (
       <HStack spacing={1}>
         <Text
-          visibility={
-            info.row.original.upcomingIn >= 3600 ? 'visible' : 'hidden'
-          }
+          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           letterSpacing="0.1em"
           textShadow="glow"
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.row.original.upcomingIn).toFormat('h')}
+          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h')}
         </Text>
         <Text
-          visibility={
-            info.row.original.upcomingIn >= 3600 ? 'visible' : 'hidden'
-          }
+          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           textTransform="lowercase"
         >
           h
@@ -185,7 +115,7 @@ const defaultColumns = [
           fontSize="xl"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.row.original.upcomingIn).toFormat('mm')}
+          {DateTime.fromSeconds(info.getValue() * 60).toFormat('mm')}
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
@@ -205,12 +135,12 @@ const defaultColumns = [
           #
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.row.original.server}
+          {info.getValue()}
         </Text>
       </HStack>
     ),
   }),
-  columnHelper.accessor('personalBest', {
+  /* columnHelper.accessor('personalBest', {
     id: 'personalBest',
     header: () => (
       <>
@@ -220,13 +150,13 @@ const defaultColumns = [
     ),
     cell: info => (
       <Text letterSpacing="0.1em" textShadow="glow">
-        {DateTime.fromMillis(info.row.original.personalBest).toFormat(
-          'mm:ss.SSS'
-        )}
+        {info.getValue() !== 0
+          ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
+          : '-'}
       </Text>
     ),
-  }),
-  columnHelper.accessor('local', {
+  }), */
+  /* columnHelper.accessor('local', {
     id: 'local',
     header: () => (
       <>
@@ -240,11 +170,11 @@ const defaultColumns = [
           #
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.row.original.local}
+          {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>
     ),
-  }),
+  }), */
   columnHelper.accessor('clip', {
     id: 'clip',
     header: () => (
@@ -253,9 +183,16 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Clip</Text>
       </>
     ),
-    cell: info => <MapClipCell clip={info.row.original.clip} />,
+    cell: info => (
+      <MapClipCell
+        rowIndex={info.row.index}
+        table={info.table}
+        mapId={info.row.original.number}
+        clip={info.getValue()}
+      />
+    ),
   }),
-  columnHelper.accessor('discordPing', {
+  /* columnHelper.accessor('discordPing', {
     id: 'discordPing',
     header: () => (
       <>
@@ -263,8 +200,15 @@ const defaultColumns = [
         <Text display={{ base: 'none', lg: 'inline' }}>Ping</Text>
       </>
     ),
-    cell: info => <Switch defaultChecked={info.row.original.discordPing} />,
-  }),
+    cell: info => (
+      <MapDiscordCell
+        rowIndex={info.row.index}
+        table={info.table}
+        mapId={info.row.original.number}
+        discordPing={info.getValue()}
+      />
+    ),
+  }), */
 ];
 
-export { data, defaultColumns };
+export default defaultColumns;
