@@ -41,8 +41,14 @@ const ServerCard = ({
   const theme = useTheme();
   const { colorMode } = useColorMode();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log(maps);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modalNextMap1 = useDisclosure();
+  const modalNextMap2 = useDisclosure();
+  const modalNextMap3 = useDisclosure();
+
+  const nextMapModals = [modalNextMap1, modalNextMap2, modalNextMap3];
   const getFallbackImage = ev => {
     // eslint-disable-next-line no-param-reassign
     ev.target.src = mapImageFallback;
@@ -182,6 +188,7 @@ const ServerCard = ({
                 top="50%"
                 transform="translate(-50%, -50%);"
                 transition="background-color 150ms ease-in-out"
+                cursor="pointer"
                 _hover={{
                   bg:
                     colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.700',
@@ -253,8 +260,11 @@ const ServerCard = ({
               >
                 {maps.slice(1).map((map, index) => (
                   <HStack
+                    onClick={nextMapModals[index].onOpen}
+                    cursor="pointer"
                     w={isCompactView ? '75px' : 'auto'}
                     justify="flex-start"
+                    _hover={{ transform: 'scale(1.05)' }}
                     spacing={1}
                     key={map.number}
                   >
@@ -279,6 +289,13 @@ const ServerCard = ({
                         as={MdOutlineCheckCircle}
                       />
                     ) : null}
+                    <MapImageModal
+                      mapNumber={map.number}
+                      author={map.author}
+                      isFinished={map.finished}
+                      isOpen={nextMapModals[index].isOpen}
+                      onClose={nextMapModals[index].onClose}
+                    />
                   </HStack>
                 ))}
               </Flex>
