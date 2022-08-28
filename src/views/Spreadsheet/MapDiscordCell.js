@@ -17,7 +17,7 @@ const MapDiscordCell = memo(({ discordPing, rowIndex, table, mapId }) => {
   let newPing;
   const mutation = useMutation(data => postSpreadsheetData(data), {
     onSuccess: () => {
-      table.options.meta.updateData(rowIndex, 'clip', newPing);
+      table.options.meta.updateData(rowIndex, 'discordPing', newPing);
     },
     onError: () => {
       toast({
@@ -45,7 +45,7 @@ const MapDiscordCell = memo(({ discordPing, rowIndex, table, mapId }) => {
     <Switch
       isDisabled={!authentication.isLoggedIn}
       onChange={e => onSubmit(e.target.value)}
-      defaultValue={discordPing}
+      defaultChecked={discordPing}
     />
   );
 });
