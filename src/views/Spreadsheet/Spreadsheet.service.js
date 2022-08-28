@@ -192,7 +192,7 @@ const defaultColumns = [
       />
     ),
   }),
-  /* columnHelper.accessor('discordPing', {
+  columnHelper.accessor('discordPing', {
     id: 'discordPing',
     header: () => (
       <>
@@ -208,7 +208,7 @@ const defaultColumns = [
         discordPing={info.getValue()}
       />
     ),
-  }), */
+  }),
 ];
 
 export default defaultColumns;
