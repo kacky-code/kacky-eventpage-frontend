@@ -36,7 +36,7 @@ import AuthModal from './AuthModal/AuthModal';
 import AuthContext from '../../context/AuthContext';
 import { logoutServer } from '../../api/api';
 
-const leaderboardPageUrl = 'https://www.google.de/';
+const leaderboardPageUrl = 'https://kackyreloaded.com/';
 
 const Header = () => {
   const theme = useTheme();
