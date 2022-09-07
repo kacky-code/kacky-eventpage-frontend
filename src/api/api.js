@@ -1,4 +1,4 @@
-const url = `https://kackydev.dingens.me/api`;
+const url = `https://api.kacky.info`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
