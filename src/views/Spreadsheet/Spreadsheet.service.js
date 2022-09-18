@@ -140,7 +140,7 @@ const defaultColumns = [
       </HStack>
     ),
   }),
-  /* columnHelper.accessor('personalBest', {
+  columnHelper.accessor('personalBest', {
     id: 'personalBest',
     header: () => (
       <>
@@ -155,8 +155,8 @@ const defaultColumns = [
           : '-'}
       </Text>
     ),
-  }), */
-  /* columnHelper.accessor('local', {
+  }),
+  columnHelper.accessor('local', {
     id: 'local',
     header: () => (
       <>
@@ -174,7 +174,7 @@ const defaultColumns = [
         </Text>
       </HStack>
     ),
-  }), */
+  }),
   columnHelper.accessor('clip', {
     id: 'clip',
     header: () => (

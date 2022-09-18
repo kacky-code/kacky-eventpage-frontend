@@ -32,11 +32,13 @@ import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
+import EventContext from '../../context/EventContext';
 
 import defaultColumns from './Spreadsheet.service';
 import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
+  const { event } = useContext(EventContext);
   const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
@@ -94,6 +96,16 @@ const Spreadsheet = () => {
     columns,
     state: {
       sorting,
+      columnVisibility: {
+        finished: authentication.isLoggedIn,
+        difficulty: authentication.isLoggedIn,
+        upcomingIn: event.isLive,
+        server: event.isLive,
+        personalBest: false,
+        local: false,
+        clip: authentication.isLoggedIn,
+        discordPing: authentication.isLoggedIn && event.isLive,
+      },
     },
     initialState: {
       sortBy: [
