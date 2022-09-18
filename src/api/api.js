@@ -120,6 +120,18 @@ export async function postProfileData(data) {
   return response.json();
 }
 
+export async function getFinishes(token) {
+  const response = await fetch(`${url}/fin`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export function getMapImageUrl(mapNumber) {
   const imageUrl = `https://kackydev.dingens.me/static/media/images/${mapNumber}.jpg`;
   return imageUrl;
