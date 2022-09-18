@@ -18,7 +18,7 @@ import AuthContext from '../../context/AuthContext';
 import { getFinishes } from '../../api/api';
 
 const rank = {
-  none: { color: 'auto', name: 'no', text: 'Better Luck next time!' },
+  none: { color: 'auto', name: 'no', text: 'Better luck next time!' },
   plastic: { color: '#21C8FF', name: 'plastic', text: 'It´s a start!' },
   bronze: { color: '#CD7F32', name: 'bronze', text: 'Not bad!' },
   silver: { color: '#C0C0C0', name: 'silver', text: 'Wow!' },
@@ -72,7 +72,7 @@ const EventEnd = () => {
           letterSpacing="0.2em"
           fontSize={{ base: 'lg', md: '2xl' }}
         >
-          Thanks for participating in the event!
+          Thanks for participating in the Event!
         </Text>
       </Stack>
       {authentication.isLoggedIn ? (
