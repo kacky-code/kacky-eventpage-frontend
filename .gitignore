@@ -38,5 +38,5 @@ packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 
 # ignore contents of thumbnail and logo directories
-images/*
+mapthumbnails/*
 logos/*
