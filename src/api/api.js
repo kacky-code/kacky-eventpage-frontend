@@ -133,6 +133,6 @@ export async function getFinishes(token) {
 }
 
 export function getMapImageUrl(mapNumber) {
-  const imageUrl = `https://kackydev.dingens.me/static/media/images/${mapNumber}.jpg`;
+  const imageUrl = `https://kacky.info/static/media/mapthumbnails/${mapNumber}.jpg`;
   return imageUrl;
 }
