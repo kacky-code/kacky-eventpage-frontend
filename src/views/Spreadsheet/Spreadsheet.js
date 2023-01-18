@@ -52,42 +52,26 @@ const Spreadsheet = () => {
     if (isSuccess) {
       const formattedData = [];
 
-      if (authentication.isLoggedIn) {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: map.finished,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: map.map_diff,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
-            personalBest: map.map_pb,
-            local: map.map_rank,
-            clip: map.clip,
-            discordPing: map.alarm,
-          };
-          formattedData.push(formattedMap);
-        });
-      } else {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: false,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: 0,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
-            personalBest: 0,
-            local: 0,
-            clip: '',
-            discordPing: false,
-          };
-          formattedData.push(formattedMap);
-        });
-      }
+      data.forEach(map => {
+        const formattedMap = {
+          finished: map.finished || false,
+          number: map.kacky_id.toString(),
+          author: map.author,
+          difficulty: map.map_diff || 0,
+          upcomingIn: map.upcomingIn,
+          server: map.server,
+          personalBest: map.map_pb || 0,
+          local: map.map_rank || 0,
+          clip: map.clip || '',
+          discordPing: map.alarm || false,
+          wrscore: (map.wr_score / 1000).toFixed(3),
+          wrholder: map.wr_holder
+        };
+        formattedData.push(formattedMap);
+      });
       setTableData(formattedData);
     }
-  }, [data, authentication.isLoggedIn, isSuccess]);
+  }, [data, isSuccess]);
 
   const [sorting, setSorting] = useState([]);
 

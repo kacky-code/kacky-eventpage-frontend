@@ -66,6 +66,36 @@ const defaultColumns = [
       </Text>
     ),
   }),
+  columnHelper.accessor('wrscore', {
+    id: 'wrscore',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdTag} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR Time</Text>
+      </>
+    ),
+    cell: info => (
+      <Text fontSize="xs" letterSpacing="0.1em">
+        {' '}
+        {info.getValue().toString()}s
+      </Text>
+    ),
+  }),
+  columnHelper.accessor('wrholder', {
+    id: 'wrholder',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdTag} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR Holder</Text>
+      </>
+    ),
+    cell: info => (
+      <Text fontSize="xs" letterSpacing="0.1em">
+        {' '}
+        {info.getValue().toString()}
+      </Text>
+    ),
+  }),
   columnHelper.accessor('difficulty', {
     id: 'difficulty',
     header: () => (
