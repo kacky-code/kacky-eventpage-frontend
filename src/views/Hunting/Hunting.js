@@ -11,9 +11,11 @@ import {
   Icon,
   Box,
   Text,
+  Heading,
   Center,
   HStack,
   Input,
+  Select,
   VStack,
 } from '@chakra-ui/react';
 
@@ -32,13 +34,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
-import EventContext from '../../context/EventContext';
 
-import defaultColumns from './Spreadsheet.service';
+import defaultColumns from './Hunting.service';
 import { getSpreadsheetData } from '../../api/api';
 
-const Spreadsheet = () => {
-  const { event } = useContext(EventContext);
+const Hunting = () => {
   const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
@@ -52,26 +52,38 @@ const Spreadsheet = () => {
     if (isSuccess) {
       const formattedData = [];
 
-      data.forEach(map => {
-        const formattedMap = {
-          finished: map.finished || false,
-          number: map.kacky_id.toString(),
-          author: map.author,
-          difficulty: map.map_diff || 0,
-          upcomingIn: map.upcomingIn,
-          server: map.server,
-          personalBest: map.map_pb || 0,
-          local: map.map_rank || 0,
-          clip: map.clip || '',
-          discordPing: map.alarm || false,
-          wrscore: (map.wr_score / 1000).toFixed(3),
-          wrholder: map.wr_holder
-        };
-        formattedData.push(formattedMap);
-      });
+      if (authentication.isLoggedIn) {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: map.finished,
+            number: map.kacky_id.toString(),
+            author: map.author,
+            difficulty: map.map_diff,
+            personalBest: map.map_pb,
+            worldRecord: false,
+            local: map.map_rank,
+            clip: map.clip,
+          };
+          formattedData.push(formattedMap);
+        });
+      } else {
+        data.forEach(map => {
+          const formattedMap = {
+            finished: false,
+            number: map.kacky_id.toString(),
+            author: map.author,
+            difficulty: 0,
+            personalBest: 0,
+            worldRecord: 0,
+            local: 0,
+            clip: '',
+          };
+          formattedData.push(formattedMap);
+        });
+      }
       setTableData(formattedData);
     }
-  }, [data, isSuccess]);
+  }, [data, authentication.isLoggedIn, isSuccess]);
 
   const [sorting, setSorting] = useState([]);
 
@@ -83,12 +95,9 @@ const Spreadsheet = () => {
       columnVisibility: {
         finished: authentication.isLoggedIn,
         difficulty: authentication.isLoggedIn,
-        upcomingIn: event.isLive,
-        server: event.isLive,
-        personalBest: false,
-        local: false,
+        personalBest: authentication.isLoggedIn,
+        local: authentication.isLoggedIn,
         clip: authentication.isLoggedIn,
-        discordPing: authentication.isLoggedIn && event.isLive,
       },
     },
     initialState: {
@@ -138,6 +147,7 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
+        <Heading>Hunt Previous Events</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -152,6 +162,25 @@ const Spreadsheet = () => {
             }
             placeholder="#000"
           />
+          <Text letterSpacing="0.1em" textShadow="glow" style={{marginLeft: 'auto'}}>
+            Select Kacky Edition :
+          </Text>
+          <Select w={80}>
+            <optgroup label="Kacky Reloaded">
+              <option value="kr3">Kacky Reloaded 3</option>
+              <option value="kr2">Kacky Reloaded 2</option>
+              <option value="kr1">Kacky Reloaded 1</option>
+            </optgroup>
+            <optgroup label="Kackiest Kacky">
+              <option value="kk7">Kackiest Kacky 7</option>
+              <option value="kk6">Kackiest Kacky 6</option>
+              <option value="kk5">Kackiest Kacky 5</option>
+              <option value="kk4">Kackiest Kacky 4</option>
+              <option value="kk3">Kackiest Kacky 3</option>
+              <option value="kk2">Kackiest Kacky 2</option>
+              <option value="kk1">Kackiest Kacky 1</option>
+            </optgroup>
+          </Select>
         </HStack>
         <TableContainer
           ref={tableContainerRef}
@@ -220,4 +249,4 @@ const Spreadsheet = () => {
   );
 };
 
-export default Spreadsheet;
+export default Hunting;

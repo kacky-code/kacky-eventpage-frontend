@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { useLocation, Link } from 'react-router-dom';
 
 const HeaderTab = forwardRef(
-  ({ route, text, TabIcon, onClick, indicatorRef, isSpacer }, ref) => {
+  ({ route, text, TabIcon, onClick, indicatorRef, isSpacer, isBlank }, ref) => {
     const theme = useTheme();
     const { colorMode } = useColorMode();
     const tabElement = useRef(null);
@@ -113,6 +113,10 @@ const HeaderTab = forwardRef(
 
     if (isSpacer) {
       return <Spacer />;
+    }
+
+    if (isBlank) {
+      return (null);
     }
 
     if (route !== '') {
