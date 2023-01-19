@@ -11,9 +11,11 @@ import {
   Icon,
   Box,
   Text,
+  Heading,
   Center,
   HStack,
   Input,
+  Select,
   VStack,
 } from '@chakra-ui/react';
 
@@ -32,13 +34,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
-import EventContext from '../../context/EventContext';
 
-import defaultColumns from './Spreadsheet.service';
+import defaultColumns from './Hunting.service';
 import { getSpreadsheetData } from '../../api/api';
 
-const Spreadsheet = () => {
-  const { event } = useContext(EventContext);
+const Hunting = () => {
   const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
@@ -59,12 +59,10 @@ const Spreadsheet = () => {
             number: map.kacky_id.toString(),
             author: map.author,
             difficulty: map.map_diff,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
             personalBest: map.map_pb,
+            worldRecord: false,
             local: map.map_rank,
             clip: map.clip,
-            discordPing: map.alarm,
           };
           formattedData.push(formattedMap);
         });
@@ -75,12 +73,10 @@ const Spreadsheet = () => {
             number: map.kacky_id.toString(),
             author: map.author,
             difficulty: 0,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
             personalBest: 0,
+            worldRecord: 0,
             local: 0,
             clip: '',
-            discordPing: false,
           };
           formattedData.push(formattedMap);
         });
@@ -99,12 +95,9 @@ const Spreadsheet = () => {
       columnVisibility: {
         finished: authentication.isLoggedIn,
         difficulty: authentication.isLoggedIn,
-        upcomingIn: event.isLive,
-        server: event.isLive,
-        personalBest: false,
-        local: false,
+        personalBest: authentication.isLoggedIn,
+        local: authentication.isLoggedIn,
         clip: authentication.isLoggedIn,
-        discordPing: authentication.isLoggedIn && event.isLive,
       },
     },
     initialState: {
@@ -154,6 +147,7 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
+        <Heading>Hunt Previous Events</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -168,6 +162,25 @@ const Spreadsheet = () => {
             }
             placeholder="#000"
           />
+          <Text letterSpacing="0.1em" textShadow="glow" style={{marginLeft: 'auto'}}>
+            Select Kacky Edition :
+          </Text>
+          <Select w={80}>
+            <optgroup label="Kacky Reloaded">
+              <option value="kr3">Kacky Reloaded 3</option>
+              <option value="kr2">Kacky Reloaded 2</option>
+              <option value="kr1">Kacky Reloaded 1</option>
+            </optgroup>
+            <optgroup label="Kackiest Kacky">
+              <option value="kk7">Kackiest Kacky 7</option>
+              <option value="kk6">Kackiest Kacky 6</option>
+              <option value="kk5">Kackiest Kacky 5</option>
+              <option value="kk4">Kackiest Kacky 4</option>
+              <option value="kk3">Kackiest Kacky 3</option>
+              <option value="kk2">Kackiest Kacky 2</option>
+              <option value="kk1">Kackiest Kacky 1</option>
+            </optgroup>
+          </Select>
         </HStack>
         <TableContainer
           ref={tableContainerRef}
@@ -236,4 +249,4 @@ const Spreadsheet = () => {
   );
 };
 
-export default Spreadsheet;
+export default Hunting;
