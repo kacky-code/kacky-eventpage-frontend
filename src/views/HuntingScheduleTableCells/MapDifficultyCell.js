@@ -60,7 +60,7 @@ const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
         onClick={() => setRenderMenuList(true)}
         disabled={!authentication.isLoggedIn}
         _hover={{ bg: 'whiteAlpha.200' }}
-        px={{ base: 0, lg: 6 }}
+        pl={6}
         textAlign="left"
         w="full"
         h="full"

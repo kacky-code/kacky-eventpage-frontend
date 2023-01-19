@@ -14,7 +14,7 @@ const MapNumberCell = memo(({ number, finished, author }) => {
 
   return (
     <HStack
-      w="100px"
+      w="50px"
       onMouseEnter={() => setRenderImage(true)}
       onMouseLeave={() => setRenderImage(false)}
       role="group"

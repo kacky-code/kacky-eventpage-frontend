@@ -61,7 +61,7 @@ const MapClipCell = memo(({ clip, rowIndex, table, mapId }) => {
 
   return (
     <HStack
-      w="100px"
+      w="90px"
       h="40px"
       onMouseEnter={() => setRenderPopOver(true)}
       onMouseLeave={() => setRenderPopOver(false)}
