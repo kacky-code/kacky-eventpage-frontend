@@ -7,7 +7,7 @@ import {
   MdTag,
   MdOutlineLabel,
   MdAccessTime,
-  // eslint-disable-next-line no-unused-vars
+  MdStars,
   MdOutlineLeaderboard,
   MdOutlinePlayCircle,
   MdOutlineDns,
@@ -20,12 +20,12 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { DateTime } from 'luxon';
 
-import MapNumberCell from './MapNumberCell';
-import MapDifficultyCell from './MapDifficultyCell';
-import MapFinishedCell from './MapFinishedCell';
-import MapClipCell from './MapClipCell';
+import MapNumberCell from '../HuntingScheduleTableCells/MapNumberCell';
+import MapDifficultyCell from '../HuntingScheduleTableCells/MapDifficultyCell';
+import MapFinishedCell from '../HuntingScheduleTableCells/MapFinishedCell';
+import MapClipCell from '../HuntingScheduleTableCells/MapClipCell';
 // eslint-disable-next-line no-unused-vars
-import MapDiscordCell from './MapDiscordCell';
+import MapDiscordCell from '../HuntingScheduleTableCells/MapDiscordCell';
 
 const columnHelper = createColumnHelper();
 
@@ -61,7 +61,6 @@ const defaultColumns = [
     ),
     cell: info => (
       <Text fontSize="xs" letterSpacing="0.1em">
-        {' '}
         {info.getValue().toString()}
       </Text>
     ),
@@ -118,7 +117,7 @@ const defaultColumns = [
     header: () => (
       <>
         <Icon boxSize="16px" as={MdAccessTime} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
+        <Text display={{ base: 'none', lg: 'inline' }}>Next In</Text>
       </>
     ),
     cell: info => (
@@ -127,7 +126,7 @@ const defaultColumns = [
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           letterSpacing="0.1em"
           textShadow="glow"
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="medium"
         >
           {DateTime.fromSeconds(info.getValue() * 60).toFormat('h') - 1}
@@ -139,10 +138,10 @@ const defaultColumns = [
           h
         </Text>
         <Text
-          pl="4"
+          pl="2"
           letterSpacing="0.1em"
           textShadow="glow"
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="medium"
         >
           {DateTime.fromSeconds(info.getValue() * 60).toFormat('mm')}
@@ -161,10 +160,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
+        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
           #
         </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
+        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
           {info.getValue()}
         </Text>
       </HStack>
@@ -186,6 +185,23 @@ const defaultColumns = [
       </Text>
     ),
   }),
+  columnHelper.accessor('worldRecord', {
+    id: 'worldRecord',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdStars} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR</Text>
+      </>
+    ),
+    cell: info => (
+      <Text letterSpacing="0.1em" textShadow="glow">
+        {info.getValue() !== 0 ? info.getValue() : '-'}
+        {/* {info.getValue() !== 0
+          ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
+          : '-'} */}
+      </Text>
+    ),
+  }),
   columnHelper.accessor('local', {
     id: 'local',
     header: () => (
@@ -196,10 +212,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
-          #
+        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
+          {info.getValue() !== 0 ? '#' : ''}
         </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
+        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
           {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>
