@@ -36,7 +36,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import AuthContext from '../../context/AuthContext';
 
 import defaultColumns from './Hunting.service';
-import { getSpreadsheetData } from '../../api/api';
+// eslint-disable-next-line no-unused-vars
+import { getSpreadsheetData, getAllEvents } from '../../api/api';
 
 const Hunting = () => {
   const { authentication } = useContext(AuthContext);
@@ -45,45 +46,58 @@ const Hunting = () => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
+
+
+
+  function kkArrayParse(kkArray) {
+    // use filteredNamesArray here
+    console.log(kkArray);
+  }
+
+  function krArrayParse(krArray) {
+    // use filteredNamesArray here
+    console.log(krArray);
+  }
+  
+  getAllEvents()
+    .then(json => json.filter(event => event.type === 'KK')
+      .map(event => event.name))
+    .then(kkArray => kkArrayParse(kkArray))
+
+  getAllEvents()
+    .then(json => json.filter(event => event.type === 'KR')
+      .map(event => event.name))
+    .then(krArray => krArrayParse(krArray))
+    
+  
+
+
+
+
+
   const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token)
+    getSpreadsheetData(authentication.token, 'kk', '1')
   );
   useEffect(() => {
     if (isSuccess) {
       const formattedData = [];
 
-      if (authentication.isLoggedIn) {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: map.finished,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: map.map_diff,
-            personalBest: map.map_pb,
-            worldRecord: false,
-            local: map.map_rank,
-            clip: map.clip,
-          };
-          formattedData.push(formattedMap);
-        });
-      } else {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: false,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: 0,
-            personalBest: 0,
-            worldRecord: 0,
-            local: 0,
-            clip: '',
-          };
-          formattedData.push(formattedMap);
-        });
-      }
+      data.forEach(map => {
+        const formattedMap = {
+          finished: map.finished || false,
+          number: map.kacky_id.toString(),
+          author: map.author,
+          difficulty: map.map_diff || 0,
+          personalBest: map.map_pb || 0,
+          local: map.map_rank || 0,
+          wrScore: map.wr_score || 0,
+          wrHolder: map.wr_holder || false,
+        };
+        formattedData.push(formattedMap);
+      });
       setTableData(formattedData);
     }
-  }, [data, authentication.isLoggedIn, isSuccess]);
+  }, [data, isSuccess]);
 
   const [sorting, setSorting] = useState([]);
 

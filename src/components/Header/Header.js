@@ -81,7 +81,7 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive ? {
+    event.isLive === "active" ? {
       key: 2,
       route: '/schedule',
       text: 'Schedule',
@@ -131,7 +131,7 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive ? {
+    event.isLive === "active" ? {
       key: 2,
       route: '/schedule',
       text: 'Schedule',
@@ -187,7 +187,7 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive ? {
+    event.isLive === "active" ? {
       key: 2,
       route: '/schedule',
       text: 'Schedule',
