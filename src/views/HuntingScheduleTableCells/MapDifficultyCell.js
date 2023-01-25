@@ -34,7 +34,7 @@ const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
   const toast = useToast();
 
   let newDifficulty;
-  const mutation = useMutation(data => postSpreadsheetData(data), {
+  const mutation = useMutation(data => postSpreadsheetData(data, 'kk', '1'), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
     },

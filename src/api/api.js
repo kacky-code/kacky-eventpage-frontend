@@ -1,4 +1,5 @@
 const url = `https://api.kacky.info`;
+const recordsUrl = `https://records.kacky.info`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
@@ -44,6 +45,16 @@ export async function registerUser(username, password, mailadress) {
   return response.json();
 }
 
+export async function eventLiveState() {
+  const response = await fetch(`${url}/eventstatus`);
+  return response.json();
+}
+
+export async function getAllEvents() {
+  return fetch(`${recordsUrl}/events`)
+    .then(response => response.json())
+}
+
 export async function getDashboardData(token) {
   const config =
     token === ''
@@ -62,7 +73,7 @@ export async function getDashboardData(token) {
   return response.json();
 }
 
-export async function getSpreadsheetData(token) {
+export async function getSpreadsheetData(token, type, edition) {
   const config =
     token === ''
       ? {
@@ -73,15 +84,15 @@ export async function getSpreadsheetData(token) {
           Accept: 'application/json, text/plain, */*',
         };
 
-  const response = await fetch(`${url}/spreadsheet`, {
+  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
     headers: config,
   });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
 
-export async function postSpreadsheetData(data) {
-  const response = await fetch(`${url}/spreadsheet`, {
+export async function postSpreadsheetData(data, type, edition) {
+  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -132,7 +143,7 @@ export async function getFinishes(token) {
   return response.json();
 }
 
-export function getMapImageUrl(mapNumber) {
-  const imageUrl = `https://kacky.info/static/media/mapthumbnails/${mapNumber}.jpg`;
+export function getMapImageUrl(eventType, mapNumber) {
+  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${mapNumber}.png`;
   return imageUrl;
 }

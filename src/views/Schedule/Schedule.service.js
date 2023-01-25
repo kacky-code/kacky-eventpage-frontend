@@ -155,8 +155,8 @@ const defaultColumns = [
       </Text>
     ),
   }),
-  columnHelper.accessor('worldRecord', {
-    id: 'worldRecord',
+  columnHelper.accessor('wrScore', {
+    id: 'wrScore',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdStars} />
@@ -165,10 +165,9 @@ const defaultColumns = [
     ),
     cell: info => (
       <Text letterSpacing="0.1em" textShadow="glow">
-        {info.getValue() !== 0 ? info.getValue() : '-'}
-        {/* {info.getValue() !== 0
+        {info.getValue() !== 0
           ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
-          : '-'} */}
+          : '-'}
       </Text>
     ),
   }),
