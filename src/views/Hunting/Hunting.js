@@ -17,6 +17,7 @@ import {
   Input,
   Select,
   VStack,
+  useColorMode,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -28,6 +29,7 @@ import {
   useReactTable,
   getFilteredRowModel,
   useSortBy,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 
 import { useQuery } from '@tanstack/react-query';
@@ -36,9 +38,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import AuthContext from '../../context/AuthContext';
 
 import defaultColumns from './Hunting.service';
-import { getSpreadsheetData, getAllEvents } from '../../api/api';
-
-
+import { getSpreadsheetData, getAllEvents, getPersonalBests } from '../../api/api';
+import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 
 const Hunting = () => {
   const { authentication } = useContext(AuthContext);
@@ -83,43 +84,62 @@ const Hunting = () => {
   const defaultType = 'kk';
   const defaultEdition = '1';
 
-  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
+  const { data: sheetData, isSuccess: sheetIsSuccess } = useQuery(['maps', authentication.token], () =>
     getSpreadsheetData(authentication.token, defaultType, defaultEdition)
   );
+
+  const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(["pbs"], () =>
+    getPersonalBests("kk", "corkscrew")
+  );
+
   useEffect(() => {
-    if (isSuccess) {
+    if (sheetIsSuccess && pbsIsSuccess) {
       const formattedData = [];
 
-      data.forEach(map => {
+      sheetData.forEach(map => {
         const formattedMap = {
           finished: map.finished || false,
           number: map.kacky_id.toString(),
           author: map.author,
           difficulty: map.map_diff || 0,
-          personalBest: map.map_pb || 0,
-          local: map.map_rank || 0,
-          wrScore: map.wr_score || 0,
-          wrHolder: map.wr_holder || false,
+          personalBest: 0,
+          kackyRank: 0,
+          clip: map.clip || '',
+          discordPing: map.alarm || false,
+          wrScore: map.wr_score,
+          wrHolder: map.wr_holder
         };
+        if (pbs[formattedMap.number] !== undefined) {
+          formattedMap.personalBest = pbs[formattedMap.number].score;
+          formattedMap.kackyRank = pbs[formattedMap.number].kacky_rank;
+        }
         formattedData.push(formattedMap);
       });
       setTableData(formattedData);
     }
-  }, [data, isSuccess]);
+  }, [sheetData, sheetIsSuccess, pbs, pbsIsSuccess]);
 
   const [sorting, setSorting] = useState([]);
+
+  const { colorMode } = useColorMode();
+
+  const [expanded, setExpanded] = useState({})
 
   const table = useReactTable({
     data: tableData,
     columns,
     state: {
       sorting,
+      expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
-        difficulty: authentication.isLoggedIn,
+        difficulty: false,
         personalBest: authentication.isLoggedIn,
         local: authentication.isLoggedIn,
-        clip: authentication.isLoggedIn,
+        wrscore: !authentication.isLoggedIn,
+        wrholder: !authentication.isLoggedIn,
+        clip: false,
+        discordPing: false,
       },
     },
     initialState: {
@@ -150,6 +170,8 @@ const Hunting = () => {
         );
       },
     },
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel()
   });
 
   const tableContainerRef = useRef(null);
@@ -165,6 +187,13 @@ const Hunting = () => {
   const columnFilterValue = table
     .getHeaderGroups()[0]
     .headers[1].column.getFilterValue();
+
+  const rowBGcolor = (toggled) => {
+    if (toggled) {
+      return colorMode === "dark" ? "grey" : "lightgrey";
+    }
+    return colorMode;
+  };
 
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
@@ -243,16 +272,23 @@ const Hunting = () => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const row = rows[virtualRow.index];
                 return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                  <>
+                    <Tr key={row.id} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
+                      {row.getVisibleCells().map(cell => (
+                        <Td key={cell.id} background={!row.getIsExpanded()}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Td>
+                      ))}
+                    </Tr>
+                    <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
+                      <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
+                        <MapDetailCell data={row.original} />
                       </Td>
-                    ))}
-                  </Tr>
+                    </Tr>
+                  </>
                 );
               })}
             </Tbody>
