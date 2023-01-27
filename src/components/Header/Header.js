@@ -16,6 +16,7 @@ import React, { useRef, useContext } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   MdOutlineDashboard,
+  MdOutlineEvent,
   MdOutlineChecklist,
   // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
@@ -34,6 +35,7 @@ import KrLogo from '../../assets/logos/krLogo';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
 import AuthContext from '../../context/AuthContext';
+import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 
 const leaderboardPageUrl = 'https://kackyreloaded.com/';
@@ -45,6 +47,7 @@ const Header = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { authentication, setAuthentication } = useContext(AuthContext);
+  const { event } = useContext(EventContext);
 
   const logout = () => {
     logoutServer(authentication.token);
@@ -78,35 +81,44 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    {
+    event.isLive === "active" ? {
       key: 2,
-      route: '/spreadsheet',
-      text: 'Spreadsheet',
-      TabIcon: MdOutlineChecklist,
+      route: '/schedule',
+      text: 'Schedule',
+      TabIcon: MdOutlineEvent,
+    } : {
+      key: 2,
+      isBlank: true,
     },
     {
       key: 3,
+      route: '/hunting',
+      text: 'Hunting',
+      TabIcon: MdOutlineChecklist,
+    },
+    {
+      key: 4,
       onClick: () => window.open(leaderboardPageUrl),
       /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     },
     {
-      key: 4,
+      key: 5,
       isSpacer: true,
     },
     {
-      key: 5,
+      key: 6,
       route: '/profile',
       TabIcon: MdPersonOutline,
     },
     {
-      key: 6,
+      key: 7,
       TabIcon: MdOutlineLogout,
       onClick: logout,
     },
     {
-      key: 7,
+      key: 8,
       TabIcon: SwitchIcon,
       onClick: toggleColorMode,
     },
@@ -119,25 +131,34 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    {
+    event.isLive === "active" ? {
       key: 2,
-      route: '/spreadsheet',
-      text: 'Spreadsheet',
-      TabIcon: MdOutlineChecklist,
+      route: '/schedule',
+      text: 'Schedule',
+      TabIcon: MdOutlineEvent,
+    } : { 
+      key: 2,
+      isBlank: true,
     },
     {
       key: 3,
+      route: '/hunting',
+      text: 'Hunting',
+      TabIcon: MdOutlineChecklist,
+    },
+    {
+      key: 4,
       onClick: () => window.open(leaderboardPageUrl),
       /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     },
     {
-      key: 4,
+      key: 5,
       isSpacer: true,
     },
     {
-      key: 9,
+      key: 6,
       text: 'Login',
       TabIcon: MdOutlineLogout,
       onClick: onOpen,
@@ -166,28 +187,37 @@ const Header = () => {
       text: 'Dashboard',
       TabIcon: MdOutlineDashboard,
     },
-    {
+    event.isLive === "active" ? {
       key: 2,
-      route: '/spreadsheet',
-      text: 'Spreadsheet',
-      TabIcon: MdOutlineChecklist,
+      route: '/schedule',
+      text: 'Schedule',
+      TabIcon: MdOutlineEvent,
+    } : {
+      key: 2,
+      isBlank: true,
     },
     {
-      key: 3,
+    key: 3,
+    route: '/hunting',
+    text: 'Hunting',
+    TabIcon: MdOutlineChecklist,
+    },
+    {
+      key: 4,
       onClick: () => window.open(leaderboardPageUrl),
       /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     },
     {
-      key: 4,
+      key: 5,
       isSpacer: true,
     },
   ];
 
   const tabData = useBreakpointValue({
     base: tabsMobile,
-    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop,
+    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop
   });
 
   return (

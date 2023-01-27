@@ -35,7 +35,7 @@ const MapClipCell = memo(({ clip, rowIndex, table, mapId }) => {
   const toast = useToast();
 
   const [currentClip, setCurrentClip] = useState(clip);
-  const mutation = useMutation(data => postSpreadsheetData(data), {
+  const mutation = useMutation(data => postSpreadsheetData(data, 'kk', '1'), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'clip', currentClip);
     },
