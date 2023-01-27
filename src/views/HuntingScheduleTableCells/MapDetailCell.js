@@ -135,10 +135,11 @@ MapDetailCell.propTypes = {
     kackyRank: number.isRequired,
     clip: string.isRequired,
     discordPing: bool.isRequired,
-    wrscore: number.isRequired,
-    wrholder: string.isRequired
+    wrScore: number.isRequired,
+    wrHolder: string.isRequired
   }).isRequired,
-  eventtype: string.isRequired
+  eventtype: string.isRequired,
+  edition: number.isRequired
 };
 
 export default MapDetailCell;
