@@ -28,8 +28,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  useSortBy,
-  getExpandedRowModel,
+  useSortBy, getExpandedRowModel,
 } from '@tanstack/react-table';
 
 import { useQuery } from '@tanstack/react-query';
@@ -42,6 +41,9 @@ import { getSpreadsheetData, getAllEvents, getPersonalBests } from '../../api/ap
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 
 const Hunting = () => {
+  const defaultType = 'kk';
+  const defaultEdition = '1';
+
   const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
@@ -57,12 +59,46 @@ const Hunting = () => {
     return options;
   }
 
+  const [curEventType, setCurEventType] = useState(defaultType);
+  const [curEventEdition, setCurEventEdition] = useState(defaultEdition);
+  const [curEventSelector, setCurEventSelector] = useState(curEventType + curEventEdition);
+
+  function mergeSpreadsheetAndPBs(sheet, pb) {
+    const formattedData = [];
+
+    sheet.forEach(map => {
+      const formattedMap = {
+        finished: map.finished || false,
+        number: map.kacky_id.toString(),
+        author: map.author,
+        difficulty: map.map_diff || 0,
+        personalBest: 0,
+        kackyRank: 0,
+        clip: map.clip || '',
+        discordPing: map.alarm || false,
+        wrScore: map.wr_score,
+        wrHolder: map.wr_holder
+      };
+      if (pb[formattedMap.number] !== undefined) {
+        formattedMap.personalBest = pb[formattedMap.number].score;
+        formattedMap.kackyRank = pb[formattedMap.number].kacky_rank;
+      }
+      formattedData.push(formattedMap);
+    });
+    return formattedData;
+  }
+
   function handleChange(event) {
     const option = event.target.selectedOptions[0];
-    const type = option.getAttribute('type');
-    const edition = option.getAttribute('edition');
-    getSpreadsheetData(authentication.token, type, edition).then(data => {
-      setTableData(data);
+    setCurEventType(option.getAttribute('type'));
+    setCurEventEdition(option.getAttribute('edition'));
+    setCurEventSelector(option.getAttribute('type')+option.getAttribute('edition'));
+    Promise.all([
+      getSpreadsheetData(authentication.token, option.getAttribute('type'), option.getAttribute('edition')),
+      getPersonalBests(option.getAttribute('type'), "corkscrew")
+    ]).then(queryResults => {
+      const newSheet = mergeSpreadsheetAndPBs(queryResults[0], queryResults[1]);
+      setTableData(newSheet);
     });
   }
 
@@ -80,12 +116,8 @@ const Hunting = () => {
       .then(array => setKrArray(selectorArrayParse(array)));
   }, []);
 
-  const defaultSelector = 'kk1';
-  const defaultType = 'kk';
-  const defaultEdition = '1';
-
   const { data: sheetData, isSuccess: sheetIsSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token, defaultType, defaultEdition)
+    getSpreadsheetData(authentication.token, curEventType, curEventEdition)
   );
 
   const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(["pbs"], () =>
@@ -94,27 +126,7 @@ const Hunting = () => {
 
   useEffect(() => {
     if (sheetIsSuccess && pbsIsSuccess) {
-      const formattedData = [];
-
-      sheetData.forEach(map => {
-        const formattedMap = {
-          finished: map.finished || false,
-          number: map.kacky_id.toString(),
-          author: map.author,
-          difficulty: map.map_diff || 0,
-          personalBest: 0,
-          kackyRank: 0,
-          clip: map.clip || '',
-          discordPing: map.alarm || false,
-          wrScore: map.wr_score,
-          wrHolder: map.wr_holder
-        };
-        if (pbs[formattedMap.number] !== undefined) {
-          formattedMap.personalBest = pbs[formattedMap.number].score;
-          formattedMap.kackyRank = pbs[formattedMap.number].kacky_rank;
-        }
-        formattedData.push(formattedMap);
-      });
+      const formattedData = mergeSpreadsheetAndPBs(sheetData, pbs);
       setTableData(formattedData);
     }
   }, [sheetData, sheetIsSuccess, pbs, pbsIsSuccess]);
@@ -216,7 +228,7 @@ const Hunting = () => {
           <Text letterSpacing="0.1em" textShadow="glow" style={{marginLeft: 'auto'}}>
             Select Kacky Edition :
           </Text>
-          <Select w={80} value={ defaultSelector } onChange={event => handleChange(event)}>
+          <Select w={80} value={ curEventSelector } onChange={event => handleChange(event)}>
             <optgroup label="Kacky Reloaded">
               { krArray }
             </optgroup>
@@ -255,9 +267,9 @@ const Hunting = () => {
                             header.getContext()
                           )}
                           {{
-                            asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                            desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                          }[header.column.getIsSorted()] ??
+                              asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                              desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                            }[header.column.getIsSorted()] ??
                             (header.column.getCanSort() ? (
                               <Box w={4} h={4} />
                             ) : null)}
