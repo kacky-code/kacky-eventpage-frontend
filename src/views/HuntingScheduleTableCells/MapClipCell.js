@@ -27,7 +27,7 @@ import { useMutation } from '@tanstack/react-query';
 import AuthContext from '../../context/AuthContext';
 import { postSpreadsheetData } from '../../api/api';
 
-const MapClipCell = memo(({ clip, rowIndex, table, mapId }) => {
+const MapClipCell = memo(({ clip, eventtype, edition, rowIndex, table, mapId }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { authentication } = useContext(AuthContext);
   const [renderPopOver, setRenderPopOver] = useState(false);
@@ -35,7 +35,7 @@ const MapClipCell = memo(({ clip, rowIndex, table, mapId }) => {
   const toast = useToast();
 
   const [currentClip, setCurrentClip] = useState(clip);
-  const mutation = useMutation(data => postSpreadsheetData(data, 'kk', '1'), {
+  const mutation = useMutation(data => postSpreadsheetData(data, eventtype, edition), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'clip', currentClip);
     },
@@ -126,6 +126,8 @@ const MapClipCell = memo(({ clip, rowIndex, table, mapId }) => {
 
 MapClipCell.propTypes = {
   clip: PropTypes.string,
+  eventtype: PropTypes.string.isRequired,
+  edition: PropTypes.number.isRequired,
 };
 
 MapClipCell.defaultProps = {
