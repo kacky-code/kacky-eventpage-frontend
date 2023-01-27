@@ -87,7 +87,7 @@ const defaultColumns = [
     header: () => (
       <>
         <Icon boxSize="16px" as={MdAccessTime} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Next In</Text>
+        <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
       </>
     ),
     cell: info => (

@@ -36,8 +36,9 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import AuthContext from '../../context/AuthContext';
 
 import defaultColumns from './Hunting.service';
-// eslint-disable-next-line no-unused-vars
 import { getSpreadsheetData, getAllEvents } from '../../api/api';
+
+
 
 const Hunting = () => {
   const { authentication } = useContext(AuthContext);
@@ -46,37 +47,44 @@ const Hunting = () => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
-
-
-
-  function kkArrayParse(kkArray) {
-    // use filteredNamesArray here
-    console.log(kkArray);
+  function selectorArrayParse(array) {
+    const options = []
+    /* eslint-disable no-plusplus */
+    for (let i = 0; i < array.length; i++) {
+      options.push(<option key={i} value={array[i].type + array[i].edition} type={array[i].type} edition={array[i].edition}>{array[i].name}</option>)
+    }
+    return options;
   }
 
-  function krArrayParse(krArray) {
-    // use filteredNamesArray here
-    console.log(krArray);
+  function handleChange(event) {
+    const option = event.target.selectedOptions[0];
+    const type = option.getAttribute('type');
+    const edition = option.getAttribute('edition');
+    getSpreadsheetData(authentication.token, type, edition).then(data => {
+      setTableData(data);
+    });
   }
-  
-  getAllEvents()
-    .then(json => json.filter(event => event.type === 'KK')
-      .map(event => event.name))
-    .then(kkArray => kkArrayParse(kkArray))
 
-  getAllEvents()
-    .then(json => json.filter(event => event.type === 'KR')
-      .map(event => event.name))
-    .then(krArray => krArrayParse(krArray))
-    
-  
+  const [kkArray, setKkArray] = useState([]);
+  const [krArray, setKrArray] = useState([]);
 
+  useEffect(() => {
+    getAllEvents()
+      .then(json => json.filter(event => event.type === 'KK')
+        .map(event => ({...event, type: event.type.toLowerCase(), edition: event.edition})))
+      .then(array => setKkArray(selectorArrayParse(array)));
+    getAllEvents()
+      .then(json => json.filter(event => event.type === 'KR')
+        .map(event => ({...event, type: event.type.toLowerCase(), edition: event.edition})))
+      .then(array => setKrArray(selectorArrayParse(array)));
+  }, []);
 
-
-
+  const defaultSelector = 'kk1';
+  const defaultType = 'kk';
+  const defaultEdition = '1';
 
   const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token, 'kk', '1')
+    getSpreadsheetData(authentication.token, defaultType, defaultEdition)
   );
   useEffect(() => {
     if (isSuccess) {
@@ -179,20 +187,12 @@ const Hunting = () => {
           <Text letterSpacing="0.1em" textShadow="glow" style={{marginLeft: 'auto'}}>
             Select Kacky Edition :
           </Text>
-          <Select w={80}>
+          <Select w={80} value={ defaultSelector } onChange={event => handleChange(event)}>
             <optgroup label="Kacky Reloaded">
-              <option value="kr3">Kacky Reloaded 3</option>
-              <option value="kr2">Kacky Reloaded 2</option>
-              <option value="kr1">Kacky Reloaded 1</option>
+              { krArray }
             </optgroup>
             <optgroup label="Kackiest Kacky">
-              <option value="kk7">Kackiest Kacky 7</option>
-              <option value="kk6">Kackiest Kacky 6</option>
-              <option value="kk5">Kackiest Kacky 5</option>
-              <option value="kk4">Kackiest Kacky 4</option>
-              <option value="kk3">Kackiest Kacky 3</option>
-              <option value="kk2">Kackiest Kacky 2</option>
-              <option value="kk1">Kackiest Kacky 1</option>
+              { kkArray }
             </optgroup>
           </Select>
         </HStack>

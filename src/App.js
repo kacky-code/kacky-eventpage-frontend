@@ -38,7 +38,7 @@ const App = () => {
       .then(data => {
         setEvent({
           isLive: data.status,
-          type: data.type,
+          type: data.type.toLowerCase(),
           edition: data.edition,
         });
       })

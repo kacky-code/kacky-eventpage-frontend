@@ -29,7 +29,6 @@ import {
   useSortBy,
 } from '@tanstack/react-table';
 
-import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
@@ -46,9 +45,21 @@ const Spreadsheet = () => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
-  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token, event.type, event.edition)
-  );
+  const [data, setData] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (event.type && event.edition) {
+      setData(null);
+      setIsSuccess(false);
+      getSpreadsheetData(authentication.token, event.type, event.edition)
+      .then(response=>{
+        setData(response)
+        setIsSuccess(true);
+      })
+    }
+  }, [event.type, event.edition, authentication.token]);
+
   useEffect(() => {
     if (isSuccess) {
       const formattedData = [];
@@ -84,13 +95,10 @@ const Spreadsheet = () => {
       columnVisibility: {
         finished: authentication.isLoggedIn,
         difficulty: authentication.isLoggedIn,
-        // upcomingIn: event.isLive === "active",
-        // server: event.isLive === "active",
         personalBest: authentication.isLoggedIn,
         local: authentication.isLoggedIn,
         clip: authentication.isLoggedIn,
         discordPing: authentication.isLoggedIn,
-        // discordPing: authentication.isLoggedIn && event.isLive === "active",
       },
     },
     initialState: {
@@ -140,7 +148,7 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-      <Heading>Current Event Schedule</Heading>
+      <Heading>{event.type === "KK" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
