@@ -11,6 +11,7 @@ import {
   Icon,
   Box,
   Text,
+  Heading,
   Center,
   HStack,
   Input,
@@ -28,13 +29,12 @@ import {
   useSortBy,
 } from '@tanstack/react-table';
 
-import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 
-import defaultColumns from './Spreadsheet.service';
+import defaultColumns from './Schedule.service';
 import { getSpreadsheetData } from '../../api/api';
 
 const Spreadsheet = () => {
@@ -45,9 +45,21 @@ const Spreadsheet = () => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
-  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token)
-  );
+  const [data, setData] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (event.type && event.edition) {
+      setData(null);
+      setIsSuccess(false);
+      getSpreadsheetData(authentication.token, event.type, event.edition)
+      .then(response=>{
+        setData(response)
+        setIsSuccess(true);
+      })
+    }
+  }, [event.type, event.edition, authentication.token]);
+
   useEffect(() => {
     if (isSuccess) {
       const formattedData = [];
@@ -64,8 +76,8 @@ const Spreadsheet = () => {
           local: map.map_rank || 0,
           clip: map.clip || '',
           discordPing: map.alarm || false,
-          wrscore: (map.wr_score / 1000).toFixed(3),
-          wrholder: map.wr_holder
+          wrScore: map.wr_score || 0,
+          wrHolder: map.wr_holder || false
         };
         formattedData.push(formattedMap);
       });
@@ -83,12 +95,10 @@ const Spreadsheet = () => {
       columnVisibility: {
         finished: authentication.isLoggedIn,
         difficulty: authentication.isLoggedIn,
-        upcomingIn: event.isLive,
-        server: event.isLive,
-        personalBest: false,
-        local: false,
+        personalBest: authentication.isLoggedIn,
+        local: authentication.isLoggedIn,
         clip: authentication.isLoggedIn,
-        discordPing: authentication.isLoggedIn && event.isLive,
+        discordPing: authentication.isLoggedIn,
       },
     },
     initialState: {
@@ -138,6 +148,7 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
+      <Heading>{event.type === "KK" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :

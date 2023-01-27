@@ -34,7 +34,7 @@ const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
   const toast = useToast();
 
   let newDifficulty;
-  const mutation = useMutation(data => postSpreadsheetData(data), {
+  const mutation = useMutation(data => postSpreadsheetData(data, 'kk', '1'), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
     },
@@ -60,7 +60,7 @@ const MapDifficultyCell = memo(({ difficulty, rowIndex, table, mapId }) => {
         onClick={() => setRenderMenuList(true)}
         disabled={!authentication.isLoggedIn}
         _hover={{ bg: 'whiteAlpha.200' }}
-        px={{ base: 0, lg: 6 }}
+        pl={6}
         textAlign="left"
         w="full"
         h="full"

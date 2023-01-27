@@ -7,25 +7,20 @@ import {
   MdTag,
   MdOutlineLabel,
   MdAccessTime,
+  MdStars,
   // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
   MdOutlinePlayCircle,
-  MdOutlineDns,
 } from 'react-icons/md';
-
-// eslint-disable-next-line no-unused-vars
-import { FaDiscord } from 'react-icons/fa';
 
 import { createColumnHelper } from '@tanstack/react-table';
 
 import { DateTime } from 'luxon';
 
-import MapNumberCell from './MapNumberCell';
-import MapDifficultyCell from './MapDifficultyCell';
-import MapFinishedCell from './MapFinishedCell';
-import MapClipCell from './MapClipCell';
-// eslint-disable-next-line no-unused-vars
-import MapDiscordCell from './MapDiscordCell';
+import MapNumberCell from '../HuntingScheduleTableCells/MapNumberCell';
+import MapDifficultyCell from '../HuntingScheduleTableCells/MapDifficultyCell';
+import MapFinishedCell from '../HuntingScheduleTableCells/MapFinishedCell';
+import MapClipCell from '../HuntingScheduleTableCells/MapClipCell';
 
 const columnHelper = createColumnHelper();
 
@@ -66,36 +61,6 @@ const defaultColumns = [
       </Text>
     ),
   }),
-  columnHelper.accessor('wrscore', {
-    id: 'wrscore',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={MdTag} />
-        <Text display={{ base: 'none', lg: 'inline' }}>WR Time</Text>
-      </>
-    ),
-    cell: info => (
-      <Text fontSize="xs" letterSpacing="0.1em">
-        {' '}
-        {info.getValue().toString()}s
-      </Text>
-    ),
-  }),
-  columnHelper.accessor('wrholder', {
-    id: 'wrholder',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={MdTag} />
-        <Text display={{ base: 'none', lg: 'inline' }}>WR Holder</Text>
-      </>
-    ),
-    cell: info => (
-      <Text fontSize="xs" letterSpacing="0.1em">
-        {' '}
-        {info.getValue().toString()}
-      </Text>
-    ),
-  }),
   columnHelper.accessor('difficulty', {
     id: 'difficulty',
     header: () => (
@@ -113,69 +78,28 @@ const defaultColumns = [
       />
     ),
   }),
-  columnHelper.accessor('upcomingIn', {
-    id: 'upcomingIn',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={MdAccessTime} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
-      </>
-    ),
-    cell: info => (
-      <HStack spacing={1}>
-        <Text
-          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
-          letterSpacing="0.1em"
-          textShadow="glow"
-          fontSize="xl"
-          fontWeight="medium"
-        >
-          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h') - 1}
-        </Text>
-        <Text
-          visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
-          textTransform="lowercase"
-        >
-          h
-        </Text>
-        <Text
-          pl="4"
-          letterSpacing="0.1em"
-          textShadow="glow"
-          fontSize="xl"
-          fontWeight="medium"
-        >
-          {DateTime.fromSeconds(info.getValue() * 60).toFormat('mm')}
-        </Text>
-        <Text textTransform="lowercase">m</Text>
-      </HStack>
-    ),
-  }),
-  columnHelper.accessor('server', {
-    id: 'server',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={MdOutlineDns} />
-        <Text display={{ base: 'none', lg: 'inline' }}>On Server</Text>
-      </>
-    ),
-    cell: info => (
-      <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
-          #
-        </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
-          {info.getValue()}
-        </Text>
-      </HStack>
-    ),
-  }),
   columnHelper.accessor('personalBest', {
     id: 'personalBest',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdAccessTime} />
         <Text display={{ base: 'none', lg: 'inline' }}>PB</Text>
+      </>
+    ),
+    cell: info => (
+      <Text letterSpacing="0.1em" textShadow="glow">
+        {info.getValue() !== 0
+          ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
+          : '-'}
+      </Text>
+    ),
+  }),
+  columnHelper.accessor('wrScore', {
+    id: 'wrScore',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdStars} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR</Text>
       </>
     ),
     cell: info => (
@@ -197,7 +121,7 @@ const defaultColumns = [
     cell: info => (
       <HStack>
         <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
-          #
+          {info.getValue() !== 0 ? '#' : ''}
         </Text>
         <Text textShadow="glow" fontSize="xl" fontWeight="medium">
           {info.getValue() !== 0 ? info.getValue() : '-'}
@@ -219,23 +143,6 @@ const defaultColumns = [
         table={info.table}
         mapId={info.row.original.number}
         clip={info.getValue()}
-      />
-    ),
-  }),
-  columnHelper.accessor('discordPing', {
-    id: 'discordPing',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={FaDiscord} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Ping</Text>
-      </>
-    ),
-    cell: info => (
-      <MapDiscordCell
-        rowIndex={info.row.index}
-        table={info.table}
-        mapId={info.row.original.number}
-        discordPing={info.getValue()}
       />
     ),
   }),

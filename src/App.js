@@ -1,16 +1,19 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Routes, Route } from 'react-router-dom';
-import { DateTime } from 'luxon';
 
 import Cookies from 'universal-cookie';
+
+import { eventLiveState } from './api/api';
+
 import Header from './components/Header/Header';
 import Dashboard from './views/Dashboard/Dashboard';
-import SpreadSheet from './views/Spreadsheet/Spreadsheet';
+import Schedule from './views/Schedule/Schedule';
+import Hunting from './views/Hunting/Hunting';
 import Profile from './views/Profile/Profile';
 
 import AuthContext from './context/AuthContext';
@@ -21,21 +24,25 @@ const cookies = new Cookies();
 
 const queryClient = new QueryClient();
 
+
 const App = () => {
   const [authentication, setAuthentication] = useState({
     isLoggedIn: (cookies.get('token') || '') !== '',
     token: cookies.get('token') || '',
   });
 
-  const now = DateTime.now();
-  const start = DateTime.fromISO('2022-08-19T18:00:00+02:00');
-  const end = DateTime.fromISO('2022-09-18T22:00:00+02:00');
-  const eventIsLive = () => !!(start < now && end > now);
+  const [event, setEvent] = useState({isLive: false, name: ""});
 
-  const [event, setEvent] = useState({
-    isLive: eventIsLive(),
-    name: 'Kacky Reloaded 3',
-  });
+  useEffect(() => {
+    eventLiveState()
+      .then(data => {
+        setEvent({
+          isLive: data.status,
+          type: data.type.toLowerCase(),
+          edition: data.edition,
+        });
+      })
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -48,7 +55,8 @@ const App = () => {
                   index
                   element={event.isLive ? <Dashboard /> : <EventEnd />}
                 />
-                <Route path="spreadsheet" element={<SpreadSheet />} />
+                <Route path="schedule" element={<Schedule />} />
+                <Route path="hunting" element={<Hunting />} />
                 <Route path="leaderboard" element={<div>Leaderboard</div>} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="*" element={<div>Nothing here</div>} />
