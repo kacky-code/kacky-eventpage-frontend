@@ -147,3 +147,14 @@ export function getMapImageUrl(eventType, mapNumber) {
   const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${mapNumber}.png`;
   return imageUrl;
 }
+
+export async function getPersonalBests(type, tmlogin) {
+  const response = await fetch(`https://records.kacky.info/pb/${tmlogin}/${type}`, {
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
