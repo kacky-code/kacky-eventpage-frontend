@@ -110,12 +110,12 @@ const defaultColumns = [
       </Text>
     ),
   }),
-  columnHelper.accessor('local', {
-    id: 'local',
+  columnHelper.accessor('kackyRank', {
+    id: 'kackyRank',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdOutlineLeaderboard} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Local</Text>
+        <Text display={{ base: 'none', lg: 'inline' }}>Kacky Rank</Text>
       </>
     ),
     cell: info => (

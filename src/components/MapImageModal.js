@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import mapImageFallback from '../assets/images/mapImageFallback.jpg';
 import { getMapImageUrl } from '../api/api';
 
-const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
+const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventtype }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
 
@@ -42,7 +42,7 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
         <Image
           onError={getFallbackImage}
           alt="Map"
-          src={getMapImageUrl(mapNumber)}
+          src={getMapImageUrl(eventtype, mapNumber)}
         />
         <Flex
           direction="column"
@@ -121,9 +121,10 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
 MapImageModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  mapNumber: PropTypes.number.isRequired,
+  mapNumber: PropTypes.string.isRequired,
   isFinished: PropTypes.bool.isRequired,
   author: PropTypes.string.isRequired,
+  eventtype: PropTypes.string.isRequired,
 };
 
 export default MapImageModal;

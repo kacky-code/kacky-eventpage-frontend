@@ -8,7 +8,7 @@ import { MdOutlineImage } from 'react-icons/md';
 
 import MapImageModal from '../../components/MapImageModal';
 
-const MapNumberCell = memo(({ number, finished, author }) => {
+const MapNumberCell = memo(({ number, finished, author, eventtype }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [renderImage, setRenderImage] = useState(false);
 
@@ -28,7 +28,7 @@ const MapNumberCell = memo(({ number, finished, author }) => {
       >
         {number}
       </Text>
-      {renderImage ? (
+      {eventtype !== "hunting" && renderImage ? (
         <>
           <IconButton
             onClick={onOpen}
@@ -44,6 +44,7 @@ const MapNumberCell = memo(({ number, finished, author }) => {
             isFinished={finished}
             isOpen={isOpen}
             onClose={onClose}
+            eventtype="kk"
           />
         </>
       ) : null}
@@ -55,10 +56,12 @@ MapNumberCell.propTypes = {
   number: PropTypes.string.isRequired,
   finished: PropTypes.bool,
   author: PropTypes.string.isRequired,
+  eventtype: PropTypes.string,
 };
 
 MapNumberCell.defaultProps = {
   finished: false,
+  eventtype: "hunting"
 };
 
 export default MapNumberCell;

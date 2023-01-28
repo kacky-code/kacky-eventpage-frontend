@@ -144,7 +144,8 @@ export async function getFinishes(token) {
 }
 
 export function getMapImageUrl(eventType, mapNumber) {
-  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${mapNumber}.png`;
+  const cleanedMapNumber = mapNumber.toString().replace(" ", "");
+  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${cleanedMapNumber}.png`;
   return imageUrl;
 }
 

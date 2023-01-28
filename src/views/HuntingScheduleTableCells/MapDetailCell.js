@@ -9,7 +9,7 @@ import MapClipCell from './MapClipCell';
 import MapImageModal from '../../components/MapImageModal';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
 
-const MapDetailCell = memo(({ data }) => {
+const MapDetailCell = memo(({ data, eventtype, edition }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const getFallbackImage = ev => {
     // eslint-disable-next-line no-param-reassign
@@ -26,7 +26,7 @@ const MapDetailCell = memo(({ data }) => {
           h="240px"
           alt="Map"
           onError={getFallbackImage}
-          src={getMapImageUrl(data.number, 1)}
+          src={getMapImageUrl(eventtype, data.number)}
           onClick={onOpen}
           // display="none" - TODO: change this to "block" on onOpen. "none" in onClose
         />
@@ -36,6 +36,7 @@ const MapDetailCell = memo(({ data }) => {
           isFinished={data.finished}
           isOpen={isOpen}
           onClose={onClose}
+          eventtype={eventtype}
         />
       </Center>
       <Spacer />
@@ -94,7 +95,7 @@ const MapDetailCell = memo(({ data }) => {
           >
             Difficulty:
           </Text>
-          <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} />
+          <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} />
         </Flex>
         <Flex align='center'>
           <Text
@@ -106,7 +107,7 @@ const MapDetailCell = memo(({ data }) => {
           >
             Clip:
           </Text>
-          <MapClipCell clip={data.clip} mapId={data.number} />
+          <MapClipCell clip={data.clip} mapId={data.number} eventtype={eventtype} edition={edition} />
         </Flex>
         <Flex>
           <Text
@@ -118,7 +119,7 @@ const MapDetailCell = memo(({ data }) => {
           >
             Discord Alarm:
           </Text>
-          <MapDiscordCell discordPing={data.discordPing} />
+          <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} />
         </Flex>
       </Flex>
     </Flex>
