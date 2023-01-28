@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -7,10 +7,13 @@ import { Text, IconButton, HStack, useDisclosure } from '@chakra-ui/react';
 import { MdOutlineImage } from 'react-icons/md';
 
 import MapImageModal from '../../components/MapImageModal';
+import EventContext from '../../context/EventContext';
 
 const MapNumberCell = memo(({ number, finished, author, eventtype }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [renderImage, setRenderImage] = useState(false);
+
+  const { event } = useContext(EventContext);
 
   return (
     <HStack
@@ -44,7 +47,7 @@ const MapNumberCell = memo(({ number, finished, author, eventtype }) => {
             isFinished={finished}
             isOpen={isOpen}
             onClose={onClose}
-            eventtype="kk"
+            eventtype={event.type}
           />
         </>
       ) : null}

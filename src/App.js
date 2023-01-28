@@ -31,7 +31,7 @@ const App = () => {
     token: cookies.get('token') || '',
   });
 
-  const [event, setEvent] = useState({isLive: false, name: ""});
+  const [event, setEvent] = useState({isLive: false, name: "", type: "", edition: 0});
 
   useEffect(() => {
     eventLiveState()
