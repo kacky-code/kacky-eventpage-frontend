@@ -11,13 +11,13 @@ import {
   Icon,
   Box,
   Text,
-  Heading,
   Center,
   HStack,
   Input,
   Select,
   VStack,
   useColorMode,
+  Flex,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -33,13 +33,15 @@ import {
 
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import Chart from 'react-apexcharts';
 
 import AuthContext from '../../context/AuthContext';
 
 import defaultColumns from './Hunting.service';
-import { getSpreadsheetData, getAllEvents, getPersonalBests } from '../../api/api';
+import { getSpreadsheetData, getAllEvents, getPersonalBests, getPerformance } from '../../api/api';
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 import mergeSpreadsheetAndPBs from '../../components/SheetOperations';
+import { donutChartOptionsCharts1 } from '../Dashboard/EventsProgress';
 
 const Hunting = () => {
   const defaultType = 'kk';
@@ -71,7 +73,7 @@ const Hunting = () => {
     setCurEventSelector(option.getAttribute('type')+option.getAttribute('edition'));
     Promise.all([
       getSpreadsheetData(authentication.token, option.getAttribute('type'), option.getAttribute('edition')),
-      getPersonalBests(option.getAttribute('type'), "amgreborn")
+      authentication.isLoggedIn ? getPersonalBests(authentication.token, option.getAttribute('type')) : Promise.resolve({})
     ]).then(queryResults => {
       const newSheet = mergeSpreadsheetAndPBs(queryResults[0], queryResults[1]);
       setTableData(newSheet);
@@ -97,7 +99,7 @@ const Hunting = () => {
   );
 
   const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(["pbs"], () =>
-    getPersonalBests(curEventType, "el-djinn")
+    authentication.isLoggedIn ? getPersonalBests(authentication.token, curEventType) : Promise.resolve({})
   );
 
   useEffect(() => {
@@ -183,10 +185,56 @@ const Hunting = () => {
     return colorMode;
   };
 
+  const [kkPerfSeries, setKkPerfSeries] = useState([])
+  const [kkPerfOptions, setKkPerfOptions] = useState({})
+  const [krPerfSeries, setKrPerfSeries] = useState([])
+  const [krPerfOptions, setKrPerfOptions] = useState({})
+
+  useEffect(() => {}, [kkPerfSeries, kkPerfOptions])
+  useEffect(() => {}, [krPerfSeries, krPerfOptions])
+
+  useEffect(() => {
+    if (authentication.isLoggedIn) {
+      getPerformance(authentication.token, "kk").then((performanceKK) => {
+        const kkseries = performanceKK.map(edition => edition.fins);
+        const kkoptions = { ...donutChartOptionsCharts1 };
+        kkoptions.labels = performanceKK.map(edition => `Kackiest Kacky #${edition.edition}`);
+        kkoptions.colors = ["#df260f", "#cb7818", "#a68c1d", "#0d983a", "#b19213", "#e6810d", "#9f427f"]
+        kkoptions.fill = { "colors": kkoptions.colors }
+        setKkPerfSeries(kkseries);
+        setKkPerfOptions(kkoptions);
+      })
+    }
+  }, [authentication.isLoggedIn, authentication.token]);
+
+  useEffect(() => {
+    if (authentication.isLoggedIn) {
+      getPerformance(authentication.token, "kr").then((performanceKR) => {
+        const krseries = performanceKR.map(edition => edition.fins);
+        const kroptions = { ...donutChartOptionsCharts1 };
+        kroptions.labels = performanceKR.map(edition => `Kacky Reloaded #${edition.edition}`);
+        kroptions.colors = ["#df260f", "#cb7818", "#a68c1d", "#0d983a", "#b19213", "#e6810d", "#9f427f"]
+        kroptions.fill = {"colors": kroptions.colors}
+        setKrPerfSeries(krseries);
+        setKrPerfOptions(kroptions);
+      })
+    }
+  }, [authentication.isLoggedIn, authentication.token]);
+
+
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-        <Heading>Hunt Previous Events</Heading>
+        {
+          authentication.isLoggedIn ? (
+            <Flex justifyContent='space-between'>
+              <Chart options={kkPerfOptions}
+              series={kkPerfSeries} type="donut" width="500" />
+              <Chart options={krPerfOptions}
+              series={krPerfSeries} type="donut" width="500" />
+            </Flex>
+            ) : null
+        }
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
