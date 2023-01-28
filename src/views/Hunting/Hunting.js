@@ -42,7 +42,7 @@ import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 
 const Hunting = () => {
   const defaultType = 'kk';
-  const defaultEdition = '1';
+  const defaultEdition = 1;
 
   const { authentication } = useContext(AuthContext);
 
@@ -80,6 +80,7 @@ const Hunting = () => {
         wrHolder: map.wr_holder
       };
       if (pb[formattedMap.number] !== undefined) {
+        formattedMap.finished = true;
         formattedMap.personalBest = pb[formattedMap.number].score;
         formattedMap.kackyRank = pb[formattedMap.number].kacky_rank;
       }
@@ -91,11 +92,11 @@ const Hunting = () => {
   function handleChange(event) {
     const option = event.target.selectedOptions[0];
     setCurEventType(option.getAttribute('type'));
-    setCurEventEdition(option.getAttribute('edition'));
+    setCurEventEdition(Number(option.getAttribute('edition')));
     setCurEventSelector(option.getAttribute('type')+option.getAttribute('edition'));
     Promise.all([
       getSpreadsheetData(authentication.token, option.getAttribute('type'), option.getAttribute('edition')),
-      getPersonalBests(option.getAttribute('type'), "corkscrew")
+      getPersonalBests(option.getAttribute('type'), "amgreborn")
     ]).then(queryResults => {
       const newSheet = mergeSpreadsheetAndPBs(queryResults[0], queryResults[1]);
       setTableData(newSheet);
@@ -121,7 +122,7 @@ const Hunting = () => {
   );
 
   const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(["pbs"], () =>
-    getPersonalBests("kk", "corkscrew")
+    getPersonalBests(curEventType, "el-djinn")
   );
 
   useEffect(() => {
@@ -148,8 +149,8 @@ const Hunting = () => {
         difficulty: false,
         personalBest: authentication.isLoggedIn,
         local: authentication.isLoggedIn,
-        wrscore: !authentication.isLoggedIn,
-        wrholder: !authentication.isLoggedIn,
+        wrScore: !authentication.isLoggedIn,
+        wrHolder: !authentication.isLoggedIn,
         clip: false,
         discordPing: false,
       },
