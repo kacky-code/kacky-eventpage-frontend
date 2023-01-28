@@ -91,8 +91,8 @@ export async function getSpreadsheetData(token, type, edition) {
   return response.json();
 }
 
-export async function postSpreadsheetData(data, type, edition) {
-  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
+export async function postSpreadsheetData(data, type) {
+  const response = await fetch(`${url}/spreadsheet/${type}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${data.token}`,

@@ -239,7 +239,7 @@ const Spreadsheet = () => {
                     </Tr>
                     <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
                       <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
-                        <MapDetailCell data={row.original} eventtype={event.type} edition={event.edition} mode="schedule"/>
+                        <MapDetailCell data={row.original} eventtype={event.type} edition={event.edition} mode="schedule" table={table} rowIndex={row.index}/>
                       </Td>
                     </Tr>
                   </>

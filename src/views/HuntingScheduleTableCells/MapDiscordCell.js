@@ -9,13 +9,13 @@ import { useMutation } from '@tanstack/react-query';
 import AuthContext from '../../context/AuthContext';
 import { postSpreadsheetData } from '../../api/api';
 
-const MapDiscordCell = memo(({ discordPing, eventtype, edition, rowIndex, table, mapId }) => {
+const MapDiscordCell = memo(({ discordPing, eventtype, rowIndex, table, mapId }) => {
   const { authentication } = useContext(AuthContext);
 
   const toast = useToast();
 
   let newPing;
-  const mutation = useMutation(data => postSpreadsheetData(data, eventtype, edition), {
+  const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'discordPing', newPing);
     },
@@ -53,7 +53,6 @@ const MapDiscordCell = memo(({ discordPing, eventtype, edition, rowIndex, table,
 MapDiscordCell.propTypes = {
   discordPing: PropTypes.bool,
   eventtype: PropTypes.string.isRequired,
-  edition: PropTypes.number.isRequired,
 };
 
 MapDiscordCell.defaultProps = {

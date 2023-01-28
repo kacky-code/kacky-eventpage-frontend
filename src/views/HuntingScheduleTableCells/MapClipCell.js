@@ -27,7 +27,7 @@ import { useMutation } from '@tanstack/react-query';
 import AuthContext from '../../context/AuthContext';
 import { postSpreadsheetData } from '../../api/api';
 
-const MapClipCell = memo(({ clip, eventtype, edition, rowIndex, table, mapId }) => {
+const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { authentication } = useContext(AuthContext);
   const [renderPopOver, setRenderPopOver] = useState(false);
@@ -35,14 +35,14 @@ const MapClipCell = memo(({ clip, eventtype, edition, rowIndex, table, mapId }) 
   const toast = useToast();
 
   const [currentClip, setCurrentClip] = useState(clip);
-  const mutation = useMutation(data => postSpreadsheetData(data, eventtype, edition), {
+  const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'clip', currentClip);
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Error',
-        description: 'An error occurred!',
+        description: `An error occurred!${  error}`,
         status: 'error',
         duration: 4000,
         isClosable: true,
@@ -52,7 +52,7 @@ const MapClipCell = memo(({ clip, eventtype, edition, rowIndex, table, mapId }) 
 
   const onSubmit = () => {
     mutation.mutate({
-      mapid: parseInt(mapId, 10),
+      mapid: mapId,
       clip: currentClip,
       token: authentication.token,
     });
@@ -127,7 +127,6 @@ const MapClipCell = memo(({ clip, eventtype, edition, rowIndex, table, mapId }) 
 MapClipCell.propTypes = {
   clip: PropTypes.string,
   eventtype: PropTypes.string.isRequired,
-  edition: PropTypes.number.isRequired,
 };
 
 MapClipCell.defaultProps = {

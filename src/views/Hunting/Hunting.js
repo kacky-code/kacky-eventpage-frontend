@@ -273,7 +273,7 @@ const Hunting = () => {
                     </Tr>
                     <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
                       <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
-                        <MapDetailCell data={row.original} eventtype={curEventType} edition={curEventEdition} mode="hunting"/>
+                        <MapDetailCell data={row.original} eventtype={curEventType} edition={curEventEdition} mode="hunting" table={table} rowIndex={row.index}/>
                       </Td>
                     </Tr>
                   </>

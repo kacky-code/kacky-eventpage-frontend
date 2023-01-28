@@ -27,14 +27,14 @@ const diffBadgeColorArr = [
   { variant: 'purple', text: 'Imp' },
 ];
 
-const MapDifficultyCell = memo(({ difficulty, eventtype, edition, rowIndex, table, mapId }) => {
+const MapDifficultyCell = memo(({ difficulty, eventtype, rowIndex, table, mapId }) => {
   const { authentication } = useContext(AuthContext);
   const [renderMenuList, setRenderMenuList] = useState(false);
 
   const toast = useToast();
 
   let newDifficulty;
-  const mutation = useMutation(data => postSpreadsheetData(data, eventtype, edition), {
+  const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
     },
@@ -83,7 +83,7 @@ const MapDifficultyCell = memo(({ difficulty, eventtype, edition, rowIndex, tabl
             <MenuItem
               onClick={() =>
                 onSubmit({
-                  mapid: parseInt(mapId, 10),
+                  mapid: mapId,
                   diff: index,
                   token: authentication.token,
                 })
@@ -108,7 +108,6 @@ const MapDifficultyCell = memo(({ difficulty, eventtype, edition, rowIndex, tabl
 MapDifficultyCell.propTypes = {
   difficulty: PropTypes.number,
   eventtype: PropTypes.string.isRequired,
-  edition: PropTypes.number.isRequired,
 };
 
 MapDifficultyCell.defaultProps = {

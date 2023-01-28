@@ -9,7 +9,7 @@ import MapClipCell from './MapClipCell';
 import MapImageModal from '../../components/MapImageModal';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
 
-const MapDetailCell = memo(({ data, mode, eventtype, edition }) => {
+const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const getFallbackImage = ev => {
     // eslint-disable-next-line no-param-reassign
@@ -95,7 +95,7 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition }) => {
           >
             Difficulty:
           </Text>
-          <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} />
+          <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex}/>
         </Flex>
         <Flex align='center'>
           <Text
@@ -107,7 +107,14 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition }) => {
           >
             Clip:
           </Text>
-          <MapClipCell clip={data.clip} mapId={data.number} eventtype={eventtype} edition={edition} />
+          <MapClipCell
+            clip={data.clip}
+            mapId={data.number}
+            eventtype={eventtype}
+            edition={edition}
+            rowIndex={rowIndex}
+            table={table}
+          />
         </Flex>
         <Flex>
           <Box display={mode === "hunting" ? "none" : "inherit"}>
@@ -120,7 +127,7 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition }) => {
             >
               Discord Alarm:
             </Text>
-            <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} />
+            <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex} />
           </Box>
         </Flex>
       </Flex>
@@ -144,6 +151,8 @@ MapDetailCell.propTypes = {
   eventtype: string.isRequired,
   edition: number.isRequired,
   mode: string.isRequired,
+  table: PropTypes.element.isRequired,
+  rowIndex: number.isRequired,
 };
 
 export default MapDetailCell;
