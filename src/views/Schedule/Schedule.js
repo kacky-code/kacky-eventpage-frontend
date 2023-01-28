@@ -69,13 +69,13 @@ const Spreadsheet = () => {
     if (event.type && event.edition) {
       setPbs(null);
       setPbsIsSuccess(false);
-      getPersonalBests(event.type, "el-djinn")
+      getPersonalBests(authentication.token, event.type)
         .then(response=>{
           setPbs(response)
           setPbsIsSuccess(true);
         })
     }
-  }, [event.type, event.edition]);
+  }, [authentication.token, event.type, event.edition]);
 
   useEffect(() => {
     if (dataIsSuccess && pbsIsSuccess) {

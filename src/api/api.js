@@ -149,9 +149,22 @@ export function getMapImageUrl(eventType, mapNumber) {
   return imageUrl;
 }
 
-export async function getPersonalBests(type, tmlogin) {
-  const response = await fetch(`https://records.kacky.info/pb/${tmlogin}/${type}`, {
+export async function getPersonalBests(token, type) {
+  const response = await fetch(`${url}/pb/${type}`, {
     headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getPerformance(token, type) {
+  const response = await fetch(`${url}/performance/${type}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
