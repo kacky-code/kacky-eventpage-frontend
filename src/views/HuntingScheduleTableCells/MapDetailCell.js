@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Image, Text, Flex, Center, Spacer, useDisclosure } from '@chakra-ui/react';
+import { Image, Text, Flex, Center, Spacer, useDisclosure, Box } from '@chakra-ui/react';
 import PropTypes, { bool, number, string } from 'prop-types';
 
 import { getMapImageUrl } from "../../api/api"
@@ -9,7 +9,7 @@ import MapClipCell from './MapClipCell';
 import MapImageModal from '../../components/MapImageModal';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
 
-const MapDetailCell = memo(({ data, eventtype, edition }) => {
+const MapDetailCell = memo(({ data, mode, eventtype, edition }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const getFallbackImage = ev => {
     // eslint-disable-next-line no-param-reassign
@@ -110,16 +110,18 @@ const MapDetailCell = memo(({ data, eventtype, edition }) => {
           <MapClipCell clip={data.clip} mapId={data.number} eventtype={eventtype} edition={edition} />
         </Flex>
         <Flex>
-          <Text
-            width="200px"
-            textShadow="glow"
-            letterSpacing="0.2em"
-            fontSize="lg"
-            fontWeight="400"
-          >
-            Discord Alarm:
-          </Text>
-          <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} />
+          <Box display={mode === "hunting" ? "none" : "inherit"}>
+            <Text
+              width="200px"
+              textShadow="glow"
+              letterSpacing="0.2em"
+              fontSize="lg"
+              fontWeight="400"
+            >
+              Discord Alarm:
+            </Text>
+            <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} />
+          </Box>
         </Flex>
       </Flex>
     </Flex>
@@ -140,7 +142,8 @@ MapDetailCell.propTypes = {
     wrHolder: string.isRequired
   }).isRequired,
   eventtype: string.isRequired,
-  edition: number.isRequired
+  edition: number.isRequired,
+  mode: string.isRequired,
 };
 
 export default MapDetailCell;
