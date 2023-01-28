@@ -199,13 +199,13 @@ const Hunting = () => {
         const kkseries = performanceKK.map(edition => edition.fins);
         const kkoptions = { ...donutChartOptionsCharts1 };
         kkoptions.labels = performanceKK.map(edition => `Kackiest Kacky #${edition.edition}`);
-        kkoptions.colors = ["#df260f", "#cb7818", "#a68c1d", "#0d983a", "#b19213", "#e6810d", "#9f427f"]
+        kkoptions.colors = ['#93358a', '#e45b23', '#ff6800', '#bf9b0d', '#c7940b', '#00ff00', '#30b808', '#0d983a', '#d3b812', '#a54a10', '#8b0613']
         kkoptions.fill = { "colors": kkoptions.colors }
         setKkPerfSeries(kkseries);
         setKkPerfOptions(kkoptions);
       })
     }
-  }, [authentication.isLoggedIn, authentication.token]);
+  }, [authentication.isLoggedIn, authentication.token, colorMode]);
 
   useEffect(() => {
     if (authentication.isLoggedIn) {
@@ -213,13 +213,13 @@ const Hunting = () => {
         const krseries = performanceKR.map(edition => edition.fins);
         const kroptions = { ...donutChartOptionsCharts1 };
         kroptions.labels = performanceKR.map(edition => `Kacky Reloaded #${edition.edition}`);
-        kroptions.colors = ["#df260f", "#cb7818", "#a68c1d", "#0d983a", "#b19213", "#e6810d", "#9f427f"]
+        kroptions.colors = ["#203db9", "#58d6c5", "#4dd033", "#c8ad16"]
         kroptions.fill = {"colors": kroptions.colors}
         setKrPerfSeries(krseries);
         setKrPerfOptions(kroptions);
       })
     }
-  }, [authentication.isLoggedIn, authentication.token]);
+  }, [authentication.isLoggedIn, authentication.token, colorMode]);
 
 
   return (
