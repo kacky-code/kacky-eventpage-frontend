@@ -211,7 +211,7 @@ const ServerCard = ({
                 />
               </Flex>
               <MapImageModal
-                mapNumber={maps[0].number}
+                mapNumber={maps[0].number.toString()}
                 author={maps[0].author}
                 isFinished={maps[0].finished}
                 isOpen={isOpen}
@@ -292,7 +292,7 @@ const ServerCard = ({
                       />
                     ) : null}
                     <MapImageModal
-                      mapNumber={map.number}
+                      mapNumber={map.number.toString()}
                       author={map.author}
                       isFinished={map.finished}
                       isOpen={nextMapModals[index].isOpen}

@@ -15,7 +15,7 @@ import {
   Center,
   HStack,
   Input,
-  VStack,
+  VStack, useColorMode,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -27,6 +27,7 @@ import {
   useReactTable,
   getFilteredRowModel,
   useSortBy,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -35,7 +36,9 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 
 import defaultColumns from './Schedule.service';
-import { getSpreadsheetData } from '../../api/api';
+import { getSpreadsheetData, getPersonalBests } from '../../api/api';
+import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
+import mergeSpreadsheetAndPBs from '../../components/SheetOperations';
 
 const Spreadsheet = () => {
   const { event } = useContext(EventContext);
@@ -46,59 +49,60 @@ const Spreadsheet = () => {
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
   const [data, setData] = useState(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [dataIsSuccess, setDataIsSuccess] = useState(false);
+  const [pbs, setPbs] = useState(null);
+  const [pbsIsSuccess, setPbsIsSuccess] = useState(false);
 
   useEffect(() => {
     if (event.type && event.edition) {
       setData(null);
-      setIsSuccess(false);
+      setDataIsSuccess(false);
       getSpreadsheetData(authentication.token, event.type, event.edition)
       .then(response=>{
         setData(response)
-        setIsSuccess(true);
+        setDataIsSuccess(true);
       })
     }
   }, [event.type, event.edition, authentication.token]);
 
   useEffect(() => {
-    if (isSuccess) {
-      const formattedData = [];
+    if (event.type && event.edition) {
+      setPbs(null);
+      setPbsIsSuccess(false);
+      getPersonalBests(event.type, "el-djinn")
+        .then(response=>{
+          setPbs(response)
+          setPbsIsSuccess(true);
+        })
+    }
+  }, [event.type, event.edition]);
 
-      data.forEach(map => {
-        const formattedMap = {
-          finished: map.finished || false,
-          number: map.kacky_id.toString(),
-          author: map.author,
-          difficulty: map.map_diff || 0,
-          upcomingIn: map.upcomingIn,
-          server: map.server,
-          personalBest: map.map_pb || 0,
-          local: map.map_rank || 0,
-          clip: map.clip || '',
-          discordPing: map.alarm || false,
-          wrScore: map.wr_score || 0,
-          wrHolder: map.wr_holder || false
-        };
-        formattedData.push(formattedMap);
-      });
+  useEffect(() => {
+    if (dataIsSuccess && pbsIsSuccess) {
+      const formattedData = mergeSpreadsheetAndPBs(data, pbs);
       setTableData(formattedData);
     }
-  }, [data, isSuccess]);
+  }, [data, pbs, dataIsSuccess, pbsIsSuccess]);
 
   const [sorting, setSorting] = useState([]);
+
+  const [expanded, setExpanded] = useState({})
 
   const table = useReactTable({
     data: tableData,
     columns,
     state: {
       sorting,
+      expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
-        difficulty: authentication.isLoggedIn,
+        difficulty: false,
         personalBest: authentication.isLoggedIn,
         local: authentication.isLoggedIn,
-        clip: authentication.isLoggedIn,
-        discordPing: authentication.isLoggedIn,
+        wrScore: !authentication.isLoggedIn,
+        wrHolder: !authentication.isLoggedIn,
+        clip: false,
+        discordPing: false,
       },
     },
     initialState: {
@@ -129,6 +133,8 @@ const Spreadsheet = () => {
         );
       },
     },
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel()
   });
 
   const tableContainerRef = useRef(null);
@@ -145,10 +151,19 @@ const Spreadsheet = () => {
     .getHeaderGroups()[0]
     .headers[1].column.getFilterValue();
 
+  const { colorMode } = useColorMode();
+
+  const rowBGcolor = (toggled) => {
+    if (toggled) {
+      return colorMode === "dark" ? "grey" : "lightgrey";
+    }
+    return colorMode;
+  };
+
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-      <Heading>{event.type === "KK" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
+      <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -211,16 +226,23 @@ const Spreadsheet = () => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const row = rows[virtualRow.index];
                 return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                  <>
+                    <Tr key={row.id} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
+                      {row.getVisibleCells().map(cell => (
+                        <Td key={cell.id} background={!row.getIsExpanded()}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Td>
+                      ))}
+                    </Tr>
+                    <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
+                      <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
+                        <MapDetailCell data={row.original} eventtype={event.type} edition={event.edition} mode="schedule"/>
                       </Td>
-                    ))}
-                  </Tr>
+                    </Tr>
+                  </>
                 );
               })}
             </Tbody>
