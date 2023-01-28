@@ -71,9 +71,9 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
               align="right"
               textShadow="glow"
             >
-              Kacky
+              {eventtype === "kk" ? "Kackiest" : "Kacky"}
               <br />
-              Reloaded
+              {eventtype === "kk" ? "Kacky" : "Reloaded"}
             </Text>
             <HStack spacing="0">
               <Text

@@ -15,7 +15,7 @@ import {
   useTheme,
   useDisclosure,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
 import {
   MdOutlineDns,
@@ -27,6 +27,7 @@ import MapImageModal from '../../components/MapImageModal';
 
 import { getMapImageUrl } from '../../api/api';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
+import EventContext from '../../context/EventContext';
 
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
@@ -40,6 +41,8 @@ const ServerCard = ({
 }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
+
+  const { event } = useContext(EventContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const modalNextMap1 = useDisclosure();
@@ -55,7 +58,7 @@ const ServerCard = ({
   return (
     <Box
       bgImage={`url(${getMapImageUrl(
-        maps[0].number
+        event.type, maps[0].number
       )}), url(${mapImageFallback})`}
       bgPosition="center"
       bgRepeat="no-repeat"
@@ -136,9 +139,9 @@ const ServerCard = ({
                 align="right"
                 textShadow="glow"
               >
-                Kacky
+                {event.type === "kk" ? "Kackiest" : "Kacky"}
                 <br />
-                Reloaded
+                {event.type === "kk" ? "Kacky" : "Reloaded"}
               </Text>
               <HStack spacing={0}>
                 <Text
@@ -172,7 +175,7 @@ const ServerCard = ({
                 h={isCompactView ? 16 : 32}
                 alt="Map"
                 onError={getFallbackImage}
-                src={getMapImageUrl(maps[0].number)}
+                src={getMapImageUrl(event.type, maps[0].number)}
               />
               <Flex
                 onClick={onOpen}
@@ -213,6 +216,7 @@ const ServerCard = ({
                 isFinished={maps[0].finished}
                 isOpen={isOpen}
                 onClose={onClose}
+                eventtype={event.type}
               />
             </Box>
 
@@ -293,6 +297,7 @@ const ServerCard = ({
                       isFinished={map.finished}
                       isOpen={nextMapModals[index].isOpen}
                       onClose={nextMapModals[index].onClose}
+                      eventtype={event.type}
                     />
                   </HStack>
                 ))}
