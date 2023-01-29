@@ -12,7 +12,7 @@ import {
   MenuButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   MdOutlineDashboard,
@@ -53,10 +53,12 @@ const Header = () => {
     logoutServer(authentication.token);
     const cookies = new Cookies();
     cookies.remove('token', { path: '/' });
+    cookies.remove('expires', { path: '/' });
 
     setAuthentication({
       isLoggedIn: false,
       token: '',
+      expires: '',
     });
   };
 
@@ -219,6 +221,21 @@ const Header = () => {
     base: tabsMobile,
     md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop
   });
+
+  useEffect(() => {
+    if (new Date().getTime() < authentication.expires) {
+      logoutServer(authentication.token);
+      const cookies = new Cookies();
+      cookies.remove('token', { path: '/' });
+      cookies.remove('expires', { path: '/' });
+
+      setAuthentication({
+        isLoggedIn: false,
+        token: '',
+        expires: '',
+      });
+    }
+  }, [authentication.expires, authentication.token, setAuthentication])
 
   return (
     <>
