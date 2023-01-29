@@ -44,10 +44,12 @@ const Login = ({ setMode, onClose }) => {
     onSuccess: response => {
       const cookies = new Cookies();
       cookies.set('token', response.access_token, { path: '/' });
+      cookies.set('expires', response.expires, { path: '/' });
 
       setAuthentication({
         isLoggedIn: true,
         token: response.access_token,
+        expires: response.expires,
       });
 
       toast({
