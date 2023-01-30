@@ -55,7 +55,7 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <Text fontSize="xs" letterSpacing="0.1em">
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
         {' '}
         {info.getValue().toString()}
       </Text>
@@ -87,7 +87,7 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow">
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
         {info.getValue() !== 0
           ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
           : '-'}
@@ -103,10 +103,25 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow">
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
         {info.getValue() !== 0
           ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
           : '-'}
+      </Text>
+    ),
+  }),
+  columnHelper.accessor('wrHolder', {
+    id: 'wrHolder',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdStars} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR Holder</Text>
+      </>
+    ),
+    cell: info => (
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
+        {' '}
+        {info.getValue().toString()}
       </Text>
     ),
   }),
@@ -120,10 +135,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
+        <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
           {info.getValue() !== 0 ? '#' : ''}
         </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
+        <Text letterSpacing="0.1em" textShadow="glow">
           {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>

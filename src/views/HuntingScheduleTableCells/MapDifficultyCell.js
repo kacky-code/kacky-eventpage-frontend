@@ -18,7 +18,7 @@ import AuthContext from '../../context/AuthContext';
 import { postSpreadsheetData } from '../../api/api';
 
 const diffBadgeColorArr = [
-  { variant: 'undefined', text: 'undefined' },
+  { variant: 'outline', text: 'Not Set' },
   { variant: 'white', text: 'Free' },
   { variant: 'green', text: 'Easy' },
   { variant: 'yellow', text: 'Medium' },
@@ -60,25 +60,19 @@ const MapDifficultyCell = memo(({ difficulty, eventtype, rowIndex, table, mapId 
         onClick={() => setRenderMenuList(true)}
         disabled={!authentication.isLoggedIn}
         _hover={{ bg: 'whiteAlpha.200' }}
-        pl={6}
         textAlign="left"
-        w="full"
+        w="100"
         h="full"
         borderRadius="none"
       >
         <Badge
-          visibility={
-            diffBadgeColorArr[difficulty].text === 'undefined'
-              ? 'hidden'
-              : 'visible'
-          }
-          variant={diffBadgeColorArr[difficulty].variant}
+          variant={diffBadgeColorArr[difficulty].variant} fontSize="medium"
         >
           {diffBadgeColorArr[difficulty].text}
         </Badge>
       </MenuButton>
       {renderMenuList ? (
-        <MenuList minW="0" w="140px" fontSize="xs">
+        <MenuList minW="0" w="140px" >
           {diffBadgeColorArr.map((diff, index) => (
             <MenuItem
               onClick={() =>
@@ -95,7 +89,7 @@ const MapDifficultyCell = memo(({ difficulty, eventtype, rowIndex, table, mapId 
               {diff.text === 'undefined' ? (
                 <Text>none</Text>
               ) : (
-                <Badge variant={diff.variant}>{diff.text}</Badge>
+                <Badge variant={diff.variant} fontSize="medium" >{diff.text}</Badge>
               )}
             </MenuItem>
           ))}
