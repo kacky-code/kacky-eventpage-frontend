@@ -28,7 +28,8 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  useSortBy, getExpandedRowModel,
+  useSortBy,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 
 import { useQuery } from '@tanstack/react-query';
@@ -42,6 +43,7 @@ import { getSpreadsheetData, getAllEvents, getPersonalBests, getPerformance } fr
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 import mergeSpreadsheetAndPBs from '../../components/SheetOperations';
 import { donutChartOptionsCharts1 } from '../Dashboard/EventsProgress';
+
 
 const Hunting = () => {
   const defaultType = 'kk';
@@ -65,20 +67,6 @@ const Hunting = () => {
   const [curEventType, setCurEventType] = useState(defaultType);
   const [curEventEdition, setCurEventEdition] = useState(defaultEdition);
   const [curEventSelector, setCurEventSelector] = useState(curEventType + curEventEdition);
-
-  function handleChange(event) {
-    const option = event.target.selectedOptions[0];
-    setCurEventType(option.getAttribute('type'));
-    setCurEventEdition(Number(option.getAttribute('edition')));
-    setCurEventSelector(option.getAttribute('type')+option.getAttribute('edition'));
-    Promise.all([
-      getSpreadsheetData(authentication.token, option.getAttribute('type'), option.getAttribute('edition')),
-      authentication.isLoggedIn ? getPersonalBests(authentication.token, option.getAttribute('type')) : Promise.resolve({})
-    ]).then(queryResults => {
-      const newSheet = mergeSpreadsheetAndPBs(queryResults[0], queryResults[1]);
-      setTableData(newSheet);
-    });
-  }
 
   const [kkArray, setKkArray] = useState([]);
   const [krArray, setKrArray] = useState([]);
@@ -125,7 +113,7 @@ const Hunting = () => {
         finished: authentication.isLoggedIn,
         difficulty: false,
         personalBest: authentication.isLoggedIn,
-        local: authentication.isLoggedIn,
+        kackyRank: authentication.isLoggedIn,
         wrScore: !authentication.isLoggedIn,
         wrHolder: !authentication.isLoggedIn,
         clip: false,
@@ -135,7 +123,7 @@ const Hunting = () => {
     initialState: {
       sortBy: [
         {
-          id: 'number',
+          id: 'author',
           desc: false,
         },
       ],
@@ -161,8 +149,23 @@ const Hunting = () => {
       },
     },
     onExpandedChange: setExpanded,
-    getExpandedRowModel: getExpandedRowModel()
+    getExpandedRowModel: getExpandedRowModel(),
   });
+
+  function handleChange(event) {
+    const option = event.target.selectedOptions[0];
+    setCurEventType(option.getAttribute('type'));
+    setCurEventEdition(Number(option.getAttribute('edition')));
+    setCurEventSelector(option.getAttribute('type')+option.getAttribute('edition'));
+    Promise.all([
+      getSpreadsheetData(authentication.token, option.getAttribute('type'), option.getAttribute('edition')),
+      authentication.isLoggedIn ? getPersonalBests(authentication.token, option.getAttribute('type')) : Promise.resolve({})
+    ]).then(queryResults => {
+      const newSheet = mergeSpreadsheetAndPBs(queryResults[0], queryResults[1]);
+      setTableData(newSheet);
+    });
+    table.resetExpanded(false);
+  }
 
   const tableContainerRef = useRef(null);
   const { rows } = table.getRowModel();
@@ -221,17 +224,16 @@ const Hunting = () => {
     }
   }, [authentication.isLoggedIn, authentication.token, colorMode]);
 
-
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
         {
           authentication.isLoggedIn ? (
-            <Flex justifyContent='space-between'>
+            <Flex justifyContent='space-between' marginBottom="40px" marginTop="20px">
               <Chart options={kkPerfOptions}
-              series={kkPerfSeries} type="donut" width="500" />
+                series={kkPerfSeries} type="donut" width="500" />
               <Chart options={krPerfOptions}
-              series={krPerfSeries} type="donut" width="500" />
+                series={krPerfSeries} type="donut" width="500" />
             </Flex>
             ) : null
         }

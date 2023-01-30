@@ -26,8 +26,7 @@ const MapNumberCell = memo(({ number, finished, author, eventtype }) => {
       <Text
         letterSpacing="0.1em"
         textShadow="glow"
-        fontSize="xl"
-        fontWeight="medium"
+        fontSize="l"
       >
         {number}
       </Text>

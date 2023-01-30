@@ -30,7 +30,7 @@ import { postSpreadsheetData } from '../../api/api';
 const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { authentication } = useContext(AuthContext);
-  const [renderPopOver, setRenderPopOver] = useState(false);
+  const [renderPopOver, setRenderPopOver] = useState(true);
 
   const toast = useToast();
 
@@ -64,7 +64,7 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
       w="100px"
       h="40px"
       onMouseEnter={() => setRenderPopOver(true)}
-      onMouseLeave={() => setRenderPopOver(false)}
+      onMouseLeave={() => setRenderPopOver(true)}
     >
       {renderPopOver || isOpen ? (
         <>
