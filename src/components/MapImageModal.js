@@ -62,7 +62,7 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
               : 'linear(to-br, transparent 0%, transparent 50%, white 90%, white 100%)'
           }
         >
-          <HStack w="320px">
+          <HStack >
             <Text
               fontSize="2xl"
               lineHeight="24px"
@@ -83,8 +83,17 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
                 letterSpacing="0.1em"
                 fontWeight="bold"
               >
-                {mapNumber}
+                {mapNumber.includes(" ") ?
+                  mapNumber.split(" ")[0]
+                  :
+                  mapNumber
+                }
               </Text>
+              {mapNumber.includes(" ") ?
+                  <Text fontSize="xl">{mapNumber.split(" ")[1]}</Text>
+                :
+                null
+              }
               {isFinished ? (
                 <Icon
                   color="green.300"
@@ -96,11 +105,11 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
               ) : null}
             </HStack>
           </HStack>
-          <HStack mr={10} py={2}>
+          <HStack mr={2} py={2}>
             <Text fontWeight="hairline" textShadow="glow" letterSpacing="0.1em">
               by
             </Text>
-            <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em">
+            <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em" alignSelf="flex-end">
               {author}
             </Text>
           </HStack>
