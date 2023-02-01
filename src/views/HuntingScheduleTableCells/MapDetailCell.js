@@ -63,7 +63,7 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
           <MapWRCell wrScore={data.wrScore} wrHolder={data.wrHolder} />
         </Flex>
         <Flex height="40px" align="center">
-          <MapPBCell personalBest={data.personalBest} wrHolder={data.wrHolder} kackyRank={data.wrScore} />
+          <MapPBCell personalBest={data.personalBest} wrHolder={data.wrHolder} kackyRank={data.kackyRank} />
         </Flex>
       </Flex>
       <Spacer />

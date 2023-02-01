@@ -32,15 +32,15 @@ const App = () => {
     expires: cookies.get('expires') || '',
   });
 
-  const [event, setEvent] = useState({isLive: false, name: "", type: "", edition: 0});
+  const [event, setEvent] = useState({isLive: "over", name: "", type: "", edition: 0});
 
   useEffect(() => {
     eventLiveState()
       .then(data => {
         setEvent({
           isLive: data.status,
-          type: data.type.toLowerCase(),
-          edition: data.edition,
+          type: (data.type || "e").toLowerCase(),
+          edition: data.edition || "",
         });
       })
   }, []);
@@ -54,7 +54,15 @@ const App = () => {
               <Route path="/" element={<Header>Header</Header>}>
                 <Route
                   index
-                  element={event.isLive ? <Dashboard /> : <EventEnd />}
+                  element={
+                    event.isLive === "active" ?
+                      <Dashboard />
+                      :
+                      event.isLive === "post" ?
+                        <EventEnd />
+                        :
+                        <EventEnd />
+                }
                 />
                 <Route path="schedule" element={<Schedule />} />
                 <Route path="hunting" element={<Hunting />} />
