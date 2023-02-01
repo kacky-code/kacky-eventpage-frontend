@@ -12,7 +12,7 @@ import {
   MenuButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   MdOutlineDashboard,
@@ -38,8 +38,6 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 
-const leaderboardPageUrl = 'https://kackyreloaded.com/';
-
 const Header = () => {
   const theme = useTheme();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -49,14 +47,21 @@ const Header = () => {
   const { authentication, setAuthentication } = useContext(AuthContext);
   const { event } = useContext(EventContext);
 
+  const leaderboardPageUrl = event.type === "kk" ?
+    `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
+    :
+    `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`;
+
   const logout = () => {
     logoutServer(authentication.token);
     const cookies = new Cookies();
     cookies.remove('token', { path: '/' });
+    cookies.remove('expires', { path: '/' });
 
     setAuthentication({
       isLoggedIn: false,
       token: '',
+      expires: '',
     });
   };
 
@@ -96,12 +101,14 @@ const Header = () => {
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
@@ -146,12 +153,14 @@ const Header = () => {
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
@@ -202,12 +211,14 @@ const Header = () => {
     text: 'Hunting',
     TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
@@ -219,6 +230,21 @@ const Header = () => {
     base: tabsMobile,
     md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop
   });
+
+  useEffect(() => {
+    if (new Date().getTime() < authentication.expires) {
+      logoutServer(authentication.token);
+      const cookies = new Cookies();
+      cookies.remove('token', { path: '/' });
+      cookies.remove('expires', { path: '/' });
+
+      setAuthentication({
+        isLoggedIn: false,
+        token: '',
+        expires: '',
+      });
+    }
+  }, [authentication.expires, authentication.token, setAuthentication])
 
   return (
     <>

@@ -91,8 +91,8 @@ export async function getSpreadsheetData(token, type, edition) {
   return response.json();
 }
 
-export async function postSpreadsheetData(data, type, edition) {
-  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
+export async function postSpreadsheetData(data, type) {
+  const response = await fetch(`${url}/spreadsheet/${type}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -144,6 +144,32 @@ export async function getFinishes(token) {
 }
 
 export function getMapImageUrl(eventType, mapNumber) {
-  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${mapNumber}.png`;
+  // remove "[v2]" and similar
+  const cleanedMapNumber = mapNumber.toString().split(" ")[0];
+  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${cleanedMapNumber}.jpg`;
   return imageUrl;
+}
+
+export async function getPersonalBests(token, type) {
+  const response = await fetch(`${url}/pb/${type}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getPerformance(token, type) {
+  const response = await fetch(`${url}/performance/${type}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
 }
