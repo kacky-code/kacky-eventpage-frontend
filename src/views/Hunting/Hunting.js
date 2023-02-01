@@ -13,11 +13,10 @@ import {
   Text,
   Center,
   HStack,
-  Input,
   Select,
   VStack,
   useColorMode,
-  Flex,
+  Flex, Button,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -177,10 +176,6 @@ const Hunting = () => {
     overscan: 10,
   });
 
-  const columnFilterValue = table
-    .getHeaderGroups()[0]
-    .headers[1].column.getFilterValue();
-
   const rowBGcolor = (toggled) => {
     if (toggled) {
       return colorMode === "dark" ? "grey" : "lightgrey";
@@ -238,19 +233,19 @@ const Hunting = () => {
             ) : null
         }
         <HStack w="full">
-          <Text letterSpacing="0.1em" textShadow="glow">
-            Filter for a Map :
-          </Text>
-          <Input
-            w={20}
-            value={columnFilterValue ?? ''}
-            onChange={e =>
-              table
-                .getHeaderGroups()[0]
-                .headers[1].column.setFilterValue(e.target.value)
-            }
-            placeholder="#000"
-          />
+          <Button
+            letterSpacing="0.1em"
+            textShadow="glow"
+            onClick={() => window.open(curEventType === "kk" ?
+              `https://kackiestkacky.com/hunting/editions/ranking.php?edition=${curEventEdition}`
+              :
+              `https://kackyreloaded.com/hunting/editions/ranking.php?edition=${curEventEdition}`
+            )}
+          >
+            {curEventType === "kk" ? "Kackiest Kacky " : "Kacky Reloaded "}
+            {`${curEventEdition  } `}
+            Hunting Stats
+          </Button>
           <Text letterSpacing="0.1em" textShadow="glow" style={{marginLeft: 'auto'}}>
             Select Kacky Edition :
           </Text>
