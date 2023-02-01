@@ -38,8 +38,6 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 
-const leaderboardPageUrl = 'https://kackyreloaded.com/';
-
 const Header = () => {
   const theme = useTheme();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -48,6 +46,11 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { authentication, setAuthentication } = useContext(AuthContext);
   const { event } = useContext(EventContext);
+
+  const leaderboardPageUrl = event.type === "kk" ?
+    `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
+    :
+    `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`;
 
   const logout = () => {
     logoutServer(authentication.token);
@@ -98,12 +101,14 @@ const Header = () => {
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
@@ -148,12 +153,14 @@ const Header = () => {
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
@@ -204,12 +211,14 @@ const Header = () => {
     text: 'Hunting',
     TabIcon: MdOutlineChecklist,
     },
-    {
+    event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
       onClick: () => window.open(leaderboardPageUrl),
-      /* route: '/leaderboard', */
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
+    } : {
+      key: 4,
+      isBlank: true,
     },
     {
       key: 5,
