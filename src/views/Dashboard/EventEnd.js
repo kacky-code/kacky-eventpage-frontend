@@ -1,15 +1,16 @@
 import {
-  useColorMode,
+//  useColorMode,
   Text,
-  Box,
+/*  Box,
   CircularProgress,
   CircularProgressLabel,
   Flex,
   Icon,
-  useTheme,
+  useTheme, */
   Stack,
 } from '@chakra-ui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
+/* import React, { useContext, useEffect, useState } from 'react';
 import { MdOutlineCheckCircle, MdOutlineLeaderboard } from 'react-icons/md';
 import { useQuery } from '@tanstack/react-query';
 
@@ -25,8 +26,10 @@ const rank = {
   gold: { color: '#FFD700', name: 'gold', text: 'Impressive!' },
   kacky: { color: '#fc2f21', name: 'kacky', text: 'You are a legend!' },
 };
+*/
 
-const EventEnd = () => {
+const EventEnd = () =>
+/* const EventEnd = () => {
   const [finishes, setFinishes] = useState(0);
 
   const { event } = useContext(EventContext);
@@ -54,9 +57,9 @@ const EventEnd = () => {
     if (isSuccess) {
       setFinishes(data.finishes);
     }
-  }, [data, isSuccess]);
+  }, [data, isSuccess]); */
 
-  return (
+   (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Stack>
         <Text
@@ -64,7 +67,8 @@ const EventEnd = () => {
           letterSpacing="0.2em"
           fontSize={{ base: '2xl', md: '4xl' }}
         >
-          {event.name} is over!
+          {/* {event.name} is over! */}
+          Kacky Reloaded 3 is over!
         </Text>
         <Text
           fontWeight="500"
@@ -75,7 +79,7 @@ const EventEnd = () => {
           Thanks for participating in the Event!
         </Text>
       </Stack>
-      {authentication.isLoggedIn ? (
+      {/* {authentication.isLoggedIn ? (
         <Flex
           justify="center"
           gap={{ base: '4rem', md: '6rem' }}
@@ -201,8 +205,17 @@ const EventEnd = () => {
           See you next Edition!
         </Text>
       )}
+      */}
+      <Text
+        fontWeight="500"
+        textShadow="glow"
+        letterSpacing="0.2em"
+        fontSize={{ base: 'lg', md: '2xl' }}
+      >
+        See you in March for Kackiest Kacky 8!
+      </Text>
     </Stack>
-  );
-};
+  )
+;
 
 export default EventEnd;
