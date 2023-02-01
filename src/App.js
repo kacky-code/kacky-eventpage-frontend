@@ -29,9 +29,10 @@ const App = () => {
   const [authentication, setAuthentication] = useState({
     isLoggedIn: (cookies.get('token') || '') !== '',
     token: cookies.get('token') || '',
+    expires: cookies.get('expires') || '',
   });
 
-  const [event, setEvent] = useState({isLive: false, name: ""});
+  const [event, setEvent] = useState({isLive: false, name: "", type: "", edition: 0});
 
   useEffect(() => {
     eventLiveState()
