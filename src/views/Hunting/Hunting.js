@@ -105,12 +105,13 @@ const Hunting = () => {
   const table = useReactTable({
     data: tableData,
     columns,
+    defaultColumn: defaultColumns,
     state: {
       sorting,
       expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
-        difficulty: false,
+        difficulty: authentication.isLoggedIn,
         personalBest: authentication.isLoggedIn,
         kackyRank: authentication.isLoggedIn,
         wrScore: !authentication.isLoggedIn,
@@ -122,7 +123,7 @@ const Hunting = () => {
     initialState: {
       sortBy: [
         {
-          id: 'author',
+          id: 'number',
           desc: false,
         },
       ],
@@ -269,7 +270,24 @@ const Hunting = () => {
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Th key={header.id} colSpan={header.colSpan}>
+                    <Th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={
+                        {
+                          width:
+                          header.id === "finished"
+                          ?
+                            16
+                          :
+                            header.id === "difficulty" || header.id === "number"
+                            ?
+                              100
+                            :
+                              undefined
+                        }
+                      }
+                    >
                       {header.isPlaceholder ? null : (
                         <Box
                           display="flex"
