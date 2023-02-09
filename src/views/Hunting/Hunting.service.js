@@ -175,6 +175,7 @@ const defaultColumns = [
         </Text>
       </HStack>
     ),
+    sortUndefined: 1,
   }),
   columnHelper.accessor('clip', {
     id: 'clip',
