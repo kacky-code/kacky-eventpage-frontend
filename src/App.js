@@ -19,6 +19,7 @@ import Profile from './views/Profile/Profile';
 import AuthContext from './context/AuthContext';
 import EventContext from './context/EventContext';
 import EventEnd from './views/Dashboard/EventEnd';
+import PreEvent from './views/Dashboard/PreEvent';
 
 const cookies = new Cookies();
 
@@ -61,7 +62,7 @@ const App = () => {
                       event.isLive === "post" ?
                         <EventEnd />
                         :
-                        <EventEnd />
+                        <PreEvent />
                 }
                 />
                 <Route path="schedule" element={<Schedule />} />
