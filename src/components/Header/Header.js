@@ -37,6 +37,7 @@ import AuthModal from './AuthModal/AuthModal';
 import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
+import DiscordLogo from '../../assets/logos/discordLogo';
 
 const Header = () => {
   const theme = useTheme();
@@ -51,6 +52,7 @@ const Header = () => {
     `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
     :
     `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`;
+  const discordUrl = "https://kacky.gg/discord";
 
   const logout = () => {
     logoutServer(authentication.token);
@@ -116,16 +118,21 @@ const Header = () => {
     },
     {
       key: 6,
+      onClick: () => window.open(discordUrl),
+      SVGIcon: DiscordLogo,
+    },
+    {
+      key: 7,
       route: '/profile',
       TabIcon: MdPersonOutline,
     },
     {
-      key: 7,
+      key: 8,
       TabIcon: MdOutlineLogout,
       onClick: logout,
     },
     {
-      key: 8,
+      key: 9,
       TabIcon: SwitchIcon,
       onClick: toggleColorMode,
     },
@@ -168,12 +175,17 @@ const Header = () => {
     },
     {
       key: 6,
+      onClick: () => window.open(discordUrl),
+      SVGIcon: DiscordLogo,
+    },
+    {
+      key: 7,
       text: 'Login',
       TabIcon: MdOutlineLogout,
       onClick: onOpen,
     },
     {
-      key: 7,
+      key: 8,
       TabIcon: SwitchIcon,
       onClick: toggleColorMode,
     },
@@ -224,6 +236,12 @@ const Header = () => {
       key: 5,
       isSpacer: true,
     },
+    {
+      key: 6,
+      onClick: () => window.open(leaderboardPageUrl),
+      text: '',
+      TabIcon: MdOutlineLeaderboard,
+    }
   ];
 
   const tabData = useBreakpointValue({
@@ -290,6 +308,19 @@ const Header = () => {
                 as={HeaderTab}
               />
               <MenuList minW="0" w="160px" fontSize="xs">
+                {authentication.isLoggedIn ? (
+                  <Link to="/profile">
+                    <MenuItem
+                      h={10}
+                      filter={
+                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                      }
+                      icon={<DiscordLogo width="10" color={colorMode === 'dark' ? 'white' : 'black'} />}
+                    >
+                      Discord
+                    </MenuItem>
+                  </Link>
+                ) : null}
                 {authentication.isLoggedIn ? (
                   <Link to="/profile">
                     <MenuItem

@@ -105,7 +105,7 @@ const PreEvent = () => {
           <Text fontSize="2xl" fontWeight="400" textTransform="uppercase">Kackiest Kacky 8 Info:</Text>
           KK8 will be played in Trackmania Nations Forever from March 3rd to April 2nd.<br/>
           This year, we once again go negative again with a smaller mappack of 50 maps. Because of the smaller selection, mappers tend to submit harder maps for negative editions. But fear not, our goal is always to deliver a balanced experience, suited for all skill levels, no matter if positive or negative.<br/>
-          For more information, <Link href="https://kacky.gg" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>join the Discord Server</Link>!
+          For more information, <Link href="https://kacky.gg/discord" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>join the Discord Server</Link>!
         </div>
       </Center>
       {/* <Center>
