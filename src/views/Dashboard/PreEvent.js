@@ -108,7 +108,7 @@ const PreEvent = () => {
           For more information, <Link href="https://kacky.gg" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>join the Discord Server</Link>!
         </div>
       </Center>
-      <Center>
+      {/* <Center>
         <div style={{textAlign: "left", width: "66%", lineHeight: "2", fontSize: "larger", textTransform: "none"}} >
           <Text fontSize="2xl" fontWeight="400" textTransform="uppercase">Servers:</Text>
           Need some training? Join the <Link href="tmtp://#join=sky_kacky" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>Hunting Server</Link> or add it to <Link href="tmtp://#addfavorite=sky_kacky" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>your Favorites</Link> and join from the ingame browser!<br/>
@@ -120,7 +120,7 @@ const PreEvent = () => {
           </ul>
           Be aware that you can only have 10 servers in your Favorites with a free account. If you cannot add more, check <Link href="https://players.trackmaniaforever.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>https://players.trackmaniaforever.com/</Link> if there are some offline servers in your Favorites and remove them.
         </div>
-      </Center>
+      </Center> */}
     </Stack>
   )
 };
