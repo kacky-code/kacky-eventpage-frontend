@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { useLocation, Link } from 'react-router-dom';
 
 const HeaderTab = forwardRef(
-  ({ route, text, TabIcon, onClick, indicatorRef, isSpacer, isBlank }, ref) => {
+  ({ route, text, TabIcon, SVGIcon: SVGTabIcon, onClick, indicatorRef, isSpacer, isBlank }, ref) => {
     const theme = useTheme();
     const { colorMode } = useColorMode();
     const tabElement = useRef(null);
@@ -94,11 +94,17 @@ const HeaderTab = forwardRef(
         h="full"
         px={text !== '' ? { base: 2, md: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
       >
-        <Icon
-          boxSize={{ base: 5, xl: 6 }}
-          as={TabIcon}
-          filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
-        />
+        {TabIcon !== null ?
+          <Icon
+            boxSize={{ base: 5, xl: 6 }}
+            as={TabIcon}
+            filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
+          />
+          :
+          <Box>
+            <SVGTabIcon width="26px" color={colorMode === 'dark' ? 'white' : 'black'}/>
+          </Box>
+        }
         {text !== '' ? (
           <Text
             textShadow="glow"
@@ -139,6 +145,7 @@ HeaderTab.propTypes = {
   route: PropTypes.string,
   text: PropTypes.string,
   TabIcon: PropTypes.func,
+  SVGIcon: PropTypes.func,
   onClick: PropTypes.func,
   indicatorRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   isSpacer: PropTypes.bool,
@@ -148,6 +155,7 @@ HeaderTab.defaultProps = {
   route: '',
   text: '',
   TabIcon: null,
+  SVGIcon: null,
   onClick: () => {},
   indicatorRef: null,
   isSpacer: false,
