@@ -36,9 +36,9 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 
 import defaultColumns from './Schedule.service';
-import { getSpreadsheetData, getPersonalBests } from '../../api/api';
+import { getScheduleData, getPersonalBests } from '../../api/api';
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
-import mergeSpreadsheetAndPBs from '../../components/SheetOperations';
+import { mergeScheduleAndPBs } from '../../components/SheetOperations';
 
 const Spreadsheet = () => {
   const { event } = useContext(EventContext);
@@ -57,7 +57,7 @@ const Spreadsheet = () => {
     if (event.type && event.edition) {
       setData(null);
       setDataIsSuccess(false);
-      getSpreadsheetData(authentication.token, event.type, event.edition)
+      getScheduleData(authentication.token)
       .then(response=>{
         setData(response)
         setDataIsSuccess(true);
@@ -66,7 +66,7 @@ const Spreadsheet = () => {
   }, [event.type, event.edition, authentication.token]);
 
   useEffect(() => {
-    if (event.type && event.edition) {
+    if (event.type && event.edition && authentication.isLoggedIn) {
       setPbs(null);
       setPbsIsSuccess(false);
       getPersonalBests(authentication.token, event.type)
@@ -75,11 +75,12 @@ const Spreadsheet = () => {
           setPbsIsSuccess(true);
         })
     }
-  }, [authentication.token, event.type, event.edition]);
+    setPbsIsSuccess(true);
+  }, [authentication.token, authentication.isLoggedIn, event.type, event.edition]);
 
   useEffect(() => {
     if (dataIsSuccess && pbsIsSuccess) {
-      const formattedData = mergeSpreadsheetAndPBs(data, pbs);
+      const formattedData = mergeScheduleAndPBs(data, pbs);
       setTableData(formattedData);
     }
   }, [data, pbs, dataIsSuccess, pbsIsSuccess]);

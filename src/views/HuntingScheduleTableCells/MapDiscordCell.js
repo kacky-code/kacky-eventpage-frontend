@@ -35,15 +35,16 @@ const MapDiscordCell = memo(({ discordPing, eventtype, rowIndex, table, mapId })
   const onSubmit = newPingValue => {
     newPing = newPingValue;
     mutation.mutate({
-      mapid: parseInt(mapId, 10),
-      alarm: parseInt(mapId, 10),
+      mapid: mapId,
+      alarm: mapId,
       token: authentication.token,
     });
   };
 
   return (
     <Switch
-      isDisabled={!authentication.isLoggedIn}
+      // isDisabled={!authentication.isLoggedIn}
+      isDisabled="true"
       onChange={e => onSubmit(e.target.value)}
       defaultChecked={discordPing}
     />
