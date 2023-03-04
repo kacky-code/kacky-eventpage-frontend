@@ -91,6 +91,24 @@ export async function getSpreadsheetData(token, type, edition) {
   return response.json();
 }
 
+export async function getScheduleData(token) {
+  const config =
+    token === ''
+      ? {
+          Accept: 'application/json, text/plain, */*',
+        }
+      : {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json, text/plain, */*',
+        };
+
+  const response = await fetch(`${url}/spreadsheet`, {
+    headers: config,
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export async function postSpreadsheetData(data, type) {
   const response = await fetch(`${url}/spreadsheet/${type}`, {
     method: 'POST',
