@@ -105,12 +105,13 @@ const defaultColumns = [
     id: 'author',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdTag} />
+        <Icon boxSize="16px" as={MdLabelOutline} />
         <Text display={{ base: 'none', lg: 'inline' }}>Author</Text>
       </>
     ),
     cell: info => (
-      <Text fontSize="xs" letterSpacing="0.1em">
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
+        {' '}
         {info.getValue().toString()}
       </Text>
     ),
@@ -132,7 +133,7 @@ const defaultColumns = [
           fontSize="lg"
           fontWeight="medium"
         >
-	  {String(Math.floor(info.getValue() / 60)).padStart(2, "0")}
+          {String(Math.floor(info.getValue() / 60)).padStart(2, "0")}
         </Text>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
@@ -147,7 +148,7 @@ const defaultColumns = [
           fontSize="lg"
           fontWeight="medium"
         >
-	  {String(info.getValue() % 60).padStart(2, "0")}
+          {String(info.getValue() % 60).padStart(2, "0")}
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
