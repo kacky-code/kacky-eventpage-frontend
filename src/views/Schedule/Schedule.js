@@ -58,10 +58,10 @@ const Spreadsheet = () => {
       setData(null);
       setDataIsSuccess(false);
       getScheduleData(authentication.token)
-      .then(response=>{
-        setData(response)
-        setDataIsSuccess(true);
-      })
+        .then(response=>{
+          setData(response)
+          setDataIsSuccess(true);
+        })
     }
   }, [event.type, event.edition, authentication.token]);
 
@@ -97,7 +97,7 @@ const Spreadsheet = () => {
       expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
-        difficulty: false,
+        difficulty: authentication.isLoggedIn,
         personalBest: authentication.isLoggedIn,
         local: authentication.isLoggedIn,
         wrScore: !authentication.isLoggedIn,
@@ -164,7 +164,7 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-      <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
+        <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -191,7 +191,24 @@ const Spreadsheet = () => {
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Th key={header.id} colSpan={header.colSpan}>
+                    <Th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={
+                        {
+                          width:
+                            header.id === "finished"
+                              ?
+                              16
+                              :
+                              header.id === "difficulty" || header.id === "number"
+                                ?
+                                100
+                                :
+                                undefined
+                        }
+                      }
+                    >
                       {header.isPlaceholder ? null : (
                         <Box
                           display="flex"
@@ -210,9 +227,9 @@ const Spreadsheet = () => {
                             header.getContext()
                           )}
                           {{
-                            asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                            desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                          }[header.column.getIsSorted()] ??
+                              asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                              desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                            }[header.column.getIsSorted()] ??
                             (header.column.getCanSort() ? (
                               <Box w={4} h={4} />
                             ) : null)}
