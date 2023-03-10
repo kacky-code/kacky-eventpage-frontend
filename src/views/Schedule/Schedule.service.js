@@ -221,8 +221,8 @@ const defaultColumns = [
       </Text>
     ),
   }),
-  columnHelper.accessor('local', {
-    id: 'local',
+  columnHelper.accessor('kackyRank', {
+    id: 'kackyRank',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdOutlineLeaderboard} />
