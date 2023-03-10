@@ -114,7 +114,7 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
               >
                 Discord Alarm:
               </Text>
-              <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex} />
+              <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex} mapId={data.number} />
             </Box>
           </Flex>
         </Flex>

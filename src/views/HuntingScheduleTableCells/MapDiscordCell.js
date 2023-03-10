@@ -14,10 +14,10 @@ const MapDiscordCell = memo(({ discordPing, eventtype, rowIndex, table, mapId })
 
   const toast = useToast();
 
-  let newPing;
+  let alarmState = discordPing;
   const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
     onSuccess: () => {
-      table.options.meta.updateData(rowIndex, 'discordPing', newPing);
+      table.options.meta.updateData(rowIndex, 'discordPing', alarmState);
     },
     onError: () => {
       toast({
@@ -32,21 +32,21 @@ const MapDiscordCell = memo(({ discordPing, eventtype, rowIndex, table, mapId })
 
   // Cork doesnt want the actual value xdd
   // eslint-disable-next-line no-unused-vars
-  const onSubmit = newPingValue => {
-    newPing = newPingValue;
+  function onSubmit() {
+    alarmState = !alarmState;
     mutation.mutate({
       mapid: mapId,
-      alarm: mapId,
+      alarm: alarmState,
       token: authentication.token,
     });
-  };
+  }
 
   return (
     <Switch
-      // isDisabled={!authentication.isLoggedIn}
-      isDisabled="true"
+      isDisabled={!authentication.isLoggedIn}
+      // isDisabled="true"
       onChange={e => onSubmit(e.target.value)}
-      defaultChecked={discordPing}
+      defaultChecked={alarmState}
     />
   );
 });
