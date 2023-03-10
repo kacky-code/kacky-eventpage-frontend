@@ -101,9 +101,14 @@ const HeaderTab = forwardRef(
             filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
           />
           :
+          null
+        }
+        {SVGTabIcon !== null ?
           <Box>
             <SVGTabIcon width="26px" color={colorMode === 'dark' ? 'white' : 'black'}/>
           </Box>
+          :
+          null
         }
         {text !== '' ? (
           <Text
