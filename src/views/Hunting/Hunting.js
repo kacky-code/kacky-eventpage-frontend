@@ -227,9 +227,9 @@ const Hunting = () => {
           authentication.isLoggedIn ? (
             <Flex justifyContent='space-between' marginBottom="40px" marginTop="20px">
               <Chart options={kkPerfOptions}
-                series={kkPerfSeries} type="donut" width="500" />
+                series={kkPerfSeries} type="donut" width="520" />
               <Chart options={krPerfOptions}
-                series={krPerfSeries} type="donut" width="500" />
+                series={krPerfSeries} type="donut" width="520" />
             </Flex>
             ) : null
         }
@@ -243,7 +243,8 @@ const Hunting = () => {
               `https://kackyreloaded.com/hunting/editions/ranking.php?edition=${curEventEdition}`
             )}
           >
-            {curEventType === "kk" ? "Kackiest Kacky " : "Kacky Reloaded "}
+            Global&nbsp;
+            {curEventType === "kk" ? "KK" : "KR"}
             {`${curEventEdition  } `}
             Hunting Stats
           </Button>

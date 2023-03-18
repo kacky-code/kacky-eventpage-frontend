@@ -34,7 +34,7 @@ export function mergeScheduleAndPBs(sheet, pb) {
       author: map.author,
       difficulty: map.map_diff || 0,
       personalBest: 0,
-      kackyRank: undefined,
+      kackyRank: 0,
       clip: map.clip || '',
       discordPing: map.alarm || false,
       wrScore: map.wr_score,
