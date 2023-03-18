@@ -29,7 +29,7 @@ const MapWRCell = memo(({ wrScore, wrHolder }) => {
           authentication.isLoggedIn ?
           <><br/>by {wrHolder !== "" ? wrHolder : "-"}</>
           :
-          <>by {wrHolder !== "" ? wrHolder : "-"}</>
+          null
         }
       </Text>
     </>
