@@ -122,13 +122,20 @@ const Leaderboard = () => {
     overscan: 10,
   });
 
-  const [inputValue, setInputValue] = useState('')
+  const inputRef = useRef(null);
   
   function searchLogin() {
-    getLeaderBoardPlayer(authentication.token, inputValue)
-      .then(response=>{
-        setData([response, ])
-      })
+    if (inputRef.current.value === "") {
+      getLeaderBoardPage(authentication.token, 0, 10)
+        .then(response=>{
+          setData(response)
+        })
+    } else {
+      getLeaderBoardPlayer(authentication.token, inputRef.current.value)
+        .then(response => {
+          setData([response,])
+        })
+    }
   }
 
   return (
@@ -141,13 +148,22 @@ const Leaderboard = () => {
           </Text>
           <Input
             w={300}
-            onChange={(e) => setInputValue(e.target.value)}
+            ref={inputRef}
+            onKeyUp={(e) => e.key === "Enter" ? searchLogin() : null}
             placeholder="tmlogin"
           />
           <Button
             onClick={() => searchLogin()}
           >
             Search
+          </Button>
+          <Button
+            onClick={() => {
+              inputRef.current.value = "";
+              searchLogin();
+            }}
+          >
+            Reset
           </Button>
           <Button
             letterSpacing="0.1em"
@@ -159,7 +175,7 @@ const Leaderboard = () => {
               `https://kackyreloaded.com/hunting/editions/ranking.php?edition=${event.edition}`
             )}
           >
-            Detailled Leaderboard
+            Detailed Leaderboard
           </Button>
         </HStack>
         <TableContainer
