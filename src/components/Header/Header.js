@@ -48,10 +48,6 @@ const Header = () => {
   const { authentication, setAuthentication } = useContext(AuthContext);
   const { event } = useContext(EventContext);
 
-  const leaderboardPageUrl = event.type === "kk" ?
-    `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
-    :
-    `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`;
   const discordUrl = "https://kacky.gg/discord";
 
   const logout = () => {
@@ -105,7 +101,7 @@ const Header = () => {
     },
     event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
-      onClick: () => window.open(leaderboardPageUrl),
+      route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
@@ -162,7 +158,7 @@ const Header = () => {
     },
     event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
-      onClick: () => window.open(leaderboardPageUrl),
+      route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
@@ -225,7 +221,7 @@ const Header = () => {
     },
     event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
-      onClick: () => window.open(leaderboardPageUrl),
+      route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
@@ -238,7 +234,7 @@ const Header = () => {
     },
     {
       key: 6,
-      onClick: () => window.open(leaderboardPageUrl),
+      route: '/leaderboard',
       text: '',
       TabIcon: MdOutlineLeaderboard,
     }

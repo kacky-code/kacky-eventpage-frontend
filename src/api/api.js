@@ -191,3 +191,27 @@ export async function getPerformance(token, type) {
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
+
+export async function getLeaderBoardPage(token, startrank, elements) {
+  const response = await fetch(`https://records.kacky.info/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getLeaderBoardPlayer(token, searchlogin) {
+  const response = await fetch(`https://records.kacky.info/event/leaderboard/kk/8/${searchlogin}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
