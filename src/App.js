@@ -20,6 +20,7 @@ import AuthContext from './context/AuthContext';
 import EventContext from './context/EventContext';
 import EventEnd from './views/Dashboard/EventEnd';
 import PreEvent from './views/Dashboard/PreEvent';
+import Leaderboard from './views/Leaderboard/Leaderboard';
 
 const cookies = new Cookies();
 
@@ -67,7 +68,7 @@ const App = () => {
                 />
                 <Route path="schedule" element={<Schedule />} />
                 <Route path="hunting" element={<Hunting />} />
-                <Route path="leaderboard" element={<div>Leaderboard</div>} />
+                <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="*" element={<div>Nothing here</div>} />
               </Route>
