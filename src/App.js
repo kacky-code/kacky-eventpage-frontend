@@ -21,6 +21,7 @@ import EventContext from './context/EventContext';
 import EventEnd from './views/Dashboard/EventEnd';
 import PreEvent from './views/Dashboard/PreEvent';
 import Leaderboard from './views/Leaderboard/Leaderboard';
+import Glance from './views/Glance/Glance';
 
 const cookies = new Cookies();
 
@@ -70,6 +71,7 @@ const App = () => {
                 <Route path="hunting" element={<Hunting />} />
                 <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="glance" element={<Glance />} />
                 <Route path="*" element={<div>Nothing here</div>} />
               </Route>
             </Routes>
