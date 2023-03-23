@@ -21,8 +21,6 @@ import { getMapImageUrl } from '../../api/api';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
 import EventContext from '../../context/EventContext';
 
-const nextMapsFontWeight = ['medium', 'normal', 'light'];
-
 const HotbarCard = ({
                       serverNumber,
                       maps,
@@ -99,12 +97,12 @@ const HotbarCard = ({
                   justify='center'
                   key={map.number}
                 >
+                  {console.log(map)}
                   <Text
                     lineHeight='24px'
-                    fontWeight={nextMapsFontWeight[index]}
                     fontSize='2xl'
+                    fontWeight="medium"
                     letterSpacing='0.1em'
-                    textShadow='glow'
                     color={map.finished ? (colorMode === 'dark' ? 'green.300' : 'green.500') : ""}
                   >
                     {map.number}
