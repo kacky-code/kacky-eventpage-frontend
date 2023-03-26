@@ -215,3 +215,15 @@ export async function getLeaderBoardPlayer(token, searchlogin) {
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
+
+export async function getStreamInfo(token) {
+  const response = await fetch(`${url}/stream`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}

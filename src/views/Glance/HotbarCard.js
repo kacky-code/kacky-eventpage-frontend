@@ -97,7 +97,6 @@ const HotbarCard = ({
                   justify='center'
                   key={map.number}
                 >
-                  {console.log(map)}
                   <Text
                     lineHeight='24px'
                     fontSize='2xl'

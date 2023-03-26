@@ -3,20 +3,20 @@ import {
   Center,
   useBoolean,
   VStack,
-  useColorMode,
+  useColorMode, Text, Box,
 } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdGridView, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getDashboardData } from '../../api/api';
+import { getDashboardData, getStreamInfo } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 import HotbarCard from './HotbarCard';
 
 const mapChangeEstimate = 20;
 
-const Dashboard = () => {
+const Glance = () => {
   const { colorMode } = useColorMode();
   const [isCompactView, setIsCompactView] = useBoolean();
 
@@ -62,6 +62,16 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, [counter, queryClient]);
 
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getStreamInfo(authentication.token)
+        .then(json => setMessage(json.data))
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [authentication.token]);
+
   return (
     <>
       <Center mb={8}>
@@ -103,17 +113,39 @@ const Dashboard = () => {
           Grid View
         </Button>
       </Center>
-      <VStack spacing={3}>
-        {servers.map((server, index) => (
-          <HotbarCard
-            {...server}
-            timeLeft={counter[index] - mapChangeEstimate}
-            key={server.serverNumber}
-          />
-        ))}
-      </VStack>
+      {
+        message === "" ?
+          <VStack spacing={3}>
+            {servers.map((server, index) => (
+              <HotbarCard
+                {...server}
+                timeLeft={counter[index] - mapChangeEstimate}
+                key={server.serverNumber}
+                style={{ transition: "opacity 1s" }}
+              />
+            ))}
+          </VStack>
+        :
+          <Center>
+            <Box
+              w="200px"
+              h="500px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text
+                fontSize="2xl"
+                letterSpacing='wide'
+                lineHeight="1.5"
+              >
+                {message}
+              </Text>
+            </Box>
+          </Center>
+      }
     </>
   );
 };
 
-export default Dashboard;
+export default Glance;
