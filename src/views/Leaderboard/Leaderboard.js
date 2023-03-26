@@ -170,9 +170,9 @@ const Leaderboard = () => {
             textShadow="glow"
             style={{marginLeft: 'auto'}}
             onClick={() => window.open(event.type === "kk" ?
-              `https://kackiestkacky.com/hunting/editions/ranking.php?edition=${event.edition}`
+              `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
               :
-              `https://kackyreloaded.com/hunting/editions/ranking.php?edition=${event.edition}`
+              `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`
             )}
           >
             Detailed Leaderboard
