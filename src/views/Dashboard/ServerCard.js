@@ -31,6 +31,13 @@ import EventContext from '../../context/EventContext';
 
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
+
+const diffBadgeColorArr = {
+  "hard": { variant: 'orange', text: 'Hard' },
+  "harder": { variant: 'red', text: 'Harder' },
+  "hardest": { variant: 'purple', text: 'Hardest' },
+};
+
 const ServerCard = ({
   serverNumber,
   serverDifficulty,
@@ -123,7 +130,7 @@ const ServerCard = ({
                 visibility={
                   serverDifficulty === 'undefined' ? 'hidden' : 'visible'
                 }
-                variant={serverDifficulty}
+                variant={diffBadgeColorArr[serverDifficulty].variant}
               >
                 {serverDifficulty}
               </Badge>

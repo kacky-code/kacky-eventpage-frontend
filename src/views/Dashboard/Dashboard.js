@@ -15,7 +15,7 @@ import { getDashboardData } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 
-const mapChangeEstimate = 20;
+const mapChangeEstimate = 0;
 
 const Dashboard = () => {
   const { colorMode } = useColorMode();
