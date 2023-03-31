@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
+import trumpophant from '../images/trumpophant.png';
 
-const themeAprilFirst = extendTheme({
+const theme = extendTheme({
   config: { initialColorMode: 'dark', useSystemColorMode: false },
   styles: {
     global: props => ({
@@ -8,6 +9,10 @@ const themeAprilFirst = extendTheme({
         overflowY: 'scroll',
       },
       body: {
+        backgroundImage: trumpophant,
+        backgroundSize: "640px",
+        backgroundRepeat: "repeat",
+        backgroundPosition: "center",
         background: props.colorMode === 'dark' ? '#060606' : 'white',
         textTransform: 'uppercase',
         fontWeight: 300,
@@ -52,6 +57,7 @@ const themeAprilFirst = extendTheme({
       // eslint-disable-next-line no-unused-vars
       baseStyle: props => ({
         table: {
+          background: props.colorMode === 'dark' ? 'gray.600' : 'gray.300',
           fontVariantNumeric: 'lining-nums tabular-nums',
           borderCollapse: 'collapse',
           width: 'full',
@@ -298,4 +304,4 @@ const themeAprilFirst = extendTheme({
   },
 });
 
-export default themeAprilFirst;
+export default theme;

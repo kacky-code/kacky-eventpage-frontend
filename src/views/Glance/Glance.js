@@ -3,7 +3,7 @@ import {
   Center,
   useBoolean,
   VStack,
-  useColorMode, Text, Box,
+  useColorMode, Text, Box, ChakraProvider,
 } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdGridView, MdOutlineViewHeadline } from 'react-icons/md';
@@ -13,6 +13,7 @@ import { getDashboardData, getStreamInfo } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 import HotbarCard from './HotbarCard';
+import theme from '../../assets/theme/theme';
 
 const mapChangeEstimate = 20;
 
@@ -73,7 +74,7 @@ const Glance = () => {
   }, [authentication.token]);
 
   return (
-    <>
+    <ChakraProvider theme={theme}>
       <Center mb={8}>
         <Button
           borderRadius="6px 0 0 6px"
@@ -144,7 +145,7 @@ const Glance = () => {
             </Box>
           </Center>
       }
-    </>
+      </ChakraProvider>
   );
 };
 

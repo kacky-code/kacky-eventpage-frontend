@@ -10,7 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuButton,
-  useDisclosure,
+  useDisclosure, Image,
 } from '@chakra-ui/react';
 import React, { useRef, useContext, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -38,6 +38,8 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 import DiscordLogo from '../../assets/logos/discordLogo';
+
+import trumpophant from '../../assets/images/trumpophant.png';
 
 const Header = () => {
   const theme = useTheme();
@@ -287,10 +289,19 @@ const Header = () => {
             h="full"
           >
             <Box mt={2} filter={theme.shadows.dropGlow}>
-              <KrLogo
-                color={colorMode === 'dark' ? 'white' : 'black'}
-                width={logoSize}
-              />
+              {
+                new Date("2023-04-02 00:00:00") > new Date() && new Date() > new Date("2023-04-01 00:00:00")
+                ?
+                  <Image
+                    src={trumpophant}
+                    width={logoSize}
+                  />
+                :
+                  <KrLogo
+                    color={colorMode === 'dark' ? 'white' : 'black'}
+                    width={logoSize}
+                  />
+              }
             </Box>
           </Box>
           {tabData.map(tab => (
