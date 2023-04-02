@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp -r mapthumbnails/ build/static/media && cp -r logos/ build/static/media",
+    "deploy": "react-scripts build && mkdir -p live && cp -r build/* live/",
+    "dev": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
