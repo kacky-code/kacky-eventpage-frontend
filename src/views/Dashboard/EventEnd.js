@@ -1,16 +1,15 @@
 import {
-//  useColorMode,
+  useColorMode,
   Text,
-/*  Box,
+  Box,
   CircularProgress,
   CircularProgressLabel,
   Flex,
   Icon,
-  useTheme, */
+  useTheme,
   Stack,
 } from '@chakra-ui/react';
-import React from 'react';
-/* import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdOutlineCheckCircle, MdOutlineLeaderboard } from 'react-icons/md';
 import { useQuery } from '@tanstack/react-query';
 
@@ -26,10 +25,8 @@ const rank = {
   gold: { color: '#FFD700', name: 'gold', text: 'Impressive!' },
   kacky: { color: '#fc2f21', name: 'kacky', text: 'You are a legend!' },
 };
-*/
 
-const EventEnd = () =>
-/* const EventEnd = () => {
+const EventEnd = () => {
   const [finishes, setFinishes] = useState(0);
 
   const { event } = useContext(EventContext);
@@ -38,12 +35,12 @@ const EventEnd = () =>
   const theme = useTheme();
 
   const getRank = () => {
-    if (finishes < 10) return rank.none;
-    if (finishes < 25) return rank.plastic;
-    if (finishes < 50) return rank.bronze;
-    if (finishes < 65) return rank.silver;
-    if (finishes < 75) return rank.gold;
-    if (finishes === 75) return rank.kacky;
+    if (finishes < 5) return rank.none;
+    if (finishes < 15) return rank.plastic;
+    if (finishes < 25) return rank.bronze;
+    if (finishes < 40) return rank.silver;
+    if (finishes < 50) return rank.gold;
+    if (finishes === 50) return rank.kacky;
 
     return rank.none;
   };
@@ -57,9 +54,9 @@ const EventEnd = () =>
     if (isSuccess) {
       setFinishes(data.finishes);
     }
-  }, [data, isSuccess]); */
+  }, [data, isSuccess]);
 
-   (
+   return (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Stack>
         <Text
@@ -67,8 +64,7 @@ const EventEnd = () =>
           letterSpacing="0.2em"
           fontSize={{ base: '2xl', md: '4xl' }}
         >
-          {/* {event.name} is over! */}
-          Kacky Reloaded 3 is over!
+          {event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} is over!
         </Text>
         <Text
           fontWeight="500"
@@ -79,7 +75,7 @@ const EventEnd = () =>
           Thanks for participating in the Event!
         </Text>
       </Stack>
-      {/* {authentication.isLoggedIn ? (
+      {authentication.isLoggedIn ? (
         <Flex
           justify="center"
           gap={{ base: '4rem', md: '6rem' }}
@@ -135,7 +131,7 @@ const EventEnd = () =>
               }
               thickness="1px"
               min={0}
-              max={75}
+              max={50}
               color="green.300"
               value={finishes}
               size="20rem"
@@ -146,7 +142,7 @@ const EventEnd = () =>
                 color="green.300"
                 letterSpacing="0.2em"
               >
-                {finishes} / 75
+                {finishes} / 50
               </CircularProgressLabel>
             </CircularProgress>
           </Box>
@@ -205,17 +201,8 @@ const EventEnd = () =>
           See you next Edition!
         </Text>
       )}
-      */}
-      <Text
-        fontWeight="500"
-        textShadow="glow"
-        letterSpacing="0.2em"
-        fontSize={{ base: 'lg', md: '2xl' }}
-      >
-        See you in March for Kackiest Kacky 8!
-      </Text>
     </Stack>
   )
-;
+};
 
 export default EventEnd;
