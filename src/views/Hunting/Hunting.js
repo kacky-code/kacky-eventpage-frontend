@@ -221,11 +221,11 @@ const Hunting = () => {
   }, [authentication.isLoggedIn, authentication.token, colorMode]);
 
   return (
-    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
+    <Center mb={{ base: 24, md: 8 }} mt={{ base: -4, md: -8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
         {
           authentication.isLoggedIn ? (
-            <Flex justifyContent='space-between' marginBottom="40px" marginTop="20px">
+            <Flex justifyContent='space-between' marginBottom="40px">
               <Chart options={kkPerfOptions}
                 series={kkPerfSeries} type="donut" width="520" />
               <Chart options={krPerfOptions}
