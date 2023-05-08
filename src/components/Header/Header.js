@@ -11,22 +11,21 @@ import {
   MenuItem,
   MenuButton,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react';
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
   MdOutlineDashboard,
   MdOutlineEvent,
   MdOutlineChecklist,
-  // eslint-disable-next-line no-unused-vars
   MdOutlineLeaderboard,
   MdPersonOutline,
   MdOutlineLogout,
   MdOutlineDarkMode,
   MdOutlineLightMode,
-  // eslint-disable-next-line no-unused-vars
-  MdOutlineHome,
   MdOutlineMoreVert,
+  // MdOutlineAccountCircle,
 } from 'react-icons/md';
 
 import Cookies from 'universal-cookie';
@@ -76,12 +75,13 @@ const Header = () => {
   const SwitchIcon = useColorModeValue(MdOutlineDarkMode, MdOutlineLightMode);
 
   const indicatorElement = useRef(null);
+  const indicatorElementSubMenu = useRef(null);
 
   const tabsDesktopLoggedIn = [
     {
       key: 1,
       route: '/',
-      text: 'Dashboard',
+      text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
@@ -96,6 +96,7 @@ const Header = () => {
     {
       key: 3,
       route: '/hunting',
+      subRoutes: ["/wrs", "/pstats"],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
@@ -138,7 +139,7 @@ const Header = () => {
     {
       key: 1,
       route: '/',
-      text: 'Dashboard',
+      text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
@@ -153,6 +154,7 @@ const Header = () => {
     {
       key: 3,
       route: '/hunting',
+      subRoutes: ["/wrs", "/pstats"],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
@@ -201,7 +203,7 @@ const Header = () => {
     {
       key: 1,
       route: '/',
-      text: 'Dashboard',
+      text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
@@ -214,10 +216,11 @@ const Header = () => {
       isBlank: true,
     },
     {
-    key: 3,
-    route: '/hunting',
-    text: 'Hunting',
-    TabIcon: MdOutlineChecklist,
+      key: 3,
+      route: '/hunting',
+      subRoutes: ["/wrs", "/pstats"],
+      text: 'Hunting',
+      TabIcon: MdOutlineChecklist,
     },
     event.isLive === "active" || event.isLive === "post" ? {
       key: 4,
@@ -240,6 +243,30 @@ const Header = () => {
     }
   ];
 
+  const huntingSubMenu = [
+    {
+      key: 1,
+      route: '/hunting',
+      text: 'Hunting Sheet',
+      TabIcon: MdOutlineChecklist,
+    },
+    {
+      key: 2,
+      route: '/wrs',
+      text: 'WR Holders',
+      TabIcon: MdOutlineLeaderboard,
+    },
+    /* authentication.isLoggedIn ? {
+      key: 3,
+      route: '/pstats',
+      text: 'My Stats',
+      TabIcon: MdOutlineAccountCircle,
+    } : {
+      key: 3,
+      isBlank: true
+    }, */
+  ];
+
   const tabData = useBreakpointValue({
     base: tabsMobile,
     md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop
@@ -260,131 +287,167 @@ const Header = () => {
     }
   }, [authentication.expires, authentication.token, setAuthentication])
 
+  const [huntingSubMenuVisible, setHuntingSubMenuVisible] = useState(false);
+  useEffect(() => {
+    setHuntingSubMenuVisible(pathname === '/hunting' || pathname === '/wrs' || pathname === '/pstats')
+  }, [pathname])
+
   return (
     <>
-      <Center
+      <VStack
         as="nav"
-        pos="fixed"
-        bottom={{ base: '0', md: 'auto' }}
-        zIndex="sticky"
-        w="100%"
-        px={{ base: 4, md: 8 }}
-        h={{ base: '60px', md: '80px' }}
-        bg={colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.600'}
-        borderBottom={{ base: 'none', md: '1px' }}
-        borderTop={{ base: '1px', md: 'none' }}
-        borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
-        backdropFilter="auto"
-        backdropBlur="16px"
       >
-        <HStack spacing={0} pt={{ base: 1, md: 4 }} h="full" w="container.xl">
+        <Center
+          pos="fixed"
+          bottom={{ base: '0', md: 'auto' }}
+          zIndex="sticky"
+          w="100%"
+          px={{ base: 4, md: 8 }}
+          h={{ base: '60px', md: '80px' }}
+          bg={colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.600'}
+          borderBottom={{ base: 'none', md: '1px' }}
+          borderTop={{ base: '1px', md: 'none' }}
+          borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
+          backdropFilter="auto"
+          backdropBlur="16px"
+        >
+          <HStack spacing={0} pt={{ base: 1, md: 4 }} h="full" w="container.xl">
+            <Box
+              display={{ base: 'none', md: 'block' }}
+              borderBottom="1px"
+              px={4}
+              mt="2px"
+              borderColor={colorMode === 'dark' ? '#060606' : 'white'}
+              h="full"
+            >
+              <Box mt={2} filter={theme.shadows.dropGlow}>
+                <KrLogo
+                  color={colorMode === 'dark' ? 'white' : 'black'}
+                  width={logoSize}
+                />
+              </Box>
+            </Box>
+            {tabData.map(tab => (
+              <HeaderTab
+                indicatorRef={indicatorElement} {...tab}
+              />
+            ))}
+            {showMenu ? (
+              <Menu autoSelect={false}>
+                <MenuButton
+                  TabIcon={MdOutlineMoreVert}
+                  text="More"
+                  as={HeaderTab}
+                />
+                <MenuList minW="0" w="160px" fontSize="xs">
+                  {authentication.isLoggedIn ? (
+                    <Link to="/profile">
+                      <MenuItem
+                        h={10}
+                        filter={
+                          colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                        }
+                        icon={<DiscordLogo width="10" color={colorMode === 'dark' ? 'white' : 'black'} />}
+                      >
+                        Discord
+                      </MenuItem>
+                    </Link>
+                  ) : null}
+                  {authentication.isLoggedIn ? (
+                    <Link to="/profile">
+                      <MenuItem
+                        h={10}
+                        filter={
+                          colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                        }
+                        icon={<MdPersonOutline fontSize="1.25rem" />}
+                      >
+                        Profile
+                      </MenuItem>
+                    </Link>
+                  ) : null}
+                  {authentication.isLoggedIn ? (
+                    <MenuItem
+                      onClick={logout}
+                      h={10}
+                      filter={
+                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                      }
+                      icon={<MdOutlineLogout fontSize="1.25rem" />}
+                    >
+                      Logout
+                    </MenuItem>
+                  ) : (
+                    <MenuItem
+                      onClick={onOpen}
+                      h={10}
+                      filter={
+                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                      }
+                      icon={<MdOutlineLogout fontSize="1.25rem" />}
+                    >
+                      Login
+                    </MenuItem>
+                  )}
+                  <MenuItem
+                    h={10}
+                    onClick={toggleColorMode}
+                    filter={
+                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                    }
+                    icon={<SwitchIcon fontSize="1.25rem" />}
+                  >
+                    Theme
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            ) : null}
+            <AuthModal isOpen={isOpen} onClose={onClose} />
+          </HStack>
           <Box
-            display={{ base: 'none', md: 'block' }}
-            borderBottom="1px"
-            px={4}
-            mt="2px"
-            borderColor={colorMode === 'dark' ? '#060606' : 'white'}
-            h="full"
-          >
-            <Box mt={2} filter={theme.shadows.dropGlow}>
-              <KrLogo
-                color={colorMode === 'dark' ? 'white' : 'black'}
-                width={logoSize}
+            ref={indicatorElement}
+            boxShadow="glow"
+            bg={colorMode === 'dark' ? 'white' : 'black'}
+            borderRadius="md"
+            h="4px"
+            visibility={
+              pathname === '/profile' ? { base: 'hidden', md: 'visible' } : null
+            }
+            position="absolute"
+            bottom={{ base: 'initial', md: '-4px' }}
+            top={{ base: '-1px', md: 'initial' }}
+            transition="all 150ms ease-in-out"
+          />
+        </Center>
+        <Center
+          pos="sticky"
+          w="inherit"
+          px={{ base: 4, md: 8 }}
+          h={{ base: '40px', md: '60px' }}
+          bg={colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.600'}
+          borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
+          pt={{ base: '80px', md: '100px' }}
+          // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
+          display={huntingSubMenuVisible ? "inherit" : "none"}
+          alignItems='center'
+          justifyContent='center'
+        >
+          {huntingSubMenu.map(tab => (
+            <Box
+              h="inherit"
+              display={tab.isBlank ? "none" : "inherit"}
+            >
+              <HeaderTab
+                indicatorRef={indicatorElementSubMenu}
+                fontSize={{base: 'xs', md: 'md', xl: 'l' }}
+                {...tab}
               />
             </Box>
-          </Box>
-          {tabData.map(tab => (
-            <HeaderTab indicatorRef={indicatorElement} {...tab} />
-          ))}
-          {showMenu ? (
-            <Menu autoSelect={false}>
-              <MenuButton
-                TabIcon={MdOutlineMoreVert}
-                text="More"
-                as={HeaderTab}
-              />
-              <MenuList minW="0" w="160px" fontSize="xs">
-                {authentication.isLoggedIn ? (
-                  <Link to="/profile">
-                    <MenuItem
-                      h={10}
-                      filter={
-                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                      }
-                      icon={<DiscordLogo width="10" color={colorMode === 'dark' ? 'white' : 'black'} />}
-                    >
-                      Discord
-                    </MenuItem>
-                  </Link>
-                ) : null}
-                {authentication.isLoggedIn ? (
-                  <Link to="/profile">
-                    <MenuItem
-                      h={10}
-                      filter={
-                        colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                      }
-                      icon={<MdPersonOutline fontSize="1.25rem" />}
-                    >
-                      Profile
-                    </MenuItem>
-                  </Link>
-                ) : null}
-                {authentication.isLoggedIn ? (
-                  <MenuItem
-                    onClick={logout}
-                    h={10}
-                    filter={
-                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                    }
-                    icon={<MdOutlineLogout fontSize="1.25rem" />}
-                  >
-                    Logout
-                  </MenuItem>
-                ) : (
-                  <MenuItem
-                    onClick={onOpen}
-                    h={10}
-                    filter={
-                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                    }
-                    icon={<MdOutlineLogout fontSize="1.25rem" />}
-                  >
-                    Login
-                  </MenuItem>
-                )}
-                <MenuItem
-                  h={10}
-                  onClick={toggleColorMode}
-                  filter={
-                    colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                  }
-                  icon={<SwitchIcon fontSize="1.25rem" />}
-                >
-                  Theme
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          ) : null}
-          <AuthModal isOpen={isOpen} onClose={onClose} />
-        </HStack>
-        <Box
-          ref={indicatorElement}
-          boxShadow="glow"
-          bg={colorMode === 'dark' ? 'white' : 'black'}
-          borderRadius="md"
-          h="4px"
-          visibility={
-            pathname === '/profile' ? { base: 'hidden', md: 'visible' } : null
-          }
-          position="absolute"
-          bottom={{ base: 'initial', md: '-4px' }}
-          top={{ base: '-1px', md: 'initial' }}
-          transition="all 150ms ease-in-out"
-        />
-      </Center>
+            ))}
+        </Center>
+      </VStack>
 
-      <Box pt={{ base: '16px', md: '100px', xl: '130px' }}>
+      <Box pt={{ base: '16px', md: '120px', xl: '150px' }}>
         <Outlet />
       </Box>
     </>
