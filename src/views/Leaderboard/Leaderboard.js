@@ -96,6 +96,7 @@ const Leaderboard = () => {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     meta: {
+      eventtype: event.type,
       updateData: (rowIndex, columnId, value) => {
         setTableData(old =>
           old.map((row, index) => {

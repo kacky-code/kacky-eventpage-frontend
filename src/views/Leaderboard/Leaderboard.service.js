@@ -5,8 +5,14 @@ import {
 } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
+import "@fontsource/montserrat";
 
 const columnHelper = createColumnHelper();
+
+const fonts = {
+  "kk": "trebuchet ms, Helvetica, sans-serif",
+  "kr": "Montserrat, Helvetica Neue, Roboto",
+}
 
 const defaultColumns = [
   columnHelper.accessor("rank", {
@@ -24,8 +30,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <Box textTransform="none">
-        { /* eslint-disable-next-line react/no-danger */ }
-        <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+        <span style={{fontFamily: fonts[info.table.options.meta.eventtype]}}>
+          { /* eslint-disable-next-line react/no-danger */ }
+          <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+        </span>
       </Box>
     ),
   }),
