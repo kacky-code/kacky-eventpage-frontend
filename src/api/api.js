@@ -227,3 +227,15 @@ export async function getStreamInfo(token) {
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
+
+export async function getWRHolderLeaderboard(token, eventtype) {
+  const response = await fetch(`${url}/wrleaderboard/${eventtype}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
