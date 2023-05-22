@@ -7,7 +7,7 @@ import {
   useReactTable,
   useSortBy,
 } from '@tanstack/react-table';
-import { Box, Icon, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Icon, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useColorMode } from '@chakra-ui/react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import defaultColumns from '../WRHolders/WRHolders.service';
 import { getWRHolderLeaderboard } from '../../api/api';
 
 const WRTable = ({eventtype}) => {
+  const { colorMode } = useColorMode();
   const { authentication } = useContext(AuthContext);
 
   const [tableData, setTableData] = useState(() => []);
@@ -160,7 +161,9 @@ const WRTable = ({eventtype}) => {
             </Tr>
           ))}
         </Thead>
-        <Tbody>
+        <Tbody
+          background={colorMode === 'dark' ? '#3e3d3e' : '#ebebeb'}
+        >
           {rowVirtualizer.getVirtualItems().map(virtualRow => {
             const row = rows[virtualRow.index];
             return (
