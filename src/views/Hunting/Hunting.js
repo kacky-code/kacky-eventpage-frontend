@@ -266,7 +266,6 @@ const Hunting = () => {
           borderRadius="md"
         >
           <Table size="sm">
-            {console.log(tableData)}
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
