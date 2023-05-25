@@ -60,7 +60,6 @@ const WRTable = ({eventtype}) => {
       board.push(row);
     })
     setTableData(board);
-    console.log(board);
   }, [kkData]);
 
   const [sorting, setSorting] = useState([]);
