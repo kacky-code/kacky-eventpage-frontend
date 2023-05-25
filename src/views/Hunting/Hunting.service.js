@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon, Text, HStack, Badge } from '@chakra-ui/react';
+import { Icon, Text, HStack, Badge, Tooltip } from '@chakra-ui/react';
 
 import {
   MdOutlineCheckCircle,
@@ -62,9 +62,11 @@ const defaultColumns = [
       <Icon boxSize="16px" as={MdTimeline} />
     ),
     cell: info => (
-      <Badge
-        variant={diffBadgeColorArr[info.getValue().toString()].variant}
-      >&nbsp;&nbsp;</Badge>
+      <Tooltip label={info.row.original.rating} placement="end">
+        <Badge
+          variant={diffBadgeColorArr[info.getValue().toString()].variant}
+        >&nbsp;&nbsp;</Badge>
+      </Tooltip>
     ),
     sortingFn: (rowA, rowB) => mapsSort(rowA, rowB)
   }),
