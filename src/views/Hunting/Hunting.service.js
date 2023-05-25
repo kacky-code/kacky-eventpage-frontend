@@ -20,10 +20,33 @@ import { DateTime } from 'luxon';
 import MapNumberCell from '../HuntingScheduleTableCells/MapNumberCell';
 import MapFinishedCell from '../HuntingScheduleTableCells/MapFinishedCell';
 import MapClipCell from '../HuntingScheduleTableCells/MapClipCell';
+import { diffBadgeColorArr } from '../HuntingScheduleTableCells/MapDifficultyCell';
 
 const columnHelper = createColumnHelper();
 
-const diffColorArr = ['outline', 'white', 'green', 'yellow', 'orange', 'red', 'purple'];
+function mapsSort(rowA, rowB) {
+  if (
+    rowA.getValue("finished")
+    + rowA.getValue("difficulty") / 10
+    + rowA.original.rating / 1000
+    > rowB.getValue("finished")
+    + rowB.getValue("difficulty") / 10
+    + rowB.original.rating / 1000
+  ) {
+    return 1;
+  }
+  if (
+    rowA.getValue("finished")
+    + rowA.getValue("difficulty") / 10
+    + rowA.original.rating / 1000
+    < rowB.getValue("finished")
+    + rowB.getValue("difficulty") / 10
+    + rowB.original.rating / 1000
+  ) {
+    return -1;
+  }
+  return 0;
+}
 
 const defaultColumns = [
   columnHelper.accessor('finished', {
@@ -31,24 +54,7 @@ const defaultColumns = [
     width: "20rem",
     header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
     cell: info => <MapFinishedCell finished={info.getValue()} />,
-    sortingFn: (rowA, rowB) => {
-      if (
-        rowA.getValue("finished")
-        + rowA.getValue("difficulty") / 10
-        > rowB.getValue("finished")
-        + rowB.getValue("difficulty") / 10
-      ) {
-        return 1;
-      }
-      if (
-        rowA.getValue("finished")
-        + rowA.getValue("difficulty") / 10
-        < rowB.getValue("finished")
-        + rowB.getValue("difficulty") / 10
-      ) {        return -1;
-      }
-      return 0;
-    }
+    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB)
   }),
   columnHelper.accessor('difficulty', {
     id: 'difficulty',
@@ -57,27 +63,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <Badge
-        variant={diffColorArr[info.getValue().toString()]}
+        variant={diffBadgeColorArr[info.getValue().toString()].variant}
       >&nbsp;&nbsp;</Badge>
     ),
-    sortingFn: (rowA, rowB) => {
-      if (
-        rowA.getValue("finished") / 10
-        + rowA.getValue("difficulty")
-        > rowB.getValue("finished") / 10
-        + rowB.getValue("difficulty")
-      ) {
-        return 1;
-      }
-      if (
-        rowA.getValue("finished") / 10
-        + rowA.getValue("difficulty")
-        < rowB.getValue("finished") / 10
-        + rowB.getValue("difficulty")
-      ) {        return -1;
-      }
-      return 0;
-    }
+    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB)
   }),
   columnHelper.accessor('number', {
     id: 'number',

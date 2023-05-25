@@ -1,3 +1,4 @@
+// TODO: merge mergeSpreadsheetAndPBs and mergeScheduleAndPBs into one function
 export function mergeSpreadsheetAndPBs(sheet, pb) {
   const formattedData = [];
 
@@ -7,8 +8,9 @@ export function mergeSpreadsheetAndPBs(sheet, pb) {
       number: map.kacky_id.toString(),
       author: map.author,
       difficulty: map.map_diff || 0,
+      rating: map.rating || 0,
       personalBest: 0,
-      kackyRank: undefined,
+      kackyRank: 0,
       clip: map.clip || '',
       discordPing: map.alarm || false,
       wrScore: map.wr_score,
@@ -18,6 +20,19 @@ export function mergeSpreadsheetAndPBs(sheet, pb) {
       formattedMap.finished = true;
       formattedMap.personalBest = pb[formattedMap.number].score;
       formattedMap.kackyRank = pb[formattedMap.number].kacky_rank;
+    }
+    if (formattedMap.difficulty === 0) {
+      if (formattedMap.rating !== 0) {
+        // make a 1-5 difficulty out of the 1-100 rating
+        formattedMap.difficulty = Math.floor(formattedMap.rating / 20) + 1;
+      } else {
+        formattedMap.difficulty = 0;
+      }
+    }
+    if (formattedMap.difficulty > 5) {
+      // clip difficulty to 5 (happens when rating === 100)
+      // also handles illegal difficulty values from backend
+      formattedMap.difficulty = 5;
     }
     formattedData.push(formattedMap);
   });
@@ -33,6 +48,7 @@ export function mergeScheduleAndPBs(sheet, pb) {
       number: map.kacky_id.toString(),
       author: map.author,
       difficulty: map.map_diff || 0,
+      rating: map.rating || 0,
       personalBest: 0,
       kackyRank: 0,
       clip: map.clip || '',
@@ -46,6 +62,19 @@ export function mergeScheduleAndPBs(sheet, pb) {
       formattedMap.finished = true;
       formattedMap.personalBest = pb[formattedMap.number].score;
       formattedMap.kackyRank = pb[formattedMap.number].kacky_rank;
+    }
+    if (formattedMap.difficulty === 0) {
+      if (formattedMap.rating !== 0) {
+        // make a 1-5 difficulty out of the 1-100 rating
+        formattedMap.difficulty = Math.floor(formattedMap.rating / 20) + 1;
+      } else {
+        formattedMap.difficulty = 0;
+      }
+    }
+    if (formattedMap.difficulty > 5) {
+      // clip difficulty to 5 (happens when rating === 100)
+      // also handles illegal difficulty values from backend
+      formattedMap.difficulty = 5;
     }
     formattedData.push(formattedMap);
   });

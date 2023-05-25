@@ -111,7 +111,6 @@ const Hunting = () => {
       expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
-        difficulty: authentication.isLoggedIn,
         personalBest: authentication.isLoggedIn,
         kackyRank: authentication.isLoggedIn,
         wrScore: !authentication.isLoggedIn,
@@ -267,6 +266,7 @@ const Hunting = () => {
           borderRadius="md"
         >
           <Table size="sm">
+            {console.log(tableData)}
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
