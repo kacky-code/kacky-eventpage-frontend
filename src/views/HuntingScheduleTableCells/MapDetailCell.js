@@ -1,11 +1,11 @@
 import React, { memo, useContext } from 'react';
-import { Text, Flex, Center, Spacer, useDisclosure, Box } from '@chakra-ui/react';
+import { Text, Flex, Center, Spacer, useDisclosure, Box, Tooltip } from '@chakra-ui/react';
 import PropTypes, { bool, number, string } from 'prop-types';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { getMapImageUrl } from "../../api/api"
 import MapDiscordCell from './MapDiscordCell';
-import MapDifficultyCell from './MapDifficultyCell';
+import { MapDifficultyCell } from './MapDifficultyCell';
 import MapClipCell from './MapClipCell';
 import MapImageModal from '../../components/MapImageModal';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
@@ -70,16 +70,18 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
       {authentication.isLoggedIn ?
         <Flex marginLeft="20" direction="column" justifyContent='space-around'>
           <Flex alignContent='center' height="40px" align="center">
-            <Text
-              width="200px"
-              textShadow="glow"
-              letterSpacing="0.2em"
-              fontSize="lg"
-              fontWeight="400"
-              mixBlendMode="difference"
-            >
-              Difficulty:
-            </Text>
+            <Tooltip label={`Rated Difficulty: ${  data.rating}`} placement="start">
+              <Text
+                width="200px"
+                textShadow="glow"
+                letterSpacing="0.2em"
+                fontSize="lg"
+                fontWeight="400"
+                mixBlendMode="difference"
+              >
+                Difficulty:
+              </Text>
+            </Tooltip>
             <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex}/>
           </Flex>
           <Flex height="40px" align="center">
@@ -119,7 +121,23 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
           </Flex>
         </Flex>
       :
-        <Box width="400px" />
+        <Flex marginLeft="20" direction="column" justifyContent='space-around'>
+          <Flex alignContent='center' height="40px" align="center">
+            <Tooltip label={`Rated Difficulty: ${  data.rating}`} placement="start">
+              <Text
+                width="200px"
+                textShadow="glow"
+                letterSpacing="0.2em"
+                fontSize="lg"
+                fontWeight="400"
+                mixBlendMode="difference"
+              >
+                Difficulty:
+              </Text>
+            </Tooltip>
+            <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex}/>
+          </Flex>
+        </Flex>
       }
     </Flex>
   )
@@ -131,6 +149,7 @@ MapDetailCell.propTypes = {
     number: string.isRequired,
     author: string.isRequired,
     difficulty: number.isRequired,
+    rating: number.isRequired,
     personalBest: number.isRequired,
     kackyRank: number.isRequired,
     clip: string.isRequired,

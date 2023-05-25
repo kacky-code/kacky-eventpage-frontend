@@ -23,8 +23,7 @@ const diffBadgeColorArr = [
   { variant: 'green', text: 'Easy' },
   { variant: 'yellow', text: 'Medium' },
   { variant: 'orange', text: 'Hard' },
-  { variant: 'red', text: 'Lunatic' },
-  { variant: 'purple', text: 'Imp' },
+  { variant: 'red', text: 'Imp' },
 ];
 
 const MapDifficultyCell = memo(({ difficulty, eventtype, rowIndex, table, mapId }) => {
@@ -108,4 +107,4 @@ MapDifficultyCell.defaultProps = {
   difficulty: 0,
 };
 
-export default MapDifficultyCell;
+export {diffBadgeColorArr, MapDifficultyCell};
