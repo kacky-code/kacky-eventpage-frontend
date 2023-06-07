@@ -148,7 +148,7 @@ const Login = ({ setMode, onClose }) => {
         <Button type="submit" w="full">
           Login
         </Button>
-        {/* <Text
+        <Text
           letterSpacing="0.1em"
           textDecoration="underline"
           color="blue.500"
@@ -159,7 +159,7 @@ const Login = ({ setMode, onClose }) => {
           onClick={() => setMode('resetPassword')}
         >
           Forgot your Password?
-        </Text> */}
+        </Text>
       </VStack>
       <HStack justify="center" spacing={4} w="full">
         <Text letterSpacing="0.1em" fontSize="sm" textShadow="glow">

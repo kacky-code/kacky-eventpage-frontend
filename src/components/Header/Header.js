@@ -120,18 +120,18 @@ const Header = () => {
     },
     {
       key: 7,
+      TabIcon: SwitchIcon,
+      onClick: toggleColorMode,
+    },
+    {
+      key: 8,
       route: '/profile',
       TabIcon: MdPersonOutline,
     },
     {
-      key: 8,
+      key: 9,
       TabIcon: MdOutlineLogout,
       onClick: logout,
-    },
-    {
-      key: 9,
-      TabIcon: SwitchIcon,
-      onClick: toggleColorMode,
     },
   ];
 
@@ -178,14 +178,14 @@ const Header = () => {
     },
     {
       key: 7,
-      text: 'Login',
-      TabIcon: MdOutlineLogout,
-      onClick: onOpen,
+      TabIcon: SwitchIcon,
+      onClick: toggleColorMode,
     },
     {
       key: 8,
-      TabIcon: SwitchIcon,
-      onClick: toggleColorMode,
+      text: 'Login',
+      TabIcon: MdOutlineLogout,
+      onClick: onOpen,
     },
   ];
 

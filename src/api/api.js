@@ -239,3 +239,35 @@ export async function getWRHolderLeaderboard(token, eventtype) {
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
+
+export async function resetPasswordStep1(username, mailaddr) {
+  const response = await fetch(`${url}/pwdreset`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: username,
+      mail: mailaddr,
+    }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function resetPasswordStep2(token, pwd) {
+  const response = await fetch(`${url}/pwdreset`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token,
+      pwd,
+    }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
