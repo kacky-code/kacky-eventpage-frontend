@@ -10,7 +10,7 @@ import {
   Flex,
   FormHelperText,
   FormErrorMessage,
-  HStack,
+  HStack, useToast,
 } from '@chakra-ui/react';
 
 import PropTypes from 'prop-types';
@@ -20,8 +20,8 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../../../api/api';
 
-// eslint-disable-next-line no-unused-vars, arrow-body-style
 const Register = ({ setMode }) => {
+  const toast = useToast();
   const [isRegistered, setIsRegistered] = useState(false);
 
   const [serverError, setServerError] = useState({
@@ -44,6 +44,13 @@ const Register = ({ setMode }) => {
     {
       onSuccess: () => {
         setIsRegistered(true);
+        toast({
+          title: 'Registration',
+          description: 'Registration successful!',
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
       },
       onError: () => {
         setServerError({
@@ -104,7 +111,7 @@ const Register = ({ setMode }) => {
                     message: 'Really? Sleeping on your Keyboard?',
                   },
                   pattern: {
-                    value: /[a-z0-9]*@[a-z0-9]*\.[a-z]*/,
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                     message: 'Not a valid mail adress',
                   },
                 })}

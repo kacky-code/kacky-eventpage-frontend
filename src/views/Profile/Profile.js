@@ -7,16 +7,16 @@ import {
   Input,
   VStack,
   Button,
-  IconButton,
+  // IconButton,
   // eslint-disable-next-line no-unused-vars
   Divider,
   Stack,
-  useToast,
+  useToast, FormErrorMessage, Box,
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState, useContext, useEffect } from 'react';
-import { MdInfoOutline } from 'react-icons/md';
+// import { MdInfoOutline } from 'react-icons/md';
 import { postProfileData, getProfileData } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
@@ -28,11 +28,39 @@ const Profile = () => {
   const [tm2020Login, setTm2020Login] = useState('');
   const [discordLogin, setDiscordLogin] = useState('');
 
+  const [newEmail, setNewEmail] = useState('');
+  const [newPwd, setNewPwd] = useState('');
+  const [newConfirmPwd, setNewConfirmPwd] = useState('');
+
+  const [emailError, setEmailError] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
+  const [pwdError, setPwdError] = useState('');
+  const [pwdValid, setPwdValid] = useState(true);
+
   const { authentication } = useContext(AuthContext);
   const { data: profileData, isSuccess } = useQuery(
     ['profile', authentication.token],
     () => getProfileData(authentication.token)
   );
+
+  const validateEmail = (checkEmail) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailValid(emailRegex.test(checkEmail));
+    setEmailError(emailRegex.test(checkEmail) ? setNewEmail(checkEmail) : 'Please enter a valid email address.');
+  };
+
+  const validatePasswords = () => {
+    const equal = newPwd === newConfirmPwd;
+    const len = newPwd.length >= 8 && newPwd.length <= 80;
+    setPwdValid(equal && len);
+    if (!len) {
+      setPwdError('Passwords must be between 8 and 80 characters long!');
+    } else if (!equal) {
+      setPwdError('Passwords are not the same!');
+    } else {
+      setPwdError('');
+    }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -66,7 +94,7 @@ const Profile = () => {
   const onSubmit = data => mutation.mutate(data);
 
   if (!authentication.isLoggedIn)
-    return <Text> Login to see your Profile!</Text>;
+    return <Text>Login to see your Profile!</Text>;
 
   return (
     <Center px={8} w="100%">
@@ -82,12 +110,12 @@ const Profile = () => {
           <FormControl>
             <HStack spacing={4} mb={2}>
               <FormLabel m="0">TMNF Login</FormLabel>
-              <IconButton
+              {/* <IconButton
                 borderRadius="full"
                 size="sm"
                 fontSize="1rem"
                 icon={<MdInfoOutline />}
-              />
+              /> */}
             </HStack>
             <HStack spacing={4}>
               <Input
@@ -110,12 +138,12 @@ const Profile = () => {
           <FormControl>
             <HStack spacing={4} mb={2}>
               <FormLabel m="0">TM2020 Login</FormLabel>
-              <IconButton
+              {/* <IconButton
                 borderRadius="full"
                 size="sm"
                 fontSize="1rem"
                 icon={<MdInfoOutline />}
-              />
+              /> */}
             </HStack>
             <HStack spacing={4}>
               <Input
@@ -138,12 +166,12 @@ const Profile = () => {
           <FormControl>
             <HStack spacing={4} mb={2}>
               <FormLabel m="0">Discord ID</FormLabel>
-              <IconButton
+              {/* <IconButton
                 borderRadius="full"
                 size="sm"
                 fontSize="1rem"
                 icon={<MdInfoOutline />}
-              />
+              /> */}
             </HStack>
             <HStack spacing={4}>
               <Input
@@ -166,21 +194,83 @@ const Profile = () => {
             </HStack>
           </FormControl>
         </Stack>
-        {/* <Divider />
-        <FormControl maxW={{ base: 'full', md: '330px' }} align="left">
+        <Divider />
+        <FormControl
+          maxW={{ base: 'full', md: '330px' }}
+          align="left"
+          isInvalid={!emailValid}
+        >
           <FormLabel>Enter new E-Mail</FormLabel>
-          <Input placeholder="New E-Mail" />
-          <Button mt={4}>Update E-Mail</Button>
+          <Input
+            maxLength={80}
+            defaultValue=""
+            onBlur={e => validateEmail(e.target.value)}
+            placeholder="New E-Mail"
+          />
+          <FormErrorMessage>{emailError}</FormErrorMessage>
+          <Button
+            mt={4}
+            onClick={() =>
+              emailValid ?
+                onSubmit({
+                  pwd: newEmail,
+                  token: authentication.token,
+                })
+                :
+                null
+            }
+          >
+            Update E-Mail
+          </Button>
         </FormControl>
         <Divider />
-        <FormControl maxW={{ base: 'full', md: '330px' }} align="left">
+        <FormControl
+          maxW={{ base: 'full', md: '330px' }}
+          align="left"
+          isInvalid={!pwdValid}
+        >
           <FormLabel>Enter new Password</FormLabel>
-          <Input placeholder="New Password" />{' '}
-          <Input placeholder="Confirm new Password" mt={4} />
-          <Button mt={4}>Update Password</Button>
+          <Input
+            type="password"
+            minLength={8}
+            maxLength={80}
+            onChange={e => setNewPwd(e.target.value)}
+            onBlur={validatePasswords}
+            placeholder="New Password"
+          />
+          {' '}
+          <Input
+            type="password"
+            minLength={8}
+            maxLength={80}
+            defaultValue=""
+            onChange={e => setNewConfirmPwd(e.target.value)}
+            onBlur={validatePasswords}
+            placeholder="Confirm new Password" mt={4}
+          />
+          <FormErrorMessage>{pwdError}</FormErrorMessage>
+          <Button
+            mt={4}
+            onClick={() =>
+              pwdValid ?
+                onSubmit({
+                  pwd: newPwd,
+                  token: authentication.token,
+                })
+                :
+                null
+            }
+          >
+            Update Password
+          </Button>
         </FormControl>
-        <Divider />
-        <Button variant="danger">Delete Account</Button> */}
+        <Box paddingTop="50px" height="full" width="full">
+          <Divider />
+        </Box>
+        <HStack>
+          <Button disabled="true" variant="danger">Delete Account</Button>
+          <Text fontSize="s">TODO. Contact corkscrew#0874 until implemented.</Text>
+        </HStack>
       </VStack>
     </Center>
   );

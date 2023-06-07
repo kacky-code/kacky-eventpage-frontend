@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import Login from './Login';
 import ResetPassword from './ResetPassword';
 import Register from './Register';
+import ResetPasswordConfirmToken from './ResetPasswordConfirmToken';
 
 const AuthModal = ({ isOpen, onClose }) => {
   const [mode, setMode] = useState('login');
@@ -37,6 +38,7 @@ const AuthModal = ({ isOpen, onClose }) => {
           {mode === 'resetPassword' ? (
             <ResetPassword setMode={setMode} />
           ) : null}
+          {mode === 'confirmReset' ? <ResetPasswordConfirmToken setMode={setMode} /> : null}
           {mode === 'register' ? <Register setMode={setMode} /> : null}
           {mode !== 'login' && (
             <IconButton
