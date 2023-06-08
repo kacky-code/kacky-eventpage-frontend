@@ -213,7 +213,7 @@ const Profile = () => {
             onClick={() =>
               emailValid ?
                 onSubmit({
-                  pwd: newEmail,
+                  mail: newEmail,
                   token: authentication.token,
                 })
                 :
