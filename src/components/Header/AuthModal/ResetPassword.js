@@ -34,6 +34,9 @@ const ResetPassword = ({ setMode }) => {
   };
 
   const validateUsername = () => {
+    console.log("username");
+    console.log(username);
+    console.log(username.length > 0)
     setUsernameValid(username.length > 0);
     setUsernameError(username.length > 0 ? '' : 'Please enter a username.');
   };
@@ -42,8 +45,10 @@ const ResetPassword = ({ setMode }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    validateUsername();
+    validateEmail();
 
-    if (!emailValid || !usernameValid) {
+    if (!emailValid || !usernameValid || username.length === 0 || email.length === 0) {
       return;
     }
 
