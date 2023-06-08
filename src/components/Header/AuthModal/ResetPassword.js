@@ -6,7 +6,7 @@ import {
   Input,
   Button,
   VStack,
-  FormErrorMessage, useToast,
+  FormErrorMessage, useToast, Flex, Box,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { resetPasswordStep1 } from '../../../api/api';
@@ -63,7 +63,13 @@ const ResetPassword = ({ setMode }) => {
     };
 
   return (
-    <>
+    <Flex
+      direction="column"
+      w="full"
+      h="75%"
+      align="center"
+      justify="space-around"
+    >
       <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
         Reset Password
       </Text>
@@ -88,11 +94,12 @@ const ResetPassword = ({ setMode }) => {
           />
           <FormErrorMessage>{emailError}</FormErrorMessage>
         </FormControl>
+        <Box height={5} />
         <Button type="submit" w="full">
           Reset my Password
         </Button>
       </VStack>
-    </>
+    </Flex>
   );
 };
 
