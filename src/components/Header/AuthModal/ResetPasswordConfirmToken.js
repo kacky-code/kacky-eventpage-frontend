@@ -103,9 +103,9 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
       </Text>
       <VStack spacing={6} w="full" as="form" onSubmit={handleSubmit}>
         <FormControl isInvalid={!tokenValid}>
-          <FormLabel>Token</FormLabel>
+          <FormLabel>Token (Check E-Mails)</FormLabel>
           <Input
-            placeholder="Token"
+            placeholder="6 characters"
             value={token}
             onChange={handleTokenChange}
             onBlur={validateToken}
@@ -116,7 +116,7 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
           <FormLabel>New Password</FormLabel>
           <Input
             type="password"
-            placeholder="New Password"
+            placeholder=""
             value={password}
             onChange={handlePasswordChange}
             onBlur={validatePassword}
@@ -127,7 +127,7 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
           <FormLabel>Confirm Password</FormLabel>
           <Input
             type="password"
-            placeholder="Confirm Password"
+            placeholder=""
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />

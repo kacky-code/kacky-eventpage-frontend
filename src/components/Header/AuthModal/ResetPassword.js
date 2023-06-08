@@ -34,9 +34,6 @@ const ResetPassword = ({ setMode }) => {
   };
 
   const validateUsername = () => {
-    console.log("username");
-    console.log(username);
-    console.log(username.length > 0)
     setUsernameValid(username.length > 0);
     setUsernameError(username.length > 0 ? '' : 'Please enter a username.');
   };
@@ -82,7 +79,7 @@ const ResetPassword = ({ setMode }) => {
         <FormControl isInvalid={!usernameValid}>
           <FormLabel>Username</FormLabel>
           <Input
-            placeholder="Username"
+            placeholder=""
             value={username}
             onChange={handleUsernameChange}
             onBlur={validateUsername}
@@ -92,7 +89,7 @@ const ResetPassword = ({ setMode }) => {
         <FormControl isInvalid={!emailValid}>
           <FormLabel>E-Mail</FormLabel>
           <Input
-            placeholder="E-Mail"
+            placeholder=""
             value={email}
             onChange={handleEmailChange}
             onBlur={validateEmail}

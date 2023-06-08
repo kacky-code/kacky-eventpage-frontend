@@ -99,7 +99,7 @@ const Login = ({ setMode, onClose }) => {
               },
             })}
             id="username"
-            placeholder="Username"
+            placeholder=""
           />
           {!errors.username ? (
             <FormHelperText>Enter your username here</FormHelperText>
@@ -122,7 +122,7 @@ const Login = ({ setMode, onClose }) => {
             })}
             id="password"
             type="password"
-            placeholder="Password"
+            placeholder=""
           />
           {!errors.password ? (
             <FormHelperText>Enter your password here</FormHelperText>
@@ -177,6 +177,7 @@ const Login = ({ setMode, onClose }) => {
         >
           Register here
         </Text>
+        {/* <Text onClick={() => setMode('confirmReset')}>asd</Text> */}
       </HStack>
     </Flex>
   );
