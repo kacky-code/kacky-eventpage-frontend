@@ -55,6 +55,8 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    validateToken();
+    validatePassword();
 
     if (!tokenValid) {
       setErrorToken('Please enter a valid token.');

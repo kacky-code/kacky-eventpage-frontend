@@ -210,15 +210,15 @@ const Profile = () => {
           <FormErrorMessage>{emailError}</FormErrorMessage>
           <Button
             mt={4}
-            onClick={() =>
-              emailValid ?
-                onSubmit({
-                  mail: newEmail,
-                  token: authentication.token,
-                })
-                :
-                null
-            }
+            onClick={() => {
+              validateEmail();
+              if (emailValid && newEmail.length !== 0) {
+                onSubmit(() => ({
+                    mail: newEmail,
+                    token: authentication.token,
+                  }))
+              }
+            }}
           >
             Update E-Mail
           </Button>
@@ -251,15 +251,15 @@ const Profile = () => {
           <FormErrorMessage>{pwdError}</FormErrorMessage>
           <Button
             mt={4}
-            onClick={() =>
-              pwdValid ?
-                onSubmit({
+            onClick={() => {
+              validatePasswords();
+              if (pwdValid && newPwd.length !== 0 && newEmail.length !== 0) {
+                onSubmit(() => ({
                   pwd: newPwd,
                   token: authentication.token,
-                })
-                :
-                null
-            }
+                }))
+              }
+            }}
           >
             Update Password
           </Button>
