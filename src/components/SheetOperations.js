@@ -6,6 +6,7 @@ export function mergeSpreadsheetAndPBs(sheet, pb) {
     const formattedMap = {
       finished: map.finished || false,
       number: map.kacky_id.toString(),
+      version: map.version || "",
       author: map.author,
       difficulty: map.map_diff || 0,
       rating: map.rating || 0,

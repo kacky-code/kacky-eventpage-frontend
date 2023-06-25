@@ -62,15 +62,17 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
         <Flex alignContent='center' height="40px" align="center">
           <MapWRCell wrScore={data.wrScore} wrHolder={data.wrHolder} />
         </Flex>
-        <Flex height="40px" align="center">
-          <MapPBCell personalBest={data.personalBest} wrHolder={data.wrHolder} kackyRank={data.kackyRank} />
-        </Flex>
+        {mode === "minimal" ? null : (
+          <Flex height="40px" align="center">
+            <MapPBCell personalBest={data.personalBest} wrHolder={data.wrHolder} kackyRank={data.kackyRank} />
+          </Flex>
+        )}
       </Flex>
       <Spacer />
-      {authentication.isLoggedIn ?
-        <Flex marginLeft="20" direction="column" justifyContent='space-around'>
-          <Flex alignContent='center' height="40px" align="center">
-            <Tooltip label={`Rated Difficulty: ${  data.rating}`} placement="start">
+      {authentication.isLoggedIn && mode !== "minimal" ? (
+        <Flex marginLeft="20" direction="column" justifyContent="space-around">
+          <Flex alignContent="center" height="40px" align="center">
+            <Tooltip label={`Rated Difficulty: ${data.rating}`} placement="start">
               <Text
                 width="200px"
                 textShadow="glow"
@@ -82,7 +84,14 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
                 Difficulty:
               </Text>
             </Tooltip>
-            <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex}/>
+            <MapDifficultyCell
+              difficulty={data.difficulty}
+              mapId={data.number}
+              eventtype={eventtype}
+              edition={edition}
+              table={table}
+              rowIndex={rowIndex}
+            />
           </Flex>
           <Flex height="40px" align="center">
             <Text
@@ -104,8 +113,8 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
               table={table}
             />
           </Flex>
-          <Flex alignContent='center' height="40px" align="center">
-            <Box display={mode === "hunting" ? "none" : "inherit"} >
+          <Flex alignContent="center" height="40px" align="center">
+            <Box display={mode === "hunting" ? "none" : "inherit"}>
               <Text
                 width="200px"
                 textShadow="glow"
@@ -116,14 +125,21 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
               >
                 Discord Alarm:
               </Text>
-              <MapDiscordCell discordPing={data.discordPing} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex} mapId={data.number} />
+              <MapDiscordCell
+                discordPing={data.discordPing}
+                eventtype={eventtype}
+                edition={edition}
+                table={table}
+                rowIndex={rowIndex}
+                mapId={data.number}
+              />
             </Box>
           </Flex>
         </Flex>
-      :
-        <Flex marginLeft="20" direction="column" justifyContent='space-around'>
-          <Flex alignContent='center' height="40px" align="center">
-            <Tooltip label={`Rated Difficulty: ${  data.rating}`} placement="start">
+      ) : mode === "minimal" ? null : (
+        <Flex marginLeft="20" direction="column" justifyContent="space-around">
+          <Flex alignContent="center" height="40px" align="center">
+            <Tooltip label={`Rated Difficulty: ${data.rating}`} placement="start">
               <Text
                 width="200px"
                 textShadow="glow"
@@ -135,10 +151,17 @@ const MapDetailCell = memo(({ data, mode, eventtype, edition, table, rowIndex })
                 Difficulty:
               </Text>
             </Tooltip>
-            <MapDifficultyCell difficulty={data.difficulty} mapId={data.number} eventtype={eventtype} edition={edition} table={table} rowIndex={rowIndex}/>
+            <MapDifficultyCell
+              difficulty={data.difficulty}
+              mapId={data.number}
+              eventtype={eventtype}
+              edition={edition}
+              table={table}
+              rowIndex={rowIndex}
+            />
           </Flex>
         </Flex>
-      }
+      )}
     </Flex>
   )
 });
@@ -147,6 +170,7 @@ MapDetailCell.propTypes = {
   data: PropTypes.shape({
     finished: bool.isRequired,
     number: string.isRequired,
+    version: string.isRequired,
     author: string.isRequired,
     difficulty: number.isRequired,
     rating: number.isRequired,
@@ -160,8 +184,13 @@ MapDetailCell.propTypes = {
   eventtype: string.isRequired,
   edition: number.isRequired,
   mode: string.isRequired,
-  table: PropTypes.element.isRequired,
-  rowIndex: number.isRequired,
+  table: PropTypes.element,
+  rowIndex: number,
+};
+
+MapDetailCell.defaultProps = {
+  table: undefined,
+  rowIndex: undefined,
 };
 
 export default MapDetailCell;
