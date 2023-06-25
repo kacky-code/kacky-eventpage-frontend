@@ -98,6 +98,7 @@ const defaultColumns = [
         author={info.row.original.author}
         finished={info.row.original.finished}
         number={info.getValue().toString()}
+        version={info.row.original.version}
       />
     ),
   }),
