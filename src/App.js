@@ -24,6 +24,10 @@ import Leaderboard from './views/Leaderboard/Leaderboard';
 import Glance from './views/Glance/Glance';
 import WRHolders from './views/WRHolders/WRHolders';
 
+import AdminIndex from './views/Admin/AdminIndex';
+import EventManager from './views/Admin/EventManager';
+import WRManager from './views/Admin/WRManager';
+
 const cookies = new Cookies();
 
 const queryClient = new QueryClient();
@@ -74,6 +78,9 @@ const App = () => {
                 <Route path="leaderboard" element={<Leaderboard />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="glance" element={<Glance />} />
+                <Route path="/kackend" element={<AdminIndex />} />
+                <Route path="/kackend/events" element={<EventManager />} />
+                <Route path="/kackend/wrs" element={<WRManager />} />
                 <Route path="*" element={<div>Nothing here</div>} />
               </Route>
             </Routes>

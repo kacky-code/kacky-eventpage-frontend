@@ -240,6 +240,31 @@ export async function getWRHolderLeaderboard(token, eventtype) {
   return response.json();
 }
 
+export async function getMapInfo(eventtype, kackyid) {
+  const response = await fetch(`${url}/mapinfo/${eventtype}/${kackyid}`, {
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setMapInfo(token, eventtype, kackyid, data) {
+  const response = await fetch(`${url}/mapinfo/${eventtype}/${kackyid}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export async function resetPasswordStep1(username, mailaddr) {
   const response = await fetch(`${url}/pwdreset`, {
     method: 'POST',
