@@ -1,19 +1,20 @@
 import {
   Text,
-  Stack, HStack, Center, Link,
+  Stack, HStack, Center, Link, List, ListItem,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 
 const PreEvent = () => {
-  const eventStart = DateTime.fromISO("2023-03-03T20:00:00.000", { zone: "CET" });
+  const eventStart = DateTime.fromISO("2023-08-18T20:00:00.000", { zone: "CET" });
+  const mappingDeadine = DateTime.fromISO("2023-07-31T22:00:00.000", { zone: "CET" });
 
-  function updateTimer() {
+  function updateTimer(diffDate) {
     const now = DateTime.now();
-    const remainDays = Math.floor((eventStart - now) / (1000 * 60 * 60 * 24));
-    const remainHours = Math.floor((eventStart - now) / (1000 * 60 * 60) % 24);
-    const remainMinutes = Math.floor((eventStart - now) / (1000 * 60) % 60);
-    const remainSeconds = Math.floor((eventStart - now) / (1000) % 60);
+    const remainDays = Math.floor((diffDate - now) / (1000 * 60 * 60 * 24));
+    const remainHours = Math.floor((diffDate - now) / (1000 * 60 * 60) % 24);
+    const remainMinutes = Math.floor((diffDate - now) / (1000 * 60) % 60);
+    const remainSeconds = Math.floor((diffDate - now) / (1000) % 60);
     return {
       days: String(remainDays).padStart(2, "0"),
       hours: String(remainHours).padStart(2, "0"),
@@ -22,13 +23,39 @@ const PreEvent = () => {
     };
   }
 
-  const [remainingTime, setRemainingTime] = useState(updateTimer);
+  const [remainingTime, setRemainingTime] = useState(updateTimer(eventStart));
+  const [mappingEnd, setMappingEnd] = useState(updateTimer(mappingDeadine));
 
   useEffect(() => {
     setTimeout(() => {
-      setRemainingTime(updateTimer());
+      setRemainingTime(updateTimer(eventStart));
     }, 1000);
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMappingEnd(updateTimer(mappingDeadine));
+    }, 1000);
+  });
+
+  function toCETtoUserTime(datetimeString) {
+    const inputDateTime = DateTime.fromISO(datetimeString, { zone: 'Europe/Berlin' });
+    const userTimezone = DateTime.local().zoneName;
+    const userDateTime = inputDateTime.setZone(userTimezone);
+
+    const intlDate = userDateTime.toLocaleString({
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const intlTime = userDateTime.toLocaleString({
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric"
+    });
+
+    return `${intlDate.toString()}, ${intlTime.toString()} (${userDateTime.toFormat("ZZZZ")})`;
+  }
 
   return (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
@@ -38,7 +65,7 @@ const PreEvent = () => {
         letterSpacing="0.2em"
         fontSize={{ base: 'lg', md: '5xl' }}
       >
-        See you in March for Kackiest Kacky 8!
+        Kacky Reloaded 4 - August 2023
       </Text>
       <Center>
         <HStack>
@@ -100,27 +127,51 @@ const PreEvent = () => {
           </Text>
         </HStack>
       </Center>
-      <Center paddingTop="75px">
+      <Center pt={2}>
         <div style={{textAlign: "left", width: "66%", lineHeight: "2", fontSize: "larger", textTransform: "none"}} >
-          <Text fontSize="2xl" fontWeight="400" textTransform="uppercase">Kackiest Kacky 8 Info:</Text>
-          KK8 will be played in Trackmania Nations Forever from March 3rd to April 2nd.<br/>
-          This year, we once again go negative again with a smaller mappack of 50 maps. Because of the smaller selection, mappers tend to submit harder maps for negative editions. But fear not, our goal is always to deliver a balanced experience, suited for all skill levels, no matter if positive or negative.<br/>
-          For more information, <Link href="https://kacky.gg/discord" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>join the Discord Server</Link>!
+          <Text fontSize="2xl" fontWeight="400" textTransform="uppercase" textDecoration="underline" textUnderlineOffset="0.2em">General Info:</Text>
+          <List>
+            <ListItem>
+              📅  Duration: {toCETtoUserTime("2023-08-18T20:00:00.000")} - {toCETtoUserTime("2023-09-17T22:00:00.000")}
+            </ListItem>
+            <ListItem>
+            🎮  Servers: Join the servers in the &quot;Kacky Reloaded&quot; club (playing KR4 requires TM2020 Standard Access on PC)
+            </ListItem>
+            <ListItem>
+            🗺️  Maps: Kacky Reloaded #226 - #300
+            </ListItem>
+            <ListItem>
+            🌐  Kacky Event-Website: <Link href="https://kacky.gg">https://kacky.gg/</Link>
+            </ListItem>
+            <ListItem>
+            📊  Kacky Statistics & History: <Link href="https://kackyreloaded.com/">https://kackyreloaded.com/</Link>
+            </ListItem>
+            <ListItem>
+            🔗  Discord Invite: <Link href="http://kacky.gg/discord">http://kacky.gg/discord</Link>
+            </ListItem>
+            <ListItem>
+            📬  Mapping Deadline: {toCETtoUserTime("2023-07-31T22:00:00.000")}
+              {mappingEnd.days + mappingEnd.hours + mappingEnd.minutes + mappingEnd.seconds > 0 ?
+                ` (Closes in ${mappingEnd.days}:${mappingEnd.hours}:${mappingEnd.minutes}:${mappingEnd.seconds})`
+              :
+                " - I hope you submitted already"
+              }
+            </ListItem>
+          </List>
         </div>
       </Center>
-      {/* <Center>
+      {mappingEnd.days + mappingEnd.hours + mappingEnd.minutes + mappingEnd.seconds > 0 ?
+      <Center>
         <div style={{textAlign: "left", width: "66%", lineHeight: "2", fontSize: "larger", textTransform: "none"}} >
-          <Text fontSize="2xl" fontWeight="400" textTransform="uppercase">Servers:</Text>
-          Need some training? Join the <Link href="tmtp://#join=sky_kacky" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>Hunting Server</Link> or add it to <Link href="tmtp://#addfavorite=sky_kacky" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>your Favorites</Link> and join from the ingame browser!<br/>
-          Prepare by adding the event servers to your Favorites:
-          <ul style={{paddingLeft: "30px", paddingTop: "10px", paddingBottom: "10px"}}>
-            <li><Link href="tmtp://#addfavorite=sky_event1" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>Server 1</Link></li>
-            <li><Link href="tmtp://#addfavorite=sky_event1" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>Server 2</Link></li>
-            <li><Link href="tmtp://#addfavorite=sky_event1" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>Server 3</Link></li>
-          </ul>
-          Be aware that you can only have 10 servers in your Favorites with a free account. If you cannot add more, check <Link href="https://players.trackmaniaforever.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>https://players.trackmaniaforever.com/</Link> if there are some offline servers in your Favorites and remove them.
+          <Text fontSize="2xl" fontWeight="400" textTransform="uppercase" textDecoration="underline" textUnderlineOffset="0.2em">Mapping Information:</Text>
+          Do you want to build a map for KR4? Join the Kacky Discord Server (<Link href="http://kacky.gg/discord">http://kacky.gg/discord</Link>) and check channel #📢kacky-reloaded-4<br/>
+          It get&apos;s updated with the latest info and rules.<br/>
+          Have questions about building a map for Kacky? Ask them in #kacky-reloaded!
         </div>
-      </Center> */}
+      </Center>
+        :
+        null
+      }
     </Stack>
   )
 };
