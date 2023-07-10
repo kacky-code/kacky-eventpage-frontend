@@ -1,5 +1,5 @@
 const url = `https://api.kacky.info`;
-const recordsUrl = `https://records.kacky.info`;
+// const recordsUrl = `https://records.kacky.info`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
@@ -50,9 +50,30 @@ export async function eventLiveState() {
   return response.json();
 }
 
-export async function getAllEvents() {
-  return fetch(`${recordsUrl}/events`)
-    .then(response => response.json())
+
+export async function getAllEvents(token) {
+  const config = {}
+  if (token === undefined) {
+    config.method = "GET"
+    config.headers = {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    }
+  }else {
+    config.method = "POST";
+    config.headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    };
+    config.body = JSON.stringify({
+      "visibility": "true"
+    })
+  }
+
+  const response = await fetch(`${url}/events`, config);
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
 }
 
 export async function getDashboardData(token) {
@@ -262,6 +283,40 @@ export async function setMapInfo(token, eventtype, kackyid, data) {
     body: JSON.stringify(data)
   });
   if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setEventInfo(token, data) {
+  const response = await fetch(`${url}/manage/events`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setMapInfoAdmin(token, data, overwrite) {
+  const formData = new FormData();
+  formData.append('file', data);
+  if (overwrite === true) {
+    formData.set("overwrite", new Blob(["1"], {
+      type: "text/plain"
+    }));
+  }
+
+  const response = await fetch(`${url}/manage/maps`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData
+  });
+  if (!response.ok) throw new Error(response.status.toString());  // Error('Network response was not ok');
   return response.json();
 }
 

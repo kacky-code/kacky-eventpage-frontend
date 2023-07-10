@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-  VStack, Box, useToast,
+  VStack, Box, useToast, Flex, Link,
 } from '@chakra-ui/react';
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 import { getMapInfo, setMapInfo } from '../../api/api';
@@ -82,93 +82,97 @@ const WRManager = () => {
   }
 
   return (
-    <VStack w="full">
-      <Center
-        mb={5}
-        alignItems='self-start'
-        justifyContent="self-start">
-        <Button>Back</Button>
-      </Center>
-      <Center w="30%">
-        <form>
-          <VStack mb={5}>
-            <HStack spacing={4}>
-              <FormControl>
-                <FormLabel htmlFor="kackyId">Kacky ID</FormLabel>
-                <Input
-                  type="number"
-                  id="kackyId"
-                  placeholder="Enter Kacky ID"
-                  value={kackyId}
-                  onChange={(e) => setKackyId(e.target.value)}
-                />
-              </FormControl>
+    <Center>
+      <VStack w="30%">
+        <Flex
+          mb={5}
+          direction='row'
+          justifyItems="start"
+          width="full"
+        >
+          <Button as={Link} href="/kackend">Back</Button>
+        </Flex>
+        <Center>
+          <form>
+            <VStack mb={5}>
+              <HStack spacing={4}>
+                <FormControl>
+                  <FormLabel htmlFor="kackyId">Kacky ID</FormLabel>
+                  <Input
+                    type="number"
+                    id="kackyId"
+                    placeholder="Enter Kacky ID"
+                    value={kackyId}
+                    onChange={(e) => setKackyId(e.target.value)}
+                  />
+                </FormControl>
 
-              <FormControl>
-                <FormLabel htmlFor="eventType">Event Type</FormLabel>
-                <Select
-                  id="eventType"
-                  placeholder="Select event type"
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
-                >
-                  <option value="kk">KK</option>
-                  <option value="kr">KR</option>
-                </Select>
-              </FormControl>
-            </HStack>
-            <Button type="submit" onClick={handleFindClick}>Find</Button>
-          </VStack>
-        </form>
-      </Center>
-      { mapData === undefined ?
-        null
-      :
-        <>
-          <Center mt={10}>
-            <MapDetailCell
-              mode="minimal"
-              data={mapData}
-              edition={1}
-              eventtype={eventType}
-            />
-          </Center>
-          <Center mt={10}>
-            <Button variant="danger" onClick={onOpen}>Reset WR</Button>
-            <AlertDialog
-              isOpen={isOpen}
-              leastDestructiveRef={cancelRef}
-              onClose={onClose}
-            >
-              <AlertDialogOverlay>
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                    Reset Worldrecord?
-                  </AlertDialogHeader>
+                <FormControl>
+                  <FormLabel htmlFor="eventType">Event Type</FormLabel>
+                  <Select
+                    id="eventType"
+                    placeholder="Select event type"
+                    value={eventType}
+                    onChange={(e) => setEventType(e.target.value)}
+                  >
+                    <option value="kk">KK</option>
+                    <option value="kr">KR</option>
+                  </Select>
+                </FormControl>
+              </HStack>
+              <Button type="submit" onClick={handleFindClick}>Find</Button>
+            </VStack>
+          </form>
+        </Center>
+        { mapData === undefined ?
+          null
+        :
+          <>
+            <Center mt={10}>
+              <MapDetailCell
+                mode="minimal"
+                data={mapData}
+                edition={1}
+                eventtype={eventType}
+              />
+            </Center>
+            <Center mt={10}>
+              <Button variant="danger" onClick={onOpen}>Reset WR</Button>
+              <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+              >
+                <AlertDialogOverlay>
+                  <AlertDialogContent>
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                      Reset Worldrecord?
+                    </AlertDialogHeader>
 
-                  <AlertDialogBody textTransform="none">
-                    You are about to reset the WR on {mapData.number} by&nbsp;
-                    {mapData.wrHolder} ({mapData.wrScore / 1000}s).
-                    <br/>
-                    Only do this once it is deleted from
-                    Kacky Records/TMX/Nadeo!
-                  </AlertDialogBody>
+                    <AlertDialogBody textTransform="none">
+                      You are about to reset the WR on {mapData.number} by&nbsp;
+                      {mapData.wrHolder} ({mapData.wrScore / 1000}s).
+                      <br/>
+                      Only do this once it is deleted from
+                      Kacky Records/TMX/Nadeo!
+                    </AlertDialogBody>
 
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Cancel
-                    </Button>
-                    <Button variant="danger" onClick={resetHandler} ml={3}>
-                      Yeet it!
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialogOverlay>
-            </AlertDialog>
-          </Center>
-        </>
-      }
-    </VStack>
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={onClose}>
+                        Cancel
+                      </Button>
+                      <Button variant="danger" onClick={resetHandler} ml={3}>
+                        Yeet it!
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialogOverlay>
+              </AlertDialog>
+            </Center>
+          </>
+        }
+      </VStack>
+    </Center>
   );
 }
 
