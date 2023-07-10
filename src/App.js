@@ -27,6 +27,8 @@ import WRHolders from './views/WRHolders/WRHolders';
 import AdminIndex from './views/Admin/AdminIndex';
 import EventManager from './views/Admin/EventManager';
 import WRManager from './views/Admin/WRManager';
+import MapManager from './views/Admin/MapManager';
+import StreamerInfo from './views/StreamerInfo/StreamerInfo';
 
 const cookies = new Cookies();
 
@@ -81,6 +83,8 @@ const App = () => {
                 <Route path="/kackend" element={<AdminIndex />} />
                 <Route path="/kackend/events" element={<EventManager />} />
                 <Route path="/kackend/wrs" element={<WRManager />} />
+                <Route path="/kackend/maps" element={<MapManager />} />
+                <Route path="/streamerstuff" element={<StreamerInfo />} />
                 <Route path="*" element={<div>Nothing here</div>} />
               </Route>
             </Routes>
