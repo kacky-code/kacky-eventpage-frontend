@@ -22,7 +22,7 @@ const AdminIndex = () => {
           <ActionCard
             icon={MdOutlineModeEdit}
             title="Events"
-            description="Add Events."
+            description="Do Event stuff."
             linkTarget="events"
           />
           <ActionCard
@@ -34,7 +34,7 @@ const AdminIndex = () => {
           <ActionCard
             icon={MdOutlineModeEdit}
             title="Maps"
-            description="Update Maps"
+            description="Update Map Information"
             linkTarget="maps"
           />
       </VStack>
