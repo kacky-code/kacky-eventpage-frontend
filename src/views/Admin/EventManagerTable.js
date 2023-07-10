@@ -11,10 +11,9 @@ const EventTable = () => {
 
   useEffect(() => {
     getAllEvents(authentication.token).then(response => {
-      setTableData(response)
-      console.log(response)
-    }).catch((error) => {
-        console.error('Error fetching data:', error);
+      setTableData(response);
+    }).catch(() => {
+      setTableData([{ id: "error", name: "error", type: "error", visible: false }]);
     });
   }, [authentication.token]);
 
