@@ -11,7 +11,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   Divider,
   Stack,
-  useToast, FormErrorMessage, Box,
+  useToast, FormErrorMessage, Box, Link,
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -93,12 +93,22 @@ const Profile = () => {
 
   const onSubmit = data => mutation.mutate(data);
 
-  if (!authentication.isLoggedIn)
-    return <Text>Login to see your Profile!</Text>;
+  if (!authentication.isLoggedIn) return <Text>Login to see your Profile!</Text>;
+
+  // Ugly but I dont know better
+  let admin = false;
+  try {
+    if (JSON.parse(atob(authentication.token.split('.')[1])).isAdmin) {
+      admin = true;
+    }
+  } catch {
+    admin = false;
+  }
 
   return (
     <Center px={8} w="100%">
       <VStack spacing={6} align="flex-start" w="container.xl">
+        {admin ? <Button as={Link} href="/kackend">Admin Backend</Button> : null}
         <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
           Your Profile
         </Text>
