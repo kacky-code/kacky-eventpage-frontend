@@ -1,5 +1,5 @@
-const url = `https://api.kacky.info`;
-// const recordsUrl = `https://records.kacky.info`;
+const url = `https://api.kacky.gg`;
+const recordsUrl = `https://records.kacky.gg`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
@@ -185,7 +185,7 @@ export async function getFinishes(token) {
 export function getMapImageUrl(eventType, mapNumber) {
   // remove "[v2]" and similar
   const cleanedMapNumber = mapNumber.toString().split(" ")[0];
-  const imageUrl = `https://static.kacky.info/${eventType}/thumbs/${cleanedMapNumber}.jpg`;
+  const imageUrl = `https://static.kacky.gg/${eventType}/thumbs/${cleanedMapNumber}.jpg`;
   return imageUrl;
 }
 
@@ -214,7 +214,7 @@ export async function getPerformance(token, type) {
 }
 
 export async function getLeaderBoardPage(token, startrank, elements) {
-  const response = await fetch(`https://records.kacky.info/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`, {
+  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json, text/plain, */*',
@@ -226,7 +226,7 @@ export async function getLeaderBoardPage(token, startrank, elements) {
 }
 
 export async function getLeaderBoardPlayer(token, searchlogin) {
-  const response = await fetch(`https://records.kacky.info/event/leaderboard/kk/8/${searchlogin}`, {
+  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8/${searchlogin}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json, text/plain, */*',
