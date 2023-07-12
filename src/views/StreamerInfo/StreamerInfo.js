@@ -190,13 +190,8 @@ const StreamerInfo = () => (
               </ListItem>
             </List>
             <Text fontSize="m" fontWeight="400" textDecoration="underline" textUnderlineOffset="0.2em" pt={5}>Return Value:</Text>
-<<<<<<< HEAD
             <Code mt={2}>Next unfinished map in 15 minutes: 196 (Server 1)</Code>
             <Code mt={2}>Next unfinished maps in 15 minutes: 196 (Server 1), 205 (Server 5)</Code>
-=======
-            <Code mt={2}>15 minutes: 196 (Server 1)</Code>
-            <Code mt={2}>15 minutes: 196 (Server 1), 205 (Server 5)</Code>
->>>>>>> 44e403bbcb6faf1739ca4a7be85bb943ccee7fb3
             <VStack
               spacing={5}
               mt={2}
@@ -205,11 +200,7 @@ const StreamerInfo = () => (
                 content={
                   <pre>
                     <Code>
-<<<<<<< HEAD
                       !addcom !nextunfinned -cd=1 Next unfinished map in $(urlfetch https://api.kacky.gg/event/*tmlogin*/nextunfinned?simochat=1)
-=======
-                      !addcom !nextunfinned -cd=1 $(urlfetch https://api.kacky.gg/event/*tmlogin*/nextunfinned?simochat=1)
->>>>>>> 44e403bbcb6faf1739ca4a7be85bb943ccee7fb3
                     </Code>
                   </pre>
                 }
