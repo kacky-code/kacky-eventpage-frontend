@@ -41,16 +41,16 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import Chart from 'react-apexcharts';
-
 import AuthContext from '../../context/AuthContext';
-
 import defaultColumns from './Hunting.service';
+
 import {
   getSpreadsheetData,
   getAllEvents,
   getPersonalBests,
   getPerformance,
 } from '../../api/api';
+
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 import mergeSpreadsheetAndPBs from '../../components/SheetOperations';
 import { donutChartOptionsCharts1 } from '../Dashboard/EventsProgress';
@@ -93,31 +93,34 @@ const Hunting = () => {
   const [kkArray, setKkArray] = useState([]);
   const [krArray, setKrArray] = useState([]);
 
-  useEffect(() => {
-    getAllEvents()
-      .then(json =>
-        json
-          .filter(event => event.type === 'KK')
-          .map(event => ({
-            ...event,
-            type: event.type.toLowerCase(),
-            edition: event.edition,
-          }))
-      )
-      .then(array => setKkArray(selectorArrayParse(array)));
-    getAllEvents()
-      .then(json =>
-        json
-          .filter(event => event.type === 'KR')
-          .map(event => ({
-            ...event,
-            type: event.type.toLowerCase(),
-            edition: event.edition,
-          }))
-      )
-      .then(array => setKrArray(selectorArrayParse(array)));
-  }, []);
-
+  useEffect(() => {    
+      (async () => {
+        const cachedEvents = await getAllEvents();
+        setKkArray(
+          selectorArrayParse(
+            cachedEvents
+              .filter(event => event.type === 'KK')
+              .map(event => ({
+                ...event,
+                type: event.type.toLowerCase(),
+                edition: event.edition,
+              }))
+          )
+        );
+        setKrArray(
+          selectorArrayParse(
+            cachedEvents
+              .filter(event => event.type === 'KR')
+              .map(event => ({
+                ...event,
+                type: event.type.toLowerCase(),
+                edition: event.edition,
+              }))
+          )
+        );
+      })();
+    }, []);
+  
   const { data: sheetData, isSuccess: sheetIsSuccess } = useQuery(
     ['maps', authentication.token],
     () =>
