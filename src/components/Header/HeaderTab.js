@@ -13,7 +13,21 @@ import PropTypes from 'prop-types';
 import { useLocation, Link } from 'react-router-dom';
 
 const HeaderTab = forwardRef(
-  ({ route, subRoutes, text, TabIcon, SVGIcon: SVGTabIcon, onClick, indicatorRef, isSpacer, isBlank, fontSize }, ref) => {
+  (
+    {
+      route,
+      subRoutes,
+      text,
+      TabIcon,
+      SVGIcon: SVGTabIcon,
+      onClick,
+      indicatorRef,
+      isSpacer,
+      isBlank,
+      fontSize,
+    },
+    ref
+  ) => {
     const theme = useTheme();
     const { colorMode } = useColorMode();
     const tabElement = useRef(null);
@@ -24,10 +38,10 @@ const HeaderTab = forwardRef(
     });
 
     const { pathname } = useLocation();
-    const [ highlight, setHighlight ] = useState(false);
+    const [highlight, setHighlight] = useState(false);
 
     useEffect(() => {
-      setHighlight(pathname === route || subRoutes.includes(pathname))
+      setHighlight(pathname === route || subRoutes.includes(pathname));
       if (
         highlight &&
         tabElement.current !== null &&
@@ -59,7 +73,15 @@ const HeaderTab = forwardRef(
           }
         }, 100);
       }
-    }, [indicatorRef, tabElement, dimensions, pathname, route, subRoutes, highlight]);
+    }, [
+      indicatorRef,
+      tabElement,
+      dimensions,
+      pathname,
+      route,
+      subRoutes,
+      highlight,
+    ]);
 
     useEffect(() => {
       const handleResize = () => {
@@ -85,10 +107,12 @@ const HeaderTab = forwardRef(
           transform: { base: 'translateY(0px)', md: 'translateY(-2px)' },
         }}
         transform={
-          highlight ? {
-            base: 'translateY(0px)',
-            md: 'translateY(-2px)',
-          } : {}
+          highlight
+            ? {
+                base: 'translateY(0px)',
+                md: 'translateY(-2px)',
+              }
+            : {}
         }
         bg={highlight ? 'whiteAlpha.200' : null}
         transition="background-color 150ms ease-in-out, transform 150ms ease-in-out"
@@ -96,27 +120,26 @@ const HeaderTab = forwardRef(
         h="full"
         px={text !== '' ? { base: 2, md: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
       >
-        {TabIcon !== null ?
+        {TabIcon !== null ? (
           <Icon
             boxSize={{ base: 5, xl: 6 }}
             as={TabIcon}
             filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
           />
-          :
-          null
-        }
-        {SVGTabIcon !== null ?
+        ) : null}
+        {SVGTabIcon !== null ? (
           <Box>
-            <SVGTabIcon width="26px" color={colorMode === 'dark' ? 'white' : 'black'}/>
+            <SVGTabIcon
+              width="26px"
+              color={colorMode === 'dark' ? 'white' : 'black'}
+            />
           </Box>
-          :
-          null
-        }
+        ) : null}
         {text !== '' ? (
           <Text
             noOfLines={1}
             textShadow="glow"
-            fontSize={ fontSize }
+            fontSize={fontSize}
             letterSpacing="0.1em"
           >
             {text}
@@ -130,7 +153,7 @@ const HeaderTab = forwardRef(
     }
 
     if (isBlank) {
-      return (null);
+      return null;
     }
 
     if (route !== '') {
@@ -158,7 +181,11 @@ HeaderTab.propTypes = {
   onClick: PropTypes.func,
   indicatorRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   isSpacer: PropTypes.bool,
-  fontSize: PropTypes.shape({base: PropTypes.string, md: PropTypes.string, xl: PropTypes.string})
+  fontSize: PropTypes.shape({
+    base: PropTypes.string,
+    md: PropTypes.string,
+    xl: PropTypes.string,
+  }),
 };
 
 HeaderTab.defaultProps = {
@@ -170,7 +197,7 @@ HeaderTab.defaultProps = {
   onClick: () => {},
   indicatorRef: null,
   isSpacer: false,
-  fontSize: {base: 'xs', md: 'md', xl: 'xl' },
+  fontSize: { base: 'xs', md: 'md', xl: 'xl' },
 };
 
 export default HeaderTab;

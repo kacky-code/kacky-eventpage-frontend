@@ -15,7 +15,8 @@ import {
   Center,
   HStack,
   Input,
-  VStack, useColorMode,
+  VStack,
+  useColorMode,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -57,11 +58,10 @@ const Spreadsheet = () => {
     if (event.type && event.edition) {
       setData(null);
       setDataIsSuccess(false);
-      getScheduleData(authentication.token)
-        .then(response=>{
-          setData(response)
-          setDataIsSuccess(true);
-        })
+      getScheduleData(authentication.token).then(response => {
+        setData(response);
+        setDataIsSuccess(true);
+      });
     }
   }, [event.type, event.edition, authentication.token]);
 
@@ -69,14 +69,18 @@ const Spreadsheet = () => {
     if (event.type && event.edition && authentication.isLoggedIn) {
       setPbs(null);
       setPbsIsSuccess(false);
-      getPersonalBests(authentication.token, event.type)
-        .then(response=>{
-          setPbs(response)
-          setPbsIsSuccess(true);
-        })
+      getPersonalBests(authentication.token, event.type).then(response => {
+        setPbs(response);
+        setPbsIsSuccess(true);
+      });
     }
     setPbsIsSuccess(true);
-  }, [authentication.token, authentication.isLoggedIn, event.type, event.edition]);
+  }, [
+    authentication.token,
+    authentication.isLoggedIn,
+    event.type,
+    event.edition,
+  ]);
 
   useEffect(() => {
     if (dataIsSuccess && pbsIsSuccess) {
@@ -87,7 +91,7 @@ const Spreadsheet = () => {
 
   const [sorting, setSorting] = useState([]);
 
-  const [expanded, setExpanded] = useState({})
+  const [expanded, setExpanded] = useState({});
 
   const table = useReactTable({
     data: tableData,
@@ -135,7 +139,7 @@ const Spreadsheet = () => {
       },
     },
     onExpandedChange: setExpanded,
-    getExpandedRowModel: getExpandedRowModel()
+    getExpandedRowModel: getExpandedRowModel(),
   });
 
   const tableContainerRef = useRef(null);
@@ -154,9 +158,9 @@ const Spreadsheet = () => {
 
   const { colorMode } = useColorMode();
 
-  const rowBGcolor = (toggled) => {
+  const rowBGcolor = toggled => {
     if (toggled) {
-      return colorMode === "dark" ? "grey" : "lightgrey";
+      return colorMode === 'dark' ? 'grey' : 'lightgrey';
     }
     return colorMode;
   };
@@ -164,7 +168,10 @@ const Spreadsheet = () => {
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-        <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
+        <Heading>
+          {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
+          {event.edition} Schedule
+        </Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -194,20 +201,15 @@ const Spreadsheet = () => {
                     <Th
                       key={header.id}
                       colSpan={header.colSpan}
-                      style={
-                        {
-                          width:
-                            header.id === "finished"
-                              ?
-                              16
-                              :
-                              header.id === "difficulty" || header.id === "number"
-                                ?
-                                100
-                                :
-                                undefined
-                        }
-                      }
+                      style={{
+                        width:
+                          header.id === 'finished'
+                            ? 16
+                            : header.id === 'difficulty' ||
+                              header.id === 'number'
+                            ? 100
+                            : undefined,
+                      }}
                     >
                       {header.isPlaceholder ? null : (
                         <Box
@@ -227,9 +229,9 @@ const Spreadsheet = () => {
                             header.getContext()
                           )}
                           {{
-                              asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                              desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                            }[header.column.getIsSorted()] ??
+                            asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                            desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                          }[header.column.getIsSorted()] ??
                             (header.column.getCanSort() ? (
                               <Box w={4} h={4} />
                             ) : null)}
@@ -245,7 +247,11 @@ const Spreadsheet = () => {
                 const row = rows[virtualRow.index];
                 return (
                   <>
-                    <Tr key={row.id} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
+                    <Tr
+                      key={row.id}
+                      onClick={() => row.toggleExpanded()}
+                      bg={rowBGcolor(row.getIsExpanded())}
+                    >
                       {row.getVisibleCells().map(cell => (
                         <Td key={cell.id} background={!row.getIsExpanded()}>
                           {flexRender(
@@ -255,9 +261,22 @@ const Spreadsheet = () => {
                         </Td>
                       ))}
                     </Tr>
-                    <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
-                      <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
-                        <MapDetailCell data={row.original} eventtype={event.type} edition={event.edition} mode="schedule" table={table} rowIndex={row.index}/>
+                    <Tr
+                      key={row.id.concat('-collapse')}
+                      display={row.getIsExpanded() ? 'relative' : 'none'}
+                    >
+                      <Td
+                        key={row.id.concat('-collapse-elem')}
+                        colSpan={table.getHeaderGroups()[0].headers.length}
+                      >
+                        <MapDetailCell
+                          data={row.original}
+                          eventtype={event.type}
+                          edition={event.edition}
+                          mode="schedule"
+                          table={table}
+                          rowIndex={row.index}
+                        />
                       </Td>
                     </Tr>
                   </>

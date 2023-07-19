@@ -38,7 +38,9 @@ const AuthModal = ({ isOpen, onClose }) => {
           {mode === 'resetPassword' ? (
             <ResetPassword setMode={setMode} />
           ) : null}
-          {mode === 'confirmReset' ? <ResetPasswordConfirmToken setMode={setMode} /> : null}
+          {mode === 'confirmReset' ? (
+            <ResetPasswordConfirmToken setMode={setMode} />
+          ) : null}
           {mode === 'register' ? <Register setMode={setMode} /> : null}
           {mode !== 'login' && (
             <IconButton

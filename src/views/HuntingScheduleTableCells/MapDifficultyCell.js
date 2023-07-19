@@ -26,77 +26,82 @@ const diffBadgeColorArr = [
   { variant: 'red', text: 'Imp' },
 ];
 
-const MapDifficultyCell = memo(({ difficulty, eventtype, rowIndex, table, mapId }) => {
-  const { authentication } = useContext(AuthContext);
-  const [renderMenuList, setRenderMenuList] = useState(false);
+const MapDifficultyCell = memo(
+  ({ difficulty, eventtype, rowIndex, table, mapId }) => {
+    const { authentication } = useContext(AuthContext);
+    const [renderMenuList, setRenderMenuList] = useState(false);
 
-  const toast = useToast();
+    const toast = useToast();
 
-  let newDifficulty;
-  const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
-    onSuccess: () => {
-      table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
-    },
-    onError: () => {
-      toast({
-        title: 'Error',
-        description: 'An error occurred!',
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      });
-    },
-  });
+    let newDifficulty;
+    const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
+      onSuccess: () => {
+        table.options.meta.updateData(rowIndex, 'difficulty', newDifficulty);
+      },
+      onError: () => {
+        toast({
+          title: 'Error',
+          description: 'An error occurred!',
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+    });
 
-  const onSubmit = data => {
-    newDifficulty = data.diff;
-    mutation.mutate(data);
-  };
+    const onSubmit = data => {
+      newDifficulty = data.diff;
+      mutation.mutate(data);
+    };
 
-  return (
-    <Menu autoSelect={false}>
-      <MenuButton
-        onClick={() => setRenderMenuList(true)}
-        disabled={!authentication.isLoggedIn}
-        _hover={{ bg: 'whiteAlpha.200' }}
-        textAlign="left"
-        w="100"
-        h="full"
-        borderRadius="none"
-      >
-        <Badge
-          variant={diffBadgeColorArr[difficulty].variant} fontSize="medium"
+    return (
+      <Menu autoSelect={false}>
+        <MenuButton
+          onClick={() => setRenderMenuList(true)}
+          disabled={!authentication.isLoggedIn}
+          _hover={{ bg: 'whiteAlpha.200' }}
+          textAlign="left"
+          w="100"
+          h="full"
+          borderRadius="none"
         >
-          {diffBadgeColorArr[difficulty].text}
-        </Badge>
-      </MenuButton>
-      {renderMenuList ? (
-        <MenuList minW="0" w="140px" >
-          {diffBadgeColorArr.map((diff, index) => (
-            <MenuItem
-              onClick={() =>
-                onSubmit({
-                  mapid: mapId,
-                  diff: index,
-                  token: authentication.token,
-                })
-              }
-              key={diff.text}
-              px={6}
-              h={10}
-            >
-              {diff.text === 'undefined' ? (
-                <Text>none</Text>
-              ) : (
-                <Badge variant={diff.variant} fontSize="medium" >{diff.text}</Badge>
-              )}
-            </MenuItem>
-          ))}
-        </MenuList>
-      ) : null}
-    </Menu>
-  );
-});
+          <Badge
+            variant={diffBadgeColorArr[difficulty].variant}
+            fontSize="medium"
+          >
+            {diffBadgeColorArr[difficulty].text}
+          </Badge>
+        </MenuButton>
+        {renderMenuList ? (
+          <MenuList minW="0" w="140px">
+            {diffBadgeColorArr.map((diff, index) => (
+              <MenuItem
+                onClick={() =>
+                  onSubmit({
+                    mapid: mapId,
+                    diff: index,
+                    token: authentication.token,
+                  })
+                }
+                key={diff.text}
+                px={6}
+                h={10}
+              >
+                {diff.text === 'undefined' ? (
+                  <Text>none</Text>
+                ) : (
+                  <Badge variant={diff.variant} fontSize="medium">
+                    {diff.text}
+                  </Badge>
+                )}
+              </MenuItem>
+            ))}
+          </MenuList>
+        ) : null}
+      </Menu>
+    );
+  }
+);
 
 MapDifficultyCell.propTypes = {
   difficulty: PropTypes.number,
@@ -107,4 +112,4 @@ MapDifficultyCell.defaultProps = {
   difficulty: 0,
 };
 
-export {diffBadgeColorArr, MapDifficultyCell};
+export { diffBadgeColorArr, MapDifficultyCell };

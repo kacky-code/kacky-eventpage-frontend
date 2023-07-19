@@ -3,7 +3,8 @@ import {
   Button,
   Center,
   Heading,
-  useBoolean, useColorMode,
+  useBoolean,
+  useColorMode,
   VStack,
 } from '@chakra-ui/react';
 import WRTable from '../Leaderboard/WRTable';
@@ -17,7 +18,8 @@ const WRHolders = () => {
       px={{ base: 4, md: 8 }}
       mt={{ base: -16, md: -20 }}
       mb={{ base: 24, md: 8 }}
-      w="full">
+      w="full"
+    >
       <VStack overflow="hidden" spacing={4}>
         <Heading>List of WR Holders</Heading>
 
@@ -61,18 +63,18 @@ const WRHolders = () => {
             Kacky Reloaded
           </Button>
         </Center>
-        { krView ?
-            <VStack mr={5}>
-              <WRTable eventtype="kk"/>
-            </VStack>
-          :
-            <VStack justifyItems="start" height="full">
-              <WRTable eventtype="kr"/>
-            </VStack>
-        }
+        {krView ? (
+          <VStack mr={5}>
+            <WRTable eventtype="kk" />
+          </VStack>
+        ) : (
+          <VStack justifyItems="start" height="full">
+            <WRTable eventtype="kr" />
+          </VStack>
+        )}
       </VStack>
     </Center>
   );
-}
+};
 
 export default WRHolders;

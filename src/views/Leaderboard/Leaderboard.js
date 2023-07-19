@@ -9,15 +9,21 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
-  Box, Button,
+  Box,
+  Button,
   Center,
   Heading,
-  HStack, Icon,
+  HStack,
+  Icon,
   Input,
   Table,
-  TableContainer, Tbody, Td,
-  Text, Th,
-  Thead, Tr,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
   VStack,
 } from '@chakra-ui/react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -44,10 +50,9 @@ const Leaderboard = () => {
   useEffect(() => {
     if (event.type && event.edition) {
       setData(null);
-      getLeaderBoardPage(authentication.token, 0, 10)
-        .then(response=>{
-          setData(response)
-        })
+      getLeaderBoardPage(authentication.token, 0, 10).then(response => {
+        setData(response);
+      });
     }
   }, [event.type, event.edition, authentication.token]);
 
@@ -56,7 +61,7 @@ const Leaderboard = () => {
     if (data === null || data === undefined) {
       return;
     }
-    let counter = 1
+    let counter = 1;
     data.forEach(entry => {
       const row = {
         rank: entry.rank === undefined ? counter : entry.rank,
@@ -66,8 +71,8 @@ const Leaderboard = () => {
         avg: entry.avg,
       };
       counter += 1;
-      board.push(row)
-    })
+      board.push(row);
+    });
     setTableData(board);
   }, [data]);
 
@@ -124,25 +129,28 @@ const Leaderboard = () => {
   });
 
   const inputRef = useRef(null);
-  
+
   function searchLogin() {
-    if (inputRef.current.value === "") {
-      getLeaderBoardPage(authentication.token, 0, 10)
-        .then(response=>{
-          setData(response)
-        })
+    if (inputRef.current.value === '') {
+      getLeaderBoardPage(authentication.token, 0, 10).then(response => {
+        setData(response);
+      });
     } else {
-      getLeaderBoardPlayer(authentication.token, inputRef.current.value)
-        .then(response => {
-          setData([response,])
-        })
+      getLeaderBoardPlayer(authentication.token, inputRef.current.value).then(
+        response => {
+          setData([response]);
+        }
+      );
     }
   }
 
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
-        <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Leaderboard</Heading>
+        <Heading>
+          {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
+          {event.edition} Leaderboard
+        </Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Find a Login:
@@ -150,17 +158,13 @@ const Leaderboard = () => {
           <Input
             w={300}
             ref={inputRef}
-            onKeyUp={(e) => e.key === "Enter" ? searchLogin() : null}
+            onKeyUp={e => (e.key === 'Enter' ? searchLogin() : null)}
             placeholder="tmlogin"
           />
-          <Button
-            onClick={() => searchLogin()}
-          >
-            Search
-          </Button>
+          <Button onClick={() => searchLogin()}>Search</Button>
           <Button
             onClick={() => {
-              inputRef.current.value = "";
+              inputRef.current.value = '';
               searchLogin();
             }}
           >
@@ -169,12 +173,14 @@ const Leaderboard = () => {
           <Button
             letterSpacing="0.1em"
             textShadow="glow"
-            style={{marginLeft: 'auto'}}
-            onClick={() => window.open(event.type === "kk" ?
-              `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
-              :
-              `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`
-            )}
+            style={{ marginLeft: 'auto' }}
+            onClick={() =>
+              window.open(
+                event.type === 'kk'
+                  ? `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
+                  : `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`
+              )
+            }
           >
             Detailed Leaderboard
           </Button>
@@ -190,10 +196,7 @@ const Leaderboard = () => {
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                    >
+                    <Th key={header.id} colSpan={header.colSpan}>
                       {header.isPlaceholder ? null : (
                         <Box
                           display="flex"
@@ -212,9 +215,9 @@ const Leaderboard = () => {
                             header.getContext()
                           )}
                           {{
-                              asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                              desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                            }[header.column.getIsSorted()] ??
+                            asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                            desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                          }[header.column.getIsSorted()] ??
                             (header.column.getCanSort() ? (
                               <Box w={4} h={4} />
                             ) : null)}
@@ -230,15 +233,15 @@ const Leaderboard = () => {
                 const row = rows[virtualRow.index];
                 return (
                   <Tr key={row.id}>
-                      {row.getVisibleCells().map(cell => (
-                        <Td key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </Td>
-                      ))}
-                    </Tr>
+                    {row.getVisibleCells().map(cell => (
+                      <Td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Td>
+                    ))}
+                  </Tr>
                 );
               })}
             </Tbody>

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Box, Center, VStack } from '@chakra-ui/react';
 
 import { MdOutlineModeEdit } from 'react-icons/md';
-import AuthContext from "../../context/AuthContext";
+import AuthContext from '../../context/AuthContext';
 import ActionCard from './ActionCard';
 
 const AdminIndex = () => {
@@ -17,26 +17,26 @@ const AdminIndex = () => {
   }
 
   return (
-      <Center>
-        <VStack spacing={4}>
-          <ActionCard
-            icon={MdOutlineModeEdit}
-            title="Events"
-            description="Do Event stuff."
-            linkTarget="events"
-          />
-          <ActionCard
-            icon={MdOutlineModeEdit}
-            title="Worldrecords"
-            description="Manage Worldrecords. Removal of rouge entries."
-            linkTarget="wrs"
-          />
-          <ActionCard
-            icon={MdOutlineModeEdit}
-            title="Maps"
-            description="Update Map Information"
-            linkTarget="maps"
-          />
+    <Center>
+      <VStack spacing={4}>
+        <ActionCard
+          icon={MdOutlineModeEdit}
+          title="Events"
+          description="Do Event stuff."
+          linkTarget="events"
+        />
+        <ActionCard
+          icon={MdOutlineModeEdit}
+          title="Worldrecords"
+          description="Manage Worldrecords. Removal of rouge entries."
+          linkTarget="wrs"
+        />
+        <ActionCard
+          icon={MdOutlineModeEdit}
+          title="Maps"
+          description="Update Map Information"
+          linkTarget="maps"
+        />
       </VStack>
     </Center>
   );
