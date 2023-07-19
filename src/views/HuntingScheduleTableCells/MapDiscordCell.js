@@ -9,15 +9,15 @@ import { useMutation } from '@tanstack/react-query';
 import AuthContext from '../../context/AuthContext';
 import { postSpreadsheetData } from '../../api/api';
 
-const MapDiscordCell = memo(({ discordPing, rowIndex, table, mapId }) => {
+const MapDiscordCell = memo(({ discordPing, eventtype, rowIndex, table, mapId }) => {
   const { authentication } = useContext(AuthContext);
 
   const toast = useToast();
 
-  let newPing;
-  const mutation = useMutation(data => postSpreadsheetData(data), {
+  let alarmState = discordPing;
+  const mutation = useMutation(data => postSpreadsheetData(data, eventtype), {
     onSuccess: () => {
-      table.options.meta.updateData(rowIndex, 'discordPing', newPing);
+      table.options.meta.updateData(rowIndex, 'discordPing', alarmState);
     },
     onError: () => {
       toast({
@@ -32,26 +32,28 @@ const MapDiscordCell = memo(({ discordPing, rowIndex, table, mapId }) => {
 
   // Cork doesnt want the actual value xdd
   // eslint-disable-next-line no-unused-vars
-  const onSubmit = newPingValue => {
-    newPing = newPingValue;
+  function onSubmit() {
+    alarmState = !alarmState;
     mutation.mutate({
-      mapid: parseInt(mapId, 10),
-      alarm: parseInt(mapId, 10),
+      mapid: mapId,
+      alarm: alarmState,
       token: authentication.token,
     });
-  };
+  }
 
   return (
     <Switch
       isDisabled={!authentication.isLoggedIn}
+      // isDisabled="true"
       onChange={e => onSubmit(e.target.value)}
-      defaultChecked={discordPing}
+      defaultChecked={alarmState}
     />
   );
 });
 
 MapDiscordCell.propTypes = {
   discordPing: PropTypes.bool,
+  eventtype: PropTypes.string.isRequired,
 };
 
 MapDiscordCell.defaultProps = {

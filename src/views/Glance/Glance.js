@@ -3,21 +3,20 @@ import {
   Center,
   useBoolean,
   VStack,
-  useColorMode,
+  useColorMode, Text, Box,
 } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
-import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
+import { MdGridView, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import ServerCard from './ServerCard';
-
-import { getDashboardData } from '../../api/api';
+import { getDashboardData, getStreamInfo } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
+import HotbarCard from './HotbarCard';
 
-const mapChangeEstimate = 0;
+const mapChangeEstimate = 20;
 
-const Dashboard = () => {
+const Glance = () => {
   const { colorMode } = useColorMode();
   const [isCompactView, setIsCompactView] = useBoolean();
 
@@ -63,6 +62,16 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, [counter, queryClient]);
 
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getStreamInfo(authentication.token)
+        .then(json => setMessage(json.data))
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [authentication.token]);
+
   return (
     <>
       <Center mb={8}>
@@ -82,12 +91,13 @@ const Dashboard = () => {
           shadow={isCompactView ? 'glow' : 'none'}
           textShadow={isCompactView ? 'glow' : 'none'}
         >
-          Compact View
+          Hotbar View
         </Button>
         <Button
+          disabled="True"
           borderRadius="0 6px 6px 0"
           onClick={setIsCompactView.toggle}
-          rightIcon={<MdOutlineViewAgenda />}
+          rightIcon={<MdGridView />}
           borderColor={
             !isCompactView
               ? colorMode === 'dark'
@@ -100,21 +110,42 @@ const Dashboard = () => {
           shadow={!isCompactView ? 'glow' : 'none'}
           textShadow={!isCompactView ? 'glow' : 'none'}
         >
-          Large View
+          Grid View
         </Button>
       </Center>
-      <VStack mb={{ base: 24, md: 0 }} spacing={8}>
-        {servers.map((server, index) => (
-          <ServerCard
-            {...server}
-            timeLeft={counter[index] - mapChangeEstimate}
-            isCompactView={isCompactView}
-            key={server.serverNumber}
-          />
-        ))}
-      </VStack>
+      {
+        message === "" ?
+          <VStack spacing={3}>
+            {servers.map((server, index) => (
+              <HotbarCard
+                {...server}
+                timeLeft={counter[index] - mapChangeEstimate}
+                key={server.serverNumber}
+                style={{ transition: "opacity 1s" }}
+              />
+            ))}
+          </VStack>
+        :
+          <Center>
+            <Box
+              w="200px"
+              h="500px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text
+                fontSize="2xl"
+                letterSpacing='wide'
+                lineHeight="1.5"
+              >
+                {message}
+              </Text>
+            </Box>
+          </Center>
+      }
     </>
   );
 };
 
-export default Dashboard;
+export default Glance;

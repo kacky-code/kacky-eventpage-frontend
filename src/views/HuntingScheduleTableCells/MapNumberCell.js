@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -7,10 +7,13 @@ import { Text, IconButton, HStack, useDisclosure } from '@chakra-ui/react';
 import { MdOutlineImage } from 'react-icons/md';
 
 import MapImageModal from '../../components/MapImageModal';
+import EventContext from '../../context/EventContext';
 
-const MapNumberCell = memo(({ number, finished, author }) => {
+const MapNumberCell = memo(({ number, version, finished, author, eventtype }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [renderImage, setRenderImage] = useState(false);
+
+  const { event } = useContext(EventContext);
 
   return (
     <HStack
@@ -24,11 +27,11 @@ const MapNumberCell = memo(({ number, finished, author }) => {
         letterSpacing="0.1em"
         textShadow="glow"
         fontSize="xl"
-        fontWeight="medium"
+        fontWeight="700"
       >
-        {number}
+        {number} {version}
       </Text>
-      {renderImage ? (
+      {eventtype !== "hunting" && renderImage ? (
         <>
           <IconButton
             onClick={onOpen}
@@ -44,6 +47,7 @@ const MapNumberCell = memo(({ number, finished, author }) => {
             isFinished={finished}
             isOpen={isOpen}
             onClose={onClose}
+            eventtype={event.type}
           />
         </>
       ) : null}
@@ -53,12 +57,16 @@ const MapNumberCell = memo(({ number, finished, author }) => {
 
 MapNumberCell.propTypes = {
   number: PropTypes.string.isRequired,
+  version: PropTypes.string,
   finished: PropTypes.bool,
   author: PropTypes.string.isRequired,
+  eventtype: PropTypes.string,
 };
 
 MapNumberCell.defaultProps = {
+  version: "",
   finished: false,
+  eventtype: "hunting"
 };
 
 export default MapNumberCell;

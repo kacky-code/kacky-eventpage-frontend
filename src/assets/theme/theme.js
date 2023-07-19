@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
-  config: { initialColorMode: 'dark', useSystemColorMode: false },
+  config: { initialColorMode: localStorage.getItem('chakra-ui-color-mode')||'dark', useSystemColorMode: false },
   styles: {
     global: props => ({
       html: {
@@ -31,6 +31,12 @@ const theme = extendTheme({
     }),
   },
   components: {
+    Heading: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        margin: '45px 0 35px 0',
+      }),
+    },
     Switch: {
       baseStyle: props => ({
         track: {
@@ -117,6 +123,20 @@ const theme = extendTheme({
       }),
     },
     Input: {
+      // eslint-disable-next-line no-unused-vars
+      baseStyle: props => ({
+        field: { fontWeight: 'hairline', letterSpacing: '0.1em' },
+      }),
+      variants: {
+        outline: {
+          field: {
+            background: 'blackAlpha.50',
+            _dark: { background: 'whiteAlpha.200' },
+          },
+        },
+      },
+    },
+    Select: {
       // eslint-disable-next-line no-unused-vars
       baseStyle: props => ({
         field: { fontWeight: 'hairline', letterSpacing: '0.1em' },

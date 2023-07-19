@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { Icon, Text, HStack } from '@chakra-ui/react';
+import { Icon, Text, HStack, Badge } from '@chakra-ui/react';
 
 import {
   MdOutlineCheckCircle,
   MdTag,
-  MdOutlineLabel,
+  MdLabelOutline,
+  MdTimeline,
   MdAccessTime,
-  // eslint-disable-next-line no-unused-vars
+  MdStars,
   MdOutlineLeaderboard,
   MdOutlinePlayCircle,
   MdOutlineDns,
@@ -20,20 +21,69 @@ import { createColumnHelper } from '@tanstack/react-table';
 
 import { DateTime } from 'luxon';
 
-import MapNumberCell from './MapNumberCell';
-import MapDifficultyCell from './MapDifficultyCell';
-import MapFinishedCell from './MapFinishedCell';
-import MapClipCell from './MapClipCell';
+import MapNumberCell from '../HuntingScheduleTableCells/MapNumberCell';
+import MapFinishedCell from '../HuntingScheduleTableCells/MapFinishedCell';
+import MapClipCell from '../HuntingScheduleTableCells/MapClipCell';
 // eslint-disable-next-line no-unused-vars
-import MapDiscordCell from './MapDiscordCell';
+import MapDiscordCell from '../HuntingScheduleTableCells/MapDiscordCell';
 
 const columnHelper = createColumnHelper();
+
+const diffColorArr = ['outline', 'white', 'green', 'yellow', 'orange', 'red', 'purple'];
 
 const defaultColumns = [
   columnHelper.accessor('finished', {
     id: 'finished',
+    width: "20rem",
     header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
     cell: info => <MapFinishedCell finished={info.getValue()} />,
+    sortingFn: (rowA, rowB) => {
+      if (
+        rowA.getValue("finished")
+        + rowA.getValue("difficulty") / 10
+        > rowB.getValue("finished")
+        + rowB.getValue("difficulty") / 10
+      ) {
+        return 1;
+      }
+      if (
+        rowA.getValue("finished")
+        + rowA.getValue("difficulty") / 10
+        < rowB.getValue("finished")
+        + rowB.getValue("difficulty") / 10
+      ) {        return -1;
+      }
+      return 0;
+    }
+  }),
+  columnHelper.accessor('difficulty', {
+    id: 'difficulty',
+    header: () => (
+      <Icon boxSize="16px" as={MdTimeline} />
+    ),
+    cell: info => (
+      <Badge
+        variant={diffColorArr[info.getValue().toString()]}
+      >&nbsp;&nbsp;</Badge>
+    ),
+    sortingFn: (rowA, rowB) => {
+      if (
+        rowA.getValue("finished") / 10
+        + rowA.getValue("difficulty")
+        > rowB.getValue("finished") / 10
+        + rowB.getValue("difficulty")
+      ) {
+        return 1;
+      }
+      if (
+        rowA.getValue("finished") / 10
+        + rowA.getValue("difficulty")
+        < rowB.getValue("finished") / 10
+        + rowB.getValue("difficulty")
+      ) {        return -1;
+      }
+      return 0;
+    }
   }),
   columnHelper.accessor('number', {
     id: 'number',
@@ -48,6 +98,7 @@ const defaultColumns = [
         author={info.row.original.author}
         finished={info.row.original.finished}
         number={info.getValue().toString()}
+        version={info.row.original.version}
       />
     ),
   }),
@@ -55,32 +106,15 @@ const defaultColumns = [
     id: 'author',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdTag} />
+        <Icon boxSize="16px" as={MdLabelOutline} />
         <Text display={{ base: 'none', lg: 'inline' }}>Author</Text>
       </>
     ),
     cell: info => (
-      <Text fontSize="xs" letterSpacing="0.1em">
+      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
         {' '}
         {info.getValue().toString()}
       </Text>
-    ),
-  }),
-  columnHelper.accessor('difficulty', {
-    id: 'difficulty',
-    header: () => (
-      <>
-        <Icon boxSize="16px" as={MdOutlineLabel} />
-        <Text display={{ base: 'none', lg: 'inline' }}>Difficulty</Text>
-      </>
-    ),
-    cell: info => (
-      <MapDifficultyCell
-        difficulty={info.getValue()}
-        rowIndex={info.row.index}
-        table={info.table}
-        mapId={info.row.original.number}
-      />
     ),
   }),
   columnHelper.accessor('upcomingIn', {
@@ -97,10 +131,10 @@ const defaultColumns = [
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
           letterSpacing="0.1em"
           textShadow="glow"
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.getValue() * 60).toFormat('h') - 1}
+          {String(Math.floor(info.getValue() / 60)).padStart(2, "0")}
         </Text>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
@@ -109,13 +143,13 @@ const defaultColumns = [
           h
         </Text>
         <Text
-          pl="4"
+          pl="2"
           letterSpacing="0.1em"
           textShadow="glow"
-          fontSize="xl"
+          fontSize="lg"
           fontWeight="medium"
         >
-          {DateTime.fromSeconds(info.getValue() * 60).toFormat('mm')}
+          {String(info.getValue() % 60).padStart(2, "0")}
         </Text>
         <Text textTransform="lowercase">m</Text>
       </HStack>
@@ -131,10 +165,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
+        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
           #
         </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
+        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
           {info.getValue()}
         </Text>
       </HStack>
@@ -156,8 +190,40 @@ const defaultColumns = [
       </Text>
     ),
   }),
-  columnHelper.accessor('local', {
-    id: 'local',
+  columnHelper.accessor('wrScore', {
+    id: 'wrScore',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdStars} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR</Text>
+      </>
+    ),
+    cell: info => (
+      <Text letterSpacing="0.1em" textShadow="glow">
+        {info.getValue() !== 0
+          ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
+          : '-'}
+      </Text>
+    ),
+  }),
+  columnHelper.accessor('wrHolder', {
+    id: 'wrHolder',
+    header: () => (
+      <>
+        <Icon boxSize="16px" as={MdStars} />
+        <Text display={{ base: 'none', lg: 'inline' }}>WR Holder</Text>
+      </>
+    ),
+    cell: info => (
+      <Text letterSpacing="0.1em" textShadow="glow">
+        {info.getValue() !== ""
+          ? info.getValue()
+          : '-'}
+      </Text>
+    ),
+  }),
+  columnHelper.accessor('kackyRank', {
+    id: 'kackyRank',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdOutlineLeaderboard} />
@@ -166,10 +232,10 @@ const defaultColumns = [
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="xl" fontWeight="hairline">
-          #
+        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
+          {info.getValue() !== 0 ? '#' : ''}
         </Text>
-        <Text textShadow="glow" fontSize="xl" fontWeight="medium">
+        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
           {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>

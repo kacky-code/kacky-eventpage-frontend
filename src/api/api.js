@@ -1,4 +1,5 @@
-const url = `https://api.kacky.info`;
+const url = `https://api.kacky.gg`;
+const recordsUrl = `https://records.kacky.gg`;
 
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
@@ -44,6 +45,37 @@ export async function registerUser(username, password, mailadress) {
   return response.json();
 }
 
+export async function eventLiveState() {
+  const response = await fetch(`${url}/eventstatus`);
+  return response.json();
+}
+
+
+export async function getAllEvents(token) {
+  const config = {}
+  if (token === undefined) {
+    config.method = "GET"
+    config.headers = {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    }
+  }else {
+    config.method = "POST";
+    config.headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    };
+    config.body = JSON.stringify({
+      "visibility": "true"
+    })
+  }
+
+  const response = await fetch(`${url}/events`, config);
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
 export async function getDashboardData(token) {
   const config =
     token === ''
@@ -62,7 +94,25 @@ export async function getDashboardData(token) {
   return response.json();
 }
 
-export async function getSpreadsheetData(token) {
+export async function getSpreadsheetData(token, type, edition) {
+  const config =
+    token === ''
+      ? {
+          Accept: 'application/json, text/plain, */*',
+        }
+      : {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json, text/plain, */*',
+        };
+
+  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
+    headers: config,
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getScheduleData(token) {
   const config =
     token === ''
       ? {
@@ -80,8 +130,8 @@ export async function getSpreadsheetData(token) {
   return response.json();
 }
 
-export async function postSpreadsheetData(data) {
-  const response = await fetch(`${url}/spreadsheet`, {
+export async function postSpreadsheetData(data, type) {
+  const response = await fetch(`${url}/spreadsheet/${type}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${data.token}`,
@@ -132,7 +182,172 @@ export async function getFinishes(token) {
   return response.json();
 }
 
-export function getMapImageUrl(mapNumber) {
-  const imageUrl = `https://kackydev.dingens.me/static/media/images/${mapNumber}.jpg`;
+export function getMapImageUrl(eventType, mapNumber) {
+  // remove "[v2]" and similar
+  const cleanedMapNumber = mapNumber.toString().split(" ")[0];
+  const imageUrl = `https://static.kacky.gg/${eventType}/thumbs/${cleanedMapNumber}.jpg`;
   return imageUrl;
+}
+
+export async function getPersonalBests(token, type) {
+  const response = await fetch(`${url}/pb/${type}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getPerformance(token, type) {
+  const response = await fetch(`${url}/performance/${type}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getLeaderBoardPage(token, startrank, elements) {
+  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getLeaderBoardPlayer(token, searchlogin) {
+  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8/${searchlogin}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getStreamInfo(token) {
+  const response = await fetch(`${url}/stream`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getWRHolderLeaderboard(token, eventtype) {
+  const response = await fetch(`${url}/wrleaderboard/${eventtype}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function getMapInfo(eventtype, kackyid) {
+  const response = await fetch(`${url}/mapinfo/${eventtype}/${kackyid}`, {
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setMapInfo(token, eventtype, kackyid, data) {
+  const response = await fetch(`${url}/mapinfo/${eventtype}/${kackyid}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setEventInfo(token, data) {
+  const response = await fetch(`${url}/manage/events`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function setMapInfoAdmin(token, data, overwrite) {
+  const formData = new FormData();
+  formData.append('file', data);
+  if (overwrite === true) {
+    formData.set("overwrite", new Blob(["1"], {
+      type: "text/plain"
+    }));
+  }
+
+  const response = await fetch(`${url}/manage/maps`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData
+  });
+  if (!response.ok) throw new Error(response.status.toString());  // Error('Network response was not ok');
+  return response.json();
+}
+
+export async function resetPasswordStep1(username, mailaddr) {
+  const response = await fetch(`${url}/pwdreset`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user: username,
+      mail: mailaddr,
+    }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function resetPasswordStep2(token, pwd) {
+  const response = await fetch(`${url}/pwdreset`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token,
+      pwd,
+    }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
 }

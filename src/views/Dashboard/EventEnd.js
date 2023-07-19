@@ -35,12 +35,12 @@ const EventEnd = () => {
   const theme = useTheme();
 
   const getRank = () => {
-    if (finishes < 10) return rank.none;
-    if (finishes < 25) return rank.plastic;
-    if (finishes < 50) return rank.bronze;
-    if (finishes < 65) return rank.silver;
-    if (finishes < 75) return rank.gold;
-    if (finishes === 75) return rank.kacky;
+    if (finishes < 5) return rank.none;
+    if (finishes < 15) return rank.plastic;
+    if (finishes < 25) return rank.bronze;
+    if (finishes < 40) return rank.silver;
+    if (finishes < 50) return rank.gold;
+    if (finishes === 50) return rank.kacky;
 
     return rank.none;
   };
@@ -56,7 +56,7 @@ const EventEnd = () => {
     }
   }, [data, isSuccess]);
 
-  return (
+   return (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Stack>
         <Text
@@ -64,7 +64,7 @@ const EventEnd = () => {
           letterSpacing="0.2em"
           fontSize={{ base: '2xl', md: '4xl' }}
         >
-          {event.name} is over!
+          {event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} is over!
         </Text>
         <Text
           fontWeight="500"
@@ -131,7 +131,7 @@ const EventEnd = () => {
               }
               thickness="1px"
               min={0}
-              max={75}
+              max={50}
               color="green.300"
               value={finishes}
               size="20rem"
@@ -142,7 +142,7 @@ const EventEnd = () => {
                 color="green.300"
                 letterSpacing="0.2em"
               >
-                {finishes} / 75
+                {finishes} / 50
               </CircularProgressLabel>
             </CircularProgress>
           </Box>
@@ -202,7 +202,7 @@ const EventEnd = () => {
         </Text>
       )}
     </Stack>
-  );
+  )
 };
 
 export default EventEnd;
