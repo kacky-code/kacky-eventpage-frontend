@@ -11,10 +11,11 @@ import {
   Icon,
   Box,
   Text,
+  Heading,
   Center,
   HStack,
   Input,
-  VStack,
+  VStack, useColorMode,
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
@@ -26,16 +27,18 @@ import {
   useReactTable,
   getFilteredRowModel,
   useSortBy,
+  getExpandedRowModel,
 } from '@tanstack/react-table';
 
-import { useQuery } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 
-import defaultColumns from './Spreadsheet.service';
-import { getSpreadsheetData } from '../../api/api';
+import defaultColumns from './Schedule.service';
+import { getScheduleData, getPersonalBests } from '../../api/api';
+import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
+import { mergeScheduleAndPBs } from '../../components/SheetOperations';
 
 const Spreadsheet = () => {
   const { event } = useContext(EventContext);
@@ -45,66 +48,62 @@ const Spreadsheet = () => {
   // eslint-disable-next-line no-unused-vars
   const [columns, setColumns] = useState(() => [...defaultColumns]);
 
-  const { data, isSuccess } = useQuery(['maps', authentication.token], () =>
-    getSpreadsheetData(authentication.token)
-  );
-  useEffect(() => {
-    if (isSuccess) {
-      const formattedData = [];
+  const [data, setData] = useState(null);
+  const [dataIsSuccess, setDataIsSuccess] = useState(false);
+  const [pbs, setPbs] = useState(null);
+  const [pbsIsSuccess, setPbsIsSuccess] = useState(false);
 
-      if (authentication.isLoggedIn) {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: map.finished,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: map.map_diff,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
-            personalBest: map.map_pb,
-            local: map.map_rank,
-            clip: map.clip,
-            discordPing: map.alarm,
-          };
-          formattedData.push(formattedMap);
-        });
-      } else {
-        data.forEach(map => {
-          const formattedMap = {
-            finished: false,
-            number: map.kacky_id.toString(),
-            author: map.author,
-            difficulty: 0,
-            upcomingIn: map.upcomingIn,
-            server: map.server,
-            personalBest: 0,
-            local: 0,
-            clip: '',
-            discordPing: false,
-          };
-          formattedData.push(formattedMap);
-        });
-      }
+  useEffect(() => {
+    if (event.type && event.edition) {
+      setData(null);
+      setDataIsSuccess(false);
+      getScheduleData(authentication.token)
+        .then(response=>{
+          setData(response)
+          setDataIsSuccess(true);
+        })
+    }
+  }, [event.type, event.edition, authentication.token]);
+
+  useEffect(() => {
+    if (event.type && event.edition && authentication.isLoggedIn) {
+      setPbs(null);
+      setPbsIsSuccess(false);
+      getPersonalBests(authentication.token, event.type)
+        .then(response=>{
+          setPbs(response)
+          setPbsIsSuccess(true);
+        })
+    }
+    setPbsIsSuccess(true);
+  }, [authentication.token, authentication.isLoggedIn, event.type, event.edition]);
+
+  useEffect(() => {
+    if (dataIsSuccess && pbsIsSuccess) {
+      const formattedData = mergeScheduleAndPBs(data, pbs);
       setTableData(formattedData);
     }
-  }, [data, authentication.isLoggedIn, isSuccess]);
+  }, [data, pbs, dataIsSuccess, pbsIsSuccess]);
 
   const [sorting, setSorting] = useState([]);
+
+  const [expanded, setExpanded] = useState({})
 
   const table = useReactTable({
     data: tableData,
     columns,
     state: {
       sorting,
+      expanded,
       columnVisibility: {
         finished: authentication.isLoggedIn,
         difficulty: authentication.isLoggedIn,
-        upcomingIn: event.isLive,
-        server: event.isLive,
-        personalBest: false,
-        local: false,
-        clip: authentication.isLoggedIn,
-        discordPing: authentication.isLoggedIn && event.isLive,
+        personalBest: authentication.isLoggedIn,
+        local: authentication.isLoggedIn,
+        wrScore: !authentication.isLoggedIn,
+        wrHolder: !authentication.isLoggedIn,
+        clip: false,
+        discordPing: false,
       },
     },
     initialState: {
@@ -135,6 +134,8 @@ const Spreadsheet = () => {
         );
       },
     },
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel()
   });
 
   const tableContainerRef = useRef(null);
@@ -151,9 +152,19 @@ const Spreadsheet = () => {
     .getHeaderGroups()[0]
     .headers[1].column.getFilterValue();
 
+  const { colorMode } = useColorMode();
+
+  const rowBGcolor = (toggled) => {
+    if (toggled) {
+      return colorMode === "dark" ? "grey" : "lightgrey";
+    }
+    return colorMode;
+  };
+
   return (
     <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
       <VStack overflow="hidden" spacing={4}>
+        <Heading>{event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} Schedule</Heading>
         <HStack w="full">
           <Text letterSpacing="0.1em" textShadow="glow">
             Filter for a Map :
@@ -180,7 +191,24 @@ const Spreadsheet = () => {
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <Th key={header.id} colSpan={header.colSpan}>
+                    <Th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={
+                        {
+                          width:
+                            header.id === "finished"
+                              ?
+                              16
+                              :
+                              header.id === "difficulty" || header.id === "number"
+                                ?
+                                100
+                                :
+                                undefined
+                        }
+                      }
+                    >
                       {header.isPlaceholder ? null : (
                         <Box
                           display="flex"
@@ -199,9 +227,9 @@ const Spreadsheet = () => {
                             header.getContext()
                           )}
                           {{
-                            asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                            desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                          }[header.column.getIsSorted()] ??
+                              asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                              desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                            }[header.column.getIsSorted()] ??
                             (header.column.getCanSort() ? (
                               <Box w={4} h={4} />
                             ) : null)}
@@ -216,16 +244,23 @@ const Spreadsheet = () => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const row = rows[virtualRow.index];
                 return (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                      <Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                  <>
+                    <Tr key={row.id} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
+                      {row.getVisibleCells().map(cell => (
+                        <Td key={cell.id} background={!row.getIsExpanded()}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </Td>
+                      ))}
+                    </Tr>
+                    <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
+                      <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
+                        <MapDetailCell data={row.original} eventtype={event.type} edition={event.edition} mode="schedule" table={table} rowIndex={row.index}/>
                       </Td>
-                    ))}
-                  </Tr>
+                    </Tr>
+                  </>
                 );
               })}
             </Tbody>

@@ -1,5 +1,5 @@
 {
-  "homepage": "https://kacky.info",
+  "homepage": "https://kacky.gg",
   "name": "kacky-eventpage-frontend",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +7,9 @@
     "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/montserrat": "^4.5.14",
     "@fontsource/oswald": "^4.5.9",
+    "@fontsource/roboto": "^4.5.8",
     "@tanstack/react-query": "^4.2.1",
     "@tanstack/react-query-devtools": "^4.2.1",
     "@tanstack/react-table": "^8.5.11",
@@ -16,15 +18,18 @@
     "luxon": "^3.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.33.0",
     "react-icons": "^4.4.0",
+    "react-lazy-load-image-component": "^1.5.6",
     "react-router-dom": "^6.3.0",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "deploy": "react-scripts build && mkdir -p live && cp -r build/* live/",
+    "dev": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -44,10 +44,12 @@ const Login = ({ setMode, onClose }) => {
     onSuccess: response => {
       const cookies = new Cookies();
       cookies.set('token', response.access_token, { path: '/' });
+      cookies.set('expires', response.expires, { path: '/' });
 
       setAuthentication({
         isLoggedIn: true,
         token: response.access_token,
+        expires: response.expires,
       });
 
       toast({
@@ -97,7 +99,7 @@ const Login = ({ setMode, onClose }) => {
               },
             })}
             id="username"
-            placeholder="Username"
+            placeholder=""
           />
           {!errors.username ? (
             <FormHelperText>Enter your username here</FormHelperText>
@@ -120,7 +122,7 @@ const Login = ({ setMode, onClose }) => {
             })}
             id="password"
             type="password"
-            placeholder="Password"
+            placeholder=""
           />
           {!errors.password ? (
             <FormHelperText>Enter your password here</FormHelperText>
@@ -146,7 +148,7 @@ const Login = ({ setMode, onClose }) => {
         <Button type="submit" w="full">
           Login
         </Button>
-        {/* <Text
+        <Text
           letterSpacing="0.1em"
           textDecoration="underline"
           color="blue.500"
@@ -157,7 +159,7 @@ const Login = ({ setMode, onClose }) => {
           onClick={() => setMode('resetPassword')}
         >
           Forgot your Password?
-        </Text> */}
+        </Text>
       </VStack>
       <HStack justify="center" spacing={4} w="full">
         <Text letterSpacing="0.1em" fontSize="sm" textShadow="glow">
@@ -175,6 +177,7 @@ const Login = ({ setMode, onClose }) => {
         >
           Register here
         </Text>
+        {/* <Text onClick={() => setMode('confirmReset')}>asd</Text> */}
       </HStack>
     </Flex>
   );

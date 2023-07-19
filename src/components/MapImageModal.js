@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import mapImageFallback from '../assets/images/mapImageFallback.jpg';
 import { getMapImageUrl } from '../api/api';
 
-const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
+const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventtype }) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
 
@@ -42,7 +42,7 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
         <Image
           onError={getFallbackImage}
           alt="Map"
-          src={getMapImageUrl(mapNumber)}
+          src={getMapImageUrl(eventtype, mapNumber)}
         />
         <Flex
           direction="column"
@@ -62,7 +62,7 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
               : 'linear(to-br, transparent 0%, transparent 50%, white 90%, white 100%)'
           }
         >
-          <HStack w="320px">
+          <HStack >
             <Text
               fontSize="2xl"
               lineHeight="24px"
@@ -71,9 +71,9 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
               align="right"
               textShadow="glow"
             >
-              Kacky
+              {eventtype === "kk" ? "Kackiest" : "Kacky"}
               <br />
-              Reloaded
+              {eventtype === "kk" ? "Kacky" : "Reloaded"}
             </Text>
             <HStack spacing="0">
               <Text
@@ -83,8 +83,17 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
                 letterSpacing="0.1em"
                 fontWeight="bold"
               >
-                {mapNumber}
+                {mapNumber.includes(" ") ?
+                  mapNumber.split(" ")[0]
+                  :
+                  mapNumber
+                }
               </Text>
+              {mapNumber.includes(" ") ?
+                  <Text fontSize="xl">{mapNumber.split(" ")[1]}</Text>
+                :
+                null
+              }
               {isFinished ? (
                 <Icon
                   color="green.300"
@@ -96,11 +105,11 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
               ) : null}
             </HStack>
           </HStack>
-          <HStack mr={10} py={2}>
+          <HStack mr={2} py={2}>
             <Text fontWeight="hairline" textShadow="glow" letterSpacing="0.1em">
               by
             </Text>
-            <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em">
+            <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em" alignSelf="flex-end">
               {author}
             </Text>
           </HStack>
@@ -121,9 +130,10 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished }) => {
 MapImageModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  mapNumber: PropTypes.number.isRequired,
+  mapNumber: PropTypes.string.isRequired,
   isFinished: PropTypes.bool.isRequired,
   author: PropTypes.string.isRequired,
+  eventtype: PropTypes.string.isRequired,
 };
 
 export default MapImageModal;
