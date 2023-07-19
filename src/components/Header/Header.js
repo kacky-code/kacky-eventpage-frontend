@@ -47,7 +47,7 @@ const Header = () => {
   const { authentication, setAuthentication } = useContext(AuthContext);
   const { event } = useContext(EventContext);
 
-  const discordUrl = "https://kacky.gg/discord";
+  const discordUrl = 'https://kacky.gg/discord';
 
   const logout = () => {
     logoutServer(authentication.token);
@@ -81,34 +81,38 @@ const Header = () => {
     {
       id: 1,
       route: '/',
-      text: event.isLive === "active" ? 'Dashboard' : 'Info',
+      text: event.isLive === 'active' ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive === "active" ? {
-      id: 2,
-      route: '/schedule',
-      text: 'Schedule',
-      TabIcon: MdOutlineEvent,
-    } : {
-      id: 2,
-      isBlank: true,
-    },
+    event.isLive === 'active'
+      ? {
+          id: 2,
+          route: '/schedule',
+          text: 'Schedule',
+          TabIcon: MdOutlineEvent,
+        }
+      : {
+          id: 2,
+          isBlank: true,
+        },
     {
       id: 3,
       route: '/hunting',
-      subRoutes: ["/wrs", "/pstats"],
+      subRoutes: ['/wrs', '/pstats'],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    event.isLive === "active" || event.isLive === "post" ? {
-      id: 4,
-      route: '/leaderboard',
-      text: 'Leaderboard',
-      TabIcon: MdOutlineLeaderboard,
-    } : {
-      id: 4,
-      isBlank: true,
-    },
+    event.isLive === 'active' || event.isLive === 'post'
+      ? {
+          id: 4,
+          route: '/leaderboard',
+          text: 'Leaderboard',
+          TabIcon: MdOutlineLeaderboard,
+        }
+      : {
+          id: 4,
+          isBlank: true,
+        },
     {
       id: 5,
       isSpacer: true,
@@ -139,34 +143,38 @@ const Header = () => {
     {
       id: 1,
       route: '/',
-      text: event.isLive === "active" ? 'Dashboard' : 'Info',
+      text: event.isLive === 'active' ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive === "active" ? {
-      id: 2,
-      route: '/schedule',
-      text: 'Schedule',
-      TabIcon: MdOutlineEvent,
-    } : { 
-      id: 2,
-      isBlank: true,
-    },
+    event.isLive === 'active'
+      ? {
+          id: 2,
+          route: '/schedule',
+          text: 'Schedule',
+          TabIcon: MdOutlineEvent,
+        }
+      : {
+          id: 2,
+          isBlank: true,
+        },
     {
       id: 3,
       route: '/hunting',
-      subRoutes: ["/wrs", "/pstats"],
+      subRoutes: ['/wrs', '/pstats'],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    event.isLive === "active" || event.isLive === "post" ? {
-      id: 4,
-      route: '/leaderboard',
-      text: 'Leaderboard',
-      TabIcon: MdOutlineLeaderboard,
-    } : {
-      id: 4,
-      isBlank: true,
-    },
+    event.isLive === 'active' || event.isLive === 'post'
+      ? {
+          id: 4,
+          route: '/leaderboard',
+          text: 'Leaderboard',
+          TabIcon: MdOutlineLeaderboard,
+        }
+      : {
+          id: 4,
+          isBlank: true,
+        },
     {
       id: 5,
       isSpacer: true,
@@ -203,34 +211,38 @@ const Header = () => {
     {
       id: 1,
       route: '/',
-      text: event.isLive === "active" ? 'Dashboard' : 'Info',
+      text: event.isLive === 'active' ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
-    event.isLive === "active" ? {
-      id: 2,
-      route: '/schedule',
-      text: 'Schedule',
-      TabIcon: MdOutlineEvent,
-    } : {
-      id: 2,
-      isBlank: true,
-    },
+    event.isLive === 'active'
+      ? {
+          id: 2,
+          route: '/schedule',
+          text: 'Schedule',
+          TabIcon: MdOutlineEvent,
+        }
+      : {
+          id: 2,
+          isBlank: true,
+        },
     {
       id: 3,
       route: '/hunting',
-      subRoutes: ["/wrs", "/pstats"],
+      subRoutes: ['/wrs', '/pstats'],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
-    event.isLive === "active" || event.isLive === "post" ? {
-      id: 4,
-      route: '/leaderboard',
-      text: 'Leaderboard',
-      TabIcon: MdOutlineLeaderboard,
-    } : {
-      id: 4,
-      isBlank: true,
-    },
+    event.isLive === 'active' || event.isLive === 'post'
+      ? {
+          id: 4,
+          route: '/leaderboard',
+          text: 'Leaderboard',
+          TabIcon: MdOutlineLeaderboard,
+        }
+      : {
+          id: 4,
+          isBlank: true,
+        },
     {
       id: 5,
       isSpacer: true,
@@ -240,7 +252,7 @@ const Header = () => {
       route: '/leaderboard',
       text: '',
       TabIcon: MdOutlineLeaderboard,
-    }
+    },
   ];
 
   const huntingSubMenu = [
@@ -269,7 +281,7 @@ const Header = () => {
 
   const tabData = useBreakpointValue({
     base: tabsMobile,
-    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop
+    md: authentication.isLoggedIn ? tabsDesktopLoggedIn : tabsDesktop,
   });
 
   useEffect(() => {
@@ -285,18 +297,18 @@ const Header = () => {
         expires: '',
       });
     }
-  }, [authentication.expires, authentication.token, setAuthentication])
+  }, [authentication.expires, authentication.token, setAuthentication]);
 
   const [huntingSubMenuVisible, setHuntingSubMenuVisible] = useState(false);
   useEffect(() => {
-    setHuntingSubMenuVisible(pathname === '/hunting' || pathname === '/wrs' || pathname === '/pstats')
-  }, [pathname])
+    setHuntingSubMenuVisible(
+      pathname === '/hunting' || pathname === '/wrs' || pathname === '/pstats'
+    );
+  }, [pathname]);
 
   return (
     <>
-      <VStack
-        as="nav"
-      >
+      <VStack as="nav">
         <Center
           pos="fixed"
           bottom={{ base: '0', md: 'auto' }}
@@ -330,7 +342,8 @@ const Header = () => {
             {tabData.map(tab => (
               <HeaderTab
                 key={tab.id}
-                indicatorRef={indicatorElement} {...tab}
+                indicatorRef={indicatorElement}
+                {...tab}
               />
             ))}
             {showMenu ? (
@@ -348,7 +361,12 @@ const Header = () => {
                         filter={
                           colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                         }
-                        icon={<DiscordLogo width="10" color={colorMode === 'dark' ? 'white' : 'black'} />}
+                        icon={
+                          <DiscordLogo
+                            width="10"
+                            color={colorMode === 'dark' ? 'white' : 'black'}
+                          />
+                        }
                       >
                         Discord
                       </MenuItem>
@@ -429,23 +447,23 @@ const Header = () => {
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
           pt={{ base: '80px', md: '100px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
-          display={huntingSubMenuVisible ? "inherit" : "none"}
-          alignItems='center'
-          justifyContent='center'
+          display={huntingSubMenuVisible ? 'inherit' : 'none'}
+          alignItems="center"
+          justifyContent="center"
         >
           {huntingSubMenu.map(tab => (
             <Box
               h="inherit"
-              display={tab.isBlank ? "none" : "inherit"}
+              display={tab.isBlank ? 'none' : 'inherit'}
               key={tab.id}
             >
               <HeaderTab
                 indicatorRef={indicatorElementSubMenu}
-                fontSize={{base: 'xs', md: 'md', xl: 'l' }}              
+                fontSize={{ base: 'xs', md: 'md', xl: 'l' }}
                 {...tab}
               />
             </Box>
-            ))}
+          ))}
         </Center>
       </VStack>
 

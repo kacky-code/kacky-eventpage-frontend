@@ -26,22 +26,22 @@ const columnHelper = createColumnHelper();
 
 function mapsSort(rowA, rowB) {
   if (
-    rowA.getValue("finished")
-    + rowA.getValue("difficulty") / 10
-    + rowA.original.rating / 1000
-    > rowB.getValue("finished")
-    + rowB.getValue("difficulty") / 10
-    + rowB.original.rating / 1000
+    rowA.getValue('finished') +
+      rowA.getValue('difficulty') / 10 +
+      rowA.original.rating / 1000 >
+    rowB.getValue('finished') +
+      rowB.getValue('difficulty') / 10 +
+      rowB.original.rating / 1000
   ) {
     return 1;
   }
   if (
-    rowA.getValue("finished")
-    + rowA.getValue("difficulty") / 10
-    + rowA.original.rating / 1000
-    < rowB.getValue("finished")
-    + rowB.getValue("difficulty") / 10
-    + rowB.original.rating / 1000
+    rowA.getValue('finished') +
+      rowA.getValue('difficulty') / 10 +
+      rowA.original.rating / 1000 <
+    rowB.getValue('finished') +
+      rowB.getValue('difficulty') / 10 +
+      rowB.original.rating / 1000
   ) {
     return -1;
   }
@@ -51,24 +51,22 @@ function mapsSort(rowA, rowB) {
 const defaultColumns = [
   columnHelper.accessor('finished', {
     id: 'finished',
-    width: "20rem",
+    width: '20rem',
     header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
     cell: info => <MapFinishedCell finished={info.getValue()} />,
-    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB)
+    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB),
   }),
   columnHelper.accessor('difficulty', {
     id: 'difficulty',
-    header: () => (
-      <Icon boxSize="16px" as={MdTimeline} />
-    ),
+    header: () => <Icon boxSize="16px" as={MdTimeline} />,
     cell: info => (
       <Tooltip label={info.row.original.rating} placement="end">
-        <Badge
-          variant={diffBadgeColorArr[info.getValue().toString()].variant}
-        >&nbsp;&nbsp;</Badge>
+        <Badge variant={diffBadgeColorArr[info.getValue().toString()].variant}>
+          &nbsp;&nbsp;
+        </Badge>
       </Tooltip>
     ),
-    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB)
+    sortingFn: (rowA, rowB) => mapsSort(rowA, rowB),
   }),
   columnHelper.accessor('number', {
     id: 'number',

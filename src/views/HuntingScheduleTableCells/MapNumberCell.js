@@ -9,51 +9,53 @@ import { MdOutlineImage } from 'react-icons/md';
 import MapImageModal from '../../components/MapImageModal';
 import EventContext from '../../context/EventContext';
 
-const MapNumberCell = memo(({ number, version, finished, author, eventtype }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [renderImage, setRenderImage] = useState(false);
+const MapNumberCell = memo(
+  ({ number, version, finished, author, eventtype }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [renderImage, setRenderImage] = useState(false);
 
-  const { event } = useContext(EventContext);
+    const { event } = useContext(EventContext);
 
-  return (
-    <HStack
-      w="100px"
-      onMouseEnter={() => setRenderImage(true)}
-      onMouseLeave={() => setRenderImage(false)}
-      role="group"
-      spacing={4}
-    >
-      <Text
-        letterSpacing="0.1em"
-        textShadow="glow"
-        fontSize="xl"
-        fontWeight="700"
+    return (
+      <HStack
+        w="100px"
+        onMouseEnter={() => setRenderImage(true)}
+        onMouseLeave={() => setRenderImage(false)}
+        role="group"
+        spacing={4}
       >
-        {number} {version}
-      </Text>
-      {eventtype !== "hunting" && renderImage ? (
-        <>
-          <IconButton
-            onClick={onOpen}
-            visibility={{ base: 'visible', lg: 'hidden' }}
-            _groupHover={{
-              visibility: 'visible',
-            }}
-            icon={<MdOutlineImage fontSize="24px" />}
-          />
-          <MapImageModal
-            mapNumber={parseInt(number, 10)}
-            author={author}
-            isFinished={finished}
-            isOpen={isOpen}
-            onClose={onClose}
-            eventtype={event.type}
-          />
-        </>
-      ) : null}
-    </HStack>
-  );
-});
+        <Text
+          letterSpacing="0.1em"
+          textShadow="glow"
+          fontSize="xl"
+          fontWeight="700"
+        >
+          {number} {version}
+        </Text>
+        {eventtype !== 'hunting' && renderImage ? (
+          <>
+            <IconButton
+              onClick={onOpen}
+              visibility={{ base: 'visible', lg: 'hidden' }}
+              _groupHover={{
+                visibility: 'visible',
+              }}
+              icon={<MdOutlineImage fontSize="24px" />}
+            />
+            <MapImageModal
+              mapNumber={parseInt(number, 10)}
+              author={author}
+              isFinished={finished}
+              isOpen={isOpen}
+              onClose={onClose}
+              eventtype={event.type}
+            />
+          </>
+        ) : null}
+      </HStack>
+    );
+  }
+);
 
 MapNumberCell.propTypes = {
   number: PropTypes.string.isRequired,
@@ -64,9 +66,9 @@ MapNumberCell.propTypes = {
 };
 
 MapNumberCell.defaultProps = {
-  version: "",
+  version: '',
   finished: false,
-  eventtype: "hunting"
+  eventtype: 'hunting',
 };
 
 export default MapNumberCell;

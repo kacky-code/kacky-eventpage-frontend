@@ -39,10 +39,10 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
     onSuccess: () => {
       table.options.meta.updateData(rowIndex, 'clip', currentClip);
     },
-    onError: (error) => {
+    onError: error => {
       toast({
         title: 'Error',
-        description: `An error occurred!${  error}`,
+        description: `An error occurred!${error}`,
         status: 'error',
         duration: 4000,
         isClosable: true,
