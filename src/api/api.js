@@ -1,6 +1,8 @@
 const url = `https://api.kacky.gg`;
 const recordsUrl = `https://records.kacky.gg`;
 
+let cachedEvents = null;
+
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
     method: 'POST',
@@ -70,9 +72,12 @@ export async function getAllEvents(token) {
     });
   }
 
+  if (cachedEvents) return cachedEvents;
+  
   const response = await fetch(`${url}/events`, config);
   if (!response.ok) throw new Error('Network response was not ok');
-  return response.json();
+  cachedEvents = response.json();
+  return cachedEvents;
 }
 
 export async function getDashboardData(token) {
