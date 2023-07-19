@@ -79,57 +79,57 @@ const Header = () => {
 
   const tabsDesktopLoggedIn = [
     {
-      key: 1,
+      id: 1,
       route: '/',
       text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
-      key: 2,
+      id: 2,
       route: '/schedule',
       text: 'Schedule',
       TabIcon: MdOutlineEvent,
     } : {
-      key: 2,
+      id: 2,
       isBlank: true,
     },
     {
-      key: 3,
+      id: 3,
       route: '/hunting',
       subRoutes: ["/wrs", "/pstats"],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
     event.isLive === "active" || event.isLive === "post" ? {
-      key: 4,
+      id: 4,
       route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
-      key: 4,
+      id: 4,
       isBlank: true,
     },
     {
-      key: 5,
+      id: 5,
       isSpacer: true,
     },
     {
-      key: 6,
+      id: 6,
       onClick: () => window.open(discordUrl),
       SVGIcon: DiscordLogo,
     },
     {
-      key: 7,
+      id: 7,
       TabIcon: SwitchIcon,
       onClick: toggleColorMode,
     },
     {
-      key: 8,
+      id: 8,
       route: '/profile',
       TabIcon: MdPersonOutline,
     },
     {
-      key: 9,
+      id: 9,
       TabIcon: MdOutlineLogout,
       onClick: logout,
     },
@@ -137,52 +137,52 @@ const Header = () => {
 
   const tabsDesktop = [
     {
-      key: 1,
+      id: 1,
       route: '/',
       text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
-      key: 2,
+      id: 2,
       route: '/schedule',
       text: 'Schedule',
       TabIcon: MdOutlineEvent,
     } : { 
-      key: 2,
+      id: 2,
       isBlank: true,
     },
     {
-      key: 3,
+      id: 3,
       route: '/hunting',
       subRoutes: ["/wrs", "/pstats"],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
     event.isLive === "active" || event.isLive === "post" ? {
-      key: 4,
+      id: 4,
       route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
-      key: 4,
+      id: 4,
       isBlank: true,
     },
     {
-      key: 5,
+      id: 5,
       isSpacer: true,
     },
     {
-      key: 6,
+      id: 6,
       onClick: () => window.open(discordUrl),
       SVGIcon: DiscordLogo,
     },
     {
-      key: 7,
+      id: 7,
       TabIcon: SwitchIcon,
       onClick: toggleColorMode,
     },
     {
-      key: 8,
+      id: 8,
       text: 'Login',
       TabIcon: MdOutlineLogout,
       onClick: onOpen,
@@ -192,51 +192,51 @@ const Header = () => {
   const tabsMobile = [
     // can be added again if a homepage is needed
     /* {
-      key: 0,
+      id: 0,
       text: 'Home',
       TabIcon: MdOutlineHome,
     }, */
     /* {
-      key: 8,
+      id: 8,
       isSpacer: true,
     }, */
     {
-      key: 1,
+      id: 1,
       route: '/',
       text: event.isLive === "active" ? 'Dashboard' : 'Info',
       TabIcon: MdOutlineDashboard,
     },
     event.isLive === "active" ? {
-      key: 2,
+      id: 2,
       route: '/schedule',
       text: 'Schedule',
       TabIcon: MdOutlineEvent,
     } : {
-      key: 2,
+      id: 2,
       isBlank: true,
     },
     {
-      key: 3,
+      id: 3,
       route: '/hunting',
       subRoutes: ["/wrs", "/pstats"],
       text: 'Hunting',
       TabIcon: MdOutlineChecklist,
     },
     event.isLive === "active" || event.isLive === "post" ? {
-      key: 4,
+      id: 4,
       route: '/leaderboard',
       text: 'Leaderboard',
       TabIcon: MdOutlineLeaderboard,
     } : {
-      key: 4,
+      id: 4,
       isBlank: true,
     },
     {
-      key: 5,
+      id: 5,
       isSpacer: true,
     },
     {
-      key: 6,
+      id: 6,
       route: '/leaderboard',
       text: '',
       TabIcon: MdOutlineLeaderboard,
@@ -245,24 +245,24 @@ const Header = () => {
 
   const huntingSubMenu = [
     {
-      key: 1,
+      id: 1,
       route: '/hunting',
       text: 'Hunting Sheet',
       TabIcon: MdOutlineChecklist,
     },
     {
-      key: 2,
+      id: 2,
       route: '/wrs',
       text: 'WR Holders',
       TabIcon: MdOutlineLeaderboard,
     },
     /* authentication.isLoggedIn ? {
-      key: 3,
+      id: 3,
       route: '/pstats',
       text: 'My Stats',
       TabIcon: MdOutlineAccountCircle,
     } : {
-      key: 3,
+      id: 3,
       isBlank: true
     }, */
   ];
@@ -329,6 +329,7 @@ const Header = () => {
             </Box>
             {tabData.map(tab => (
               <HeaderTab
+                key={tab.id}
                 indicatorRef={indicatorElement} {...tab}
               />
             ))}
@@ -436,10 +437,11 @@ const Header = () => {
             <Box
               h="inherit"
               display={tab.isBlank ? "none" : "inherit"}
+              key={tab.id}
             >
               <HeaderTab
                 indicatorRef={indicatorElementSubMenu}
-                fontSize={{base: 'xs', md: 'md', xl: 'l' }}
+                fontSize={{base: 'xs', md: 'md', xl: 'l' }}              
                 {...tab}
               />
             </Box>
