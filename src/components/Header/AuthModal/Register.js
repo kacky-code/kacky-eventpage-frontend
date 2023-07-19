@@ -10,7 +10,8 @@ import {
   Flex,
   FormHelperText,
   FormErrorMessage,
-  HStack, useToast,
+  HStack,
+  useToast,
 } from '@chakra-ui/react';
 
 import PropTypes from 'prop-types';

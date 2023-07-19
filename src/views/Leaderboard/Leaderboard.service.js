@@ -1,24 +1,25 @@
 import { Box, Icon, Text } from '@chakra-ui/react';
 import {
-  MdAccountCircle, MdBarChart,
+  MdAccountCircle,
+  MdBarChart,
   MdOutlineSportsScore,
 } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
-import "@fontsource/montserrat";
+import '@fontsource/montserrat';
 
 const columnHelper = createColumnHelper();
 
 const fonts = {
-  "kk": "trebuchet ms, Helvetica, sans-serif",
-  "kr": "Montserrat, Helvetica Neue, Roboto",
-}
+  kk: 'trebuchet ms, Helvetica, sans-serif',
+  kr: 'Montserrat, Helvetica Neue, Roboto',
+};
 
 const defaultColumns = [
-  columnHelper.accessor("rank", {
-    id: "rank",
+  columnHelper.accessor('rank', {
+    id: 'rank',
     header: () => <Text>Rank</Text>,
-    cell: info => <Text>{info.getValue()}</Text>
+    cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('nickname', {
     id: 'nickname',
@@ -30,8 +31,8 @@ const defaultColumns = [
     ),
     cell: info => (
       <Box textTransform="none">
-        <span style={{fontFamily: fonts[info.table.options.meta.eventtype]}}>
-          { /* eslint-disable-next-line react/no-danger */ }
+        <span style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}>
+          {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
         </span>
       </Box>
@@ -39,22 +40,19 @@ const defaultColumns = [
   }),
   columnHelper.accessor('login', {
     id: 'login',
-    header: () => (
-      <Icon boxSize="16px" as={MdAccountCircle} />
-    ),
-    cell: info => (<Text>{info.getValue()}</Text>
-    ),
+    header: () => <Icon boxSize="16px" as={MdAccountCircle} />,
+    cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('fins', {
     id: 'fins',
-    width: "20rem",
+    width: '20rem',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdOutlineSportsScore} />
         <Text>#Fins</Text>
       </>
     ),
-    cell: info => (<Text>{info.getValue()}</Text>),
+    cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('avg', {
     id: 'avg',
@@ -64,8 +62,7 @@ const defaultColumns = [
         <Text>avg</Text>
       </>
     ),
-    cell: info => (<Text>{parseFloat(info.getValue()).toFixed(3)}</Text>
-    ),
+    cell: info => <Text>{parseFloat(info.getValue()).toFixed(3)}</Text>,
   }),
 ];
 
