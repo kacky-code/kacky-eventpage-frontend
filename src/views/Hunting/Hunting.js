@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext, Fragment } from 'react';
 
 import {
   TableContainer,
@@ -59,7 +59,8 @@ const Hunting = () => {
     /* eslint-disable no-plusplus */
     for (let i = 0; i < array.length; i++) {
       options.push(<option key={i} value={array[i].type + array[i].edition} type={array[i].type} edition={array[i].edition}>{array[i].name}</option>)
-    }
+    }    
+   /* options.push(<option key={array.length} value={array[0].edition} type={array[0].type} edition="all">All</option>) */
     return options;
   }
 
@@ -271,7 +272,7 @@ const Hunting = () => {
                 <Tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
                     <Th
-                      key={header.id}
+                      key={header.id.concat('-header')}
                       colSpan={header.colSpan}
                       style={
                         {
@@ -323,10 +324,10 @@ const Hunting = () => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const row = rows[virtualRow.index];
                 return (
-                  <>
-                    <Tr key={row.id} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
+                  <Fragment key={row.id}>
+                    <Tr key={row.id.concat('-row')} onClick={() => row.toggleExpanded()} bg={rowBGcolor(row.getIsExpanded())}>
                       {row.getVisibleCells().map(cell => (
-                        <Td key={cell.id} background={!row.getIsExpanded()}>
+                        <Td key={cell.id.concat('-cell')} background={!row.getIsExpanded()}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -336,10 +337,10 @@ const Hunting = () => {
                     </Tr>
                     <Tr key={row.id.concat("-collapse")} display={row.getIsExpanded() ? "relative" : "none"}>
                       <Td key={row.id.concat("-collapse-elem")} colSpan={table.getHeaderGroups()[0].headers.length}>
-                        <MapDetailCell data={row.original} eventtype={curEventType} edition={curEventEdition} mode="hunting" table={table} rowIndex={row.index}/>
+                        <MapDetailCell key={row.id.concat('-cell')} data={row.original} mode="hunting" eventtype={curEventType} edition={curEventEdition} table={table} rowIndex={row.index}/>
                       </Td>
                     </Tr>
-                  </>
+                  </Fragment>
                 );
               })}
             </Tbody>
