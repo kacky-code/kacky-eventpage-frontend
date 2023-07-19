@@ -1,4 +1,14 @@
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Switch, useToast } from '@chakra-ui/react';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Button,
+  Switch,
+  useToast,
+} from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { getAllEvents, setEventInfo } from '../../api/api';
 import AuthContext from '../../context/AuthContext';
@@ -10,15 +20,19 @@ const EventTable = () => {
   const { authentication } = useContext(AuthContext);
 
   useEffect(() => {
-    getAllEvents(authentication.token).then(response => {
-      setTableData(response);
-    }).catch(() => {
-      setTableData([{ id: "error", name: "error", type: "error", visible: false }]);
-    });
+    getAllEvents(authentication.token)
+      .then(response => {
+        setTableData(response);
+      })
+      .catch(() => {
+        setTableData([
+          { id: 'error', name: 'error', type: 'error', visible: false },
+        ]);
+      });
   }, [authentication.token]);
 
   // eslint-disable-next-line no-unused-vars
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     toast({
       title: 'Error',
       description: `Not Implemented`,
@@ -28,22 +42,23 @@ const EventTable = () => {
     });
   };
 
-  const handleVisibilityToggle = (id, visible) => {
+  const handleVisibilityToggle = (uid, visible) => {
     setEventInfo(authentication.token, {
-      "visible": {
-        "id": id,
-        "value": visible,
-      }
-    }).then(() => {
-      toast({
-        title: 'Success',
-        description: `Event was updated successfully!`,
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      });
+      visible: {
+        id: uid,
+        value: visible,
+      },
     })
-      .catch((err) => {
+      .then(() => {
+        toast({
+          title: 'Success',
+          description: `Event was updated successfully!`,
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+      })
+      .catch(err => {
         toast({
           title: 'Error',
           description: `Update could not be saved! ${err}`,
@@ -65,15 +80,17 @@ const EventTable = () => {
         </Tr>
       </Thead>
       <Tbody>
-        {tableData.map((rowData) => (
+        {tableData.map(rowData => (
           <Tr key={rowData.id}>
             <Td>{rowData.name}</Td>
-            <Td>{`${rowData.type  }${  rowData.edition}`}</Td>
+            <Td>{`${rowData.type}${rowData.edition}`}</Td>
             <Td>
               <Switch
                 size="md"
                 defaultChecked={rowData.visible}
-                onChange={(e) => handleVisibilityToggle(rowData.id, e.target.value)}
+                onChange={e =>
+                  handleVisibilityToggle(rowData.id, e.target.value)
+                }
               />
             </Td>
             <Td>

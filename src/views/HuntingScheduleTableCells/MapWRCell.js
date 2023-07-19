@@ -20,17 +20,15 @@ const MapWRCell = memo(({ wrScore, wrHolder }) => {
         World Record:
       </Text>
       <Text mixBlendMode="difference" lineHeight="6">
-        {
-          wrScore !== 0
-            ? DateTime.fromMillis(wrScore).toFormat('mm:ss.SSS')
-            : '-'
-        }
-        {
-          authentication.isLoggedIn ?
-          <><br/>by {wrHolder !== "" ? wrHolder : "-"}</>
-          :
-          null
-        }
+        {wrScore !== 0
+          ? DateTime.fromMillis(wrScore).toFormat('mm:ss.SSS')
+          : '-'}
+        {authentication.isLoggedIn ? (
+          <>
+            <br />
+            by {wrHolder !== '' ? wrHolder : '-'}
+          </>
+        ) : null}
       </Text>
     </>
   );

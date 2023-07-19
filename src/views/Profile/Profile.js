@@ -11,7 +11,10 @@ import {
   // eslint-disable-next-line no-unused-vars
   Divider,
   Stack,
-  useToast, FormErrorMessage, Box, Link,
+  useToast,
+  FormErrorMessage,
+  Box,
+  Link,
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -43,10 +46,14 @@ const Profile = () => {
     () => getProfileData(authentication.token)
   );
 
-  const validateEmail = (checkEmail) => {
+  const validateEmail = checkEmail => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(checkEmail));
-    setEmailError(emailRegex.test(checkEmail) ? setNewEmail(checkEmail) : 'Please enter a valid email address.');
+    setEmailError(
+      emailRegex.test(checkEmail)
+        ? setNewEmail(checkEmail)
+        : 'Please enter a valid email address.'
+    );
   };
 
   const validatePasswords = () => {
@@ -93,7 +100,8 @@ const Profile = () => {
 
   const onSubmit = data => mutation.mutate(data);
 
-  if (!authentication.isLoggedIn) return <Text>Login to see your Profile!</Text>;
+  if (!authentication.isLoggedIn)
+    return <Text>Login to see your Profile!</Text>;
 
   // Ugly but I dont know better
   let admin = false;
@@ -108,7 +116,11 @@ const Profile = () => {
   return (
     <Center px={8} w="100%">
       <VStack spacing={6} align="flex-start" w="container.xl">
-        {admin ? <Button as={Link} href="/kackend">Admin Backend</Button> : null}
+        {admin ? (
+          <Button as={Link} href="/kackend">
+            Admin Backend
+          </Button>
+        ) : null}
         <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
           Your Profile
         </Text>
@@ -224,9 +236,9 @@ const Profile = () => {
               validateEmail();
               if (emailValid && newEmail.length !== 0) {
                 onSubmit(() => ({
-                    mail: newEmail,
-                    token: authentication.token,
-                  }))
+                  mail: newEmail,
+                  token: authentication.token,
+                }));
               }
             }}
           >
@@ -247,8 +259,7 @@ const Profile = () => {
             onChange={e => setNewPwd(e.target.value)}
             onBlur={validatePasswords}
             placeholder="New Password"
-          />
-          {' '}
+          />{' '}
           <Input
             type="password"
             minLength={8}
@@ -256,7 +267,8 @@ const Profile = () => {
             defaultValue=""
             onChange={e => setNewConfirmPwd(e.target.value)}
             onBlur={validatePasswords}
-            placeholder="Confirm new Password" mt={4}
+            placeholder="Confirm new Password"
+            mt={4}
           />
           <FormErrorMessage>{pwdError}</FormErrorMessage>
           <Button
@@ -267,7 +279,7 @@ const Profile = () => {
                 onSubmit(() => ({
                   pwd: newPwd,
                   token: authentication.token,
-                }))
+                }));
               }
             }}
           >
@@ -278,8 +290,12 @@ const Profile = () => {
           <Divider />
         </Box>
         <HStack>
-          <Button disabled="true" variant="danger">Delete Account</Button>
-          <Text fontSize="s">TODO. Contact corkscrew#0874 until implemented.</Text>
+          <Button disabled="true" variant="danger">
+            Delete Account
+          </Button>
+          <Text fontSize="s">
+            TODO. Contact corkscrew#0874 until implemented.
+          </Text>
         </HStack>
       </VStack>
     </Center>

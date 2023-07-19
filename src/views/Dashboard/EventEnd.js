@@ -56,7 +56,7 @@ const EventEnd = () => {
     }
   }, [data, isSuccess]);
 
-   return (
+  return (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Stack>
         <Text
@@ -64,7 +64,8 @@ const EventEnd = () => {
           letterSpacing="0.2em"
           fontSize={{ base: '2xl', md: '4xl' }}
         >
-          {event.type === "kk" ? "Kackiest Kacky" : "Kacky Reloaded"} {event.edition} is over!
+          {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
+          {event.edition} is over!
         </Text>
         <Text
           fontWeight="500"
@@ -202,7 +203,7 @@ const EventEnd = () => {
         </Text>
       )}
     </Stack>
-  )
+  );
 };
 
 export default EventEnd;

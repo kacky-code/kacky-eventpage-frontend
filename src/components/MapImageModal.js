@@ -21,7 +21,14 @@ import PropTypes from 'prop-types';
 import mapImageFallback from '../assets/images/mapImageFallback.jpg';
 import { getMapImageUrl } from '../api/api';
 
-const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventtype }) => {
+const MapImageModal = ({
+  isOpen,
+  onClose,
+  author,
+  mapNumber,
+  isFinished,
+  eventtype,
+}) => {
   const { colorMode } = useColorMode();
   const theme = useTheme();
 
@@ -62,7 +69,7 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
               : 'linear(to-br, transparent 0%, transparent 50%, white 90%, white 100%)'
           }
         >
-          <HStack >
+          <HStack>
             <Text
               fontSize="2xl"
               lineHeight="24px"
@@ -71,9 +78,9 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
               align="right"
               textShadow="glow"
             >
-              {eventtype === "kk" ? "Kackiest" : "Kacky"}
+              {eventtype === 'kk' ? 'Kackiest' : 'Kacky'}
               <br />
-              {eventtype === "kk" ? "Kacky" : "Reloaded"}
+              {eventtype === 'kk' ? 'Kacky' : 'Reloaded'}
             </Text>
             <HStack spacing="0">
               <Text
@@ -83,17 +90,11 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
                 letterSpacing="0.1em"
                 fontWeight="bold"
               >
-                {mapNumber.includes(" ") ?
-                  mapNumber.split(" ")[0]
-                  :
-                  mapNumber
-                }
+                {mapNumber.includes(' ') ? mapNumber.split(' ')[0] : mapNumber}
               </Text>
-              {mapNumber.includes(" ") ?
-                  <Text fontSize="xl">{mapNumber.split(" ")[1]}</Text>
-                :
-                null
-              }
+              {mapNumber.includes(' ') ? (
+                <Text fontSize="xl">{mapNumber.split(' ')[1]}</Text>
+              ) : null}
               {isFinished ? (
                 <Icon
                   color="green.300"
@@ -109,7 +110,12 @@ const MapImageModal = ({ isOpen, onClose, author, mapNumber, isFinished, eventty
             <Text fontWeight="hairline" textShadow="glow" letterSpacing="0.1em">
               by
             </Text>
-            <Text fontWeight="normal" textShadow="glow" letterSpacing="0.1em" alignSelf="flex-end">
+            <Text
+              fontWeight="normal"
+              textShadow="glow"
+              letterSpacing="0.1em"
+              alignSelf="flex-end"
+            >
               {author}
             </Text>
           </HStack>
