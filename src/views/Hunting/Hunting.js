@@ -15,7 +15,7 @@ import {
   Th,
   Td,
   Icon,
-  Box,
+  Box,  
   Text,
   Center,
   HStack,
@@ -329,6 +329,7 @@ const Hunting = () => {
             Hunting Stats
           </Button>
           <Text
+            id="labelSelectEdition"
             letterSpacing="0.1em"
             textShadow="glow"
             style={{ marginLeft: 'auto' }}
@@ -337,6 +338,7 @@ const Hunting = () => {
           </Text>
           <Select
             w={80}
+            aria-label='labelSelectEdition'
             value={curEventSelector}
             onChange={event => handleChange(event)}
           >
