@@ -240,8 +240,8 @@ const Hunting = () => {
   const [krPerfSeries, setKrPerfSeries] = useState([]);
   const [krPerfOptions, setKrPerfOptions] = useState({});
 
-  useEffect(() => {}, [kkPerfSeries, kkPerfOptions]);
-  useEffect(() => {}, [krPerfSeries, krPerfOptions]);
+//  useEffect(() => {}, [kkPerfSeries, kkPerfOptions]);
+//  useEffect(() => {}, [krPerfSeries, krPerfOptions]);
 
   useEffect(() => {
     if (authentication.isLoggedIn) {
