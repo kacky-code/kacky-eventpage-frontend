@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  Fragment,
+} from 'react';
 
 import {
   TableContainer,
@@ -74,7 +80,7 @@ const Spreadsheet = () => {
         setPbsIsSuccess(true);
       });
     }
-    setPbsIsSuccess(true);
+    setPbsIsSuccess(true); // @TODO check if this really needs to be set always true...
   }, [
     authentication.token,
     authentication.isLoggedIn,
@@ -246,7 +252,7 @@ const Spreadsheet = () => {
               {rowVirtualizer.getVirtualItems().map(virtualRow => {
                 const row = rows[virtualRow.index];
                 return (
-                  <>
+                  <Fragment key={row.id.concat('-row')}>
                     <Tr
                       key={row.id}
                       onClick={() => row.toggleExpanded()}
@@ -279,7 +285,7 @@ const Spreadsheet = () => {
                         />
                       </Td>
                     </Tr>
-                  </>
+                  </Fragment>
                 );
               })}
             </Tbody>
