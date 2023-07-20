@@ -52,6 +52,7 @@ export function mergeScheduleAndPBs(sheet, pb) {
       rating: map.rating || 0,
       personalBest: 0,
       kackyRank: 0,
+      version: map.version || '',
       clip: map.clip || '',
       discordPing: map.alarm || false,
       wrScore: map.wr_score,
