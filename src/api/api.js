@@ -53,6 +53,7 @@ export async function eventLiveState() {
 }
 
 export async function getAllEvents(token) {
+  if (cachedEvents) return cachedEvents;
   const config = {};
   if (token === undefined) {
     config.method = 'GET';
@@ -72,8 +73,6 @@ export async function getAllEvents(token) {
     });
   }
 
-  if (cachedEvents) return cachedEvents;
-  
   const response = await fetch(`${url}/events`, config);
   if (!response.ok) throw new Error('Network response was not ok');
   cachedEvents = response.json();

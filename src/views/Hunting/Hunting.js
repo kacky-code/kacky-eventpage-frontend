@@ -15,7 +15,7 @@ import {
   Th,
   Td,
   Icon,
-  Box,  
+  Box,
   Text,
   Center,
   HStack,
@@ -93,34 +93,34 @@ const Hunting = () => {
   const [kkArray, setKkArray] = useState([]);
   const [krArray, setKrArray] = useState([]);
 
-  useEffect(() => {    
-      (async () => {
-        const cachedEvents = await getAllEvents();
-        setKkArray(
-          selectorArrayParse(
-            cachedEvents
-              .filter(event => event.type === 'KK')
-              .map(event => ({
-                ...event,
-                type: event.type.toLowerCase(),
-                edition: event.edition,
-              }))
-          )
-        );
-        setKrArray(
-          selectorArrayParse(
-            cachedEvents
-              .filter(event => event.type === 'KR')
-              .map(event => ({
-                ...event,
-                type: event.type.toLowerCase(),
-                edition: event.edition,
-              }))
-          )
-        );
-      })();
-    }, []);
-  
+  useEffect(() => {
+    (async () => {
+      const availableEvents = await getAllEvents();
+      setKkArray(
+        selectorArrayParse(
+          availableEvents
+            .filter(event => event.type === 'KK')
+            .map(event => ({
+              ...event,
+              type: event.type.toLowerCase(),
+              edition: event.edition,
+            }))
+        )
+      );
+      setKrArray(
+        selectorArrayParse(
+          availableEvents
+            .filter(event => event.type === 'KR')
+            .map(event => ({
+              ...event,
+              type: event.type.toLowerCase(),
+              edition: event.edition,
+            }))
+        )
+      );
+    })();
+  }, []);
+
   const { data: sheetData, isSuccess: sheetIsSuccess } = useQuery(
     ['maps', authentication.token],
     () =>
@@ -240,9 +240,6 @@ const Hunting = () => {
   const [krPerfSeries, setKrPerfSeries] = useState([]);
   const [krPerfOptions, setKrPerfOptions] = useState({});
 
-//  useEffect(() => {}, [kkPerfSeries, kkPerfOptions]);
-//  useEffect(() => {}, [krPerfSeries, krPerfOptions]);
-
   useEffect(() => {
     if (authentication.isLoggedIn) {
       getPerformance(authentication.token, 'kk').then(performanceKK => {
@@ -338,7 +335,7 @@ const Hunting = () => {
           </Text>
           <Select
             w={80}
-            aria-label='labelSelectEdition'
+            aria-label="labelSelectEdition"
             value={curEventSelector}
             onChange={event => handleChange(event)}
           >
