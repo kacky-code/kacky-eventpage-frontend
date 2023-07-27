@@ -72,10 +72,17 @@ export async function getAllEvents(token) {
       visibility: 'true',
     });
   }
-
-  const response = await fetch(`${url}/events`, config);
-  if (!response.ok) throw new Error('Network response was not ok');
-  cachedEvents = response.json();
+  try {
+    const response = await fetch(`${url}/events`, config);
+    if (response.status !== 200) {
+      cachedEvents = [];
+      return [];
+    }
+    if (!response.ok) throw new Error('Network response was not ok');
+    cachedEvents = response.json();
+  } catch (error) {
+    cachedEvents = [];
+  }
   return cachedEvents;
 }
 
@@ -98,21 +105,26 @@ export async function getDashboardData(token) {
 }
 
 export async function getSpreadsheetData(token, type, edition) {
-  const config =
-    token === ''
-      ? {
-          Accept: 'application/json, text/plain, */*',
-        }
-      : {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json, text/plain, */*',
-        };
+  try {
+    const config =
+      token === ''
+        ? {
+            Accept: 'application/json, text/plain, */*',
+          }
+        : {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json, text/plain, */*',
+          };
 
-  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
-    headers: config,
-  });
-  if (!response.ok) throw new Error('Network response was not ok');
-  return response.json();
+    const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
+      headers: config,
+    });
+    if (response.status !== 200) return [];
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getScheduleData(token) {
