@@ -124,13 +124,23 @@ const Hunting = () => {
   const { data: sheetData, isSuccess: sheetIsSuccess } = useQuery(
     ['maps', authentication.token],
     () =>
-      getSpreadsheetData(authentication.token, curEventType, curEventEdition)
+      getSpreadsheetData(authentication.token, curEventType, curEventEdition),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
   );
 
-  const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(['pbs'], () =>
-    authentication.isLoggedIn
-      ? getPersonalBests(authentication.token, curEventType)
-      : Promise.resolve({})
+  const { data: pbs, isSuccess: pbsIsSuccess } = useQuery(
+    ['pbs'],
+    () =>
+      authentication.isLoggedIn
+        ? getPersonalBests(authentication.token, curEventType)
+        : Promise.resolve({}),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
   );
 
   useEffect(() => {

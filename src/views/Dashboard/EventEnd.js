@@ -48,7 +48,7 @@ const EventEnd = () => {
   const { data, isSuccess } = useQuery(
     ['profile', authentication.token],
     () => getFinishes(authentication.token),
-    { enabled: authentication.isLoggedIn }
+    { enabled: authentication.isLoggedIn, retry: false, refetchOnWindowFocus: false, }
   );
   useEffect(() => {
     if (isSuccess) {

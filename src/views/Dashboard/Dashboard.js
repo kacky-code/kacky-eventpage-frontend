@@ -21,8 +21,13 @@ const Dashboard = () => {
   const [counter, setCounter] = useState([0]);
 
   const { authentication } = useContext(AuthContext);
-  const { data, isSuccess } = useQuery(['servers', authentication.token], () =>
-    getDashboardData(authentication.token)
+  const { data, isSuccess } = useQuery(
+    ['servers', authentication.token],
+    () => getDashboardData(authentication.token),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
   );
   const queryClient = useQueryClient();
 

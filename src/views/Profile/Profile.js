@@ -43,7 +43,11 @@ const Profile = () => {
   const { authentication } = useContext(AuthContext);
   const { data: profileData, isSuccess } = useQuery(
     ['profile', authentication.token],
-    () => getProfileData(authentication.token)
+    () => getProfileData(authentication.token),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const validateEmail = checkEmail => {
