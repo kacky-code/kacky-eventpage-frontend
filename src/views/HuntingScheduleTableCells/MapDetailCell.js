@@ -32,7 +32,7 @@ const MapDetailCell = memo(
     const { authentication } = useContext(AuthContext);
 
     return (
-      <Flex color="white" margin={3}>
+      <Flex margin={3}>
         <Center
           display={{ base: 'none', xl: 'initial' }}
           position="relative"
@@ -68,11 +68,10 @@ const MapDetailCell = memo(
               letterSpacing="0.2em"
               fontSize="lg"
               fontWeight="400"
-              mixBlendMode="difference"
             >
               Author:
             </Text>
-            <Text mixBlendMode="difference">{data.author}</Text>
+            <Text>{data.author}</Text>
           </Flex>
           <Flex alignContent="center" height="40px" align="center">
             <MapWRCell wrScore={data.wrScore} wrHolder={data.wrHolder} />
@@ -105,7 +104,6 @@ const MapDetailCell = memo(
                   letterSpacing="0.2em"
                   fontSize="lg"
                   fontWeight="400"
-                  mixBlendMode="difference"
                 >
                   Difficulty:
                 </Text>
@@ -126,7 +124,6 @@ const MapDetailCell = memo(
                 letterSpacing="0.2em"
                 fontSize="lg"
                 fontWeight="400"
-                mixBlendMode="difference"
               >
                 Clip:
               </Text>
@@ -147,7 +144,6 @@ const MapDetailCell = memo(
                   letterSpacing="0.2em"
                   fontSize="lg"
                   fontWeight="400"
-                  mixBlendMode="difference"
                 >
                   Discord Alarm:
                 </Text>
@@ -179,7 +175,6 @@ const MapDetailCell = memo(
                   letterSpacing="0.2em"
                   fontSize="lg"
                   fontWeight="400"
-                  mixBlendMode="difference"
                 >
                   Difficulty:
                 </Text>

@@ -30,7 +30,7 @@ import {
 
 import Cookies from 'universal-cookie';
 
-import KrLogo from '../../assets/logos/krLogo';
+import KrLogo2023 from '../../assets/logos/krLogo2023';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
 import AuthContext from '../../context/AuthContext';
@@ -316,7 +316,7 @@ const Header = () => {
           w="100%"
           px={{ base: 4, md: 8 }}
           h={{ base: '60px', md: '80px' }}
-          bg={colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.600'}
+          bg={colorMode === 'dark' ? '#516ab3' : '#ede8a6'}
           borderBottom={{ base: 'none', md: '1px' }}
           borderTop={{ base: '1px', md: 'none' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
@@ -329,11 +329,11 @@ const Header = () => {
               borderBottom="1px"
               px={4}
               mt="2px"
-              borderColor={colorMode === 'dark' ? '#060606' : 'white'}
+              borderColor={colorMode === 'dark' ? '#516ab3' : '#ede8a6'}
               h="full"
             >
               <Box mt={2} filter={theme.shadows.dropGlow}>
-                <KrLogo
+                <KrLogo2023
                   color={colorMode === 'dark' ? 'white' : 'black'}
                   width={logoSize}
                 />
@@ -443,7 +443,6 @@ const Header = () => {
           w="inherit"
           px={{ base: 4, md: 8 }}
           h={{ base: '40px', md: '60px' }}
-          bg={colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.600'}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
           pt={{ base: '80px', md: '100px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}

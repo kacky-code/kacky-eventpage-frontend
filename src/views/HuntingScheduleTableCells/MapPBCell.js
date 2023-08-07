@@ -15,11 +15,10 @@ const MapPBCell = memo(({ personalBest, kackyRank, wrHolder }) => {
         letterSpacing="0.2em"
         fontSize="lg"
         fontWeight="400"
-        mixBlendMode="difference"
       >
         {authentication.isLoggedIn ? <>Personal Best:</> : <>WR Holder:</>}
       </Text>
-      <Text mixBlendMode="difference" lineHeight="6">
+      <Text lineHeight="6">
         {authentication.isLoggedIn
           ? personalBest !== 0
             ? `${DateTime.fromMillis(personalBest).toFormat(
