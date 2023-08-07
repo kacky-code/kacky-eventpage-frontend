@@ -42,11 +42,6 @@ const Leaderboard = () => {
 
   const [data, setData] = useState(null);
 
-  /* const leaderboardPageUrl = event.type === "kk" ?
-    `https://kackiestkacky.com/event/editions/ranking.php?edition=${event.edition}`
-    :
-    `https://kackyreloaded.com/event/editions/ranking.php?edition=${event.edition}`;
-  */
   useEffect(() => {
     if (event.type && event.edition) {
       setData(null);
