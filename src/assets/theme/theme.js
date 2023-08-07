@@ -11,7 +11,12 @@ const theme = extendTheme({
         overflowY: 'scroll',
       },
       body: {
-        background: props.colorMode === 'dark' ? '#060606' : 'white',
+        backgroundImage:
+          props.colorMode === 'dark'
+            ? 'linear-gradient(#4e6fbb, #723a5e)'
+            : 'linear-gradient(#f5e8a3, #9be5c3)',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
         textTransform: 'uppercase',
         fontWeight: 300,
       },
