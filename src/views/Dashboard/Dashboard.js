@@ -1,10 +1,4 @@
-import {
-  Button,
-  Center,
-  useBoolean,
-  VStack,
-  useColorMode,
-} from '@chakra-ui/react';
+import { Button, Center, VStack, useColorMode } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -19,16 +13,31 @@ const mapChangeEstimate = 0;
 
 const Dashboard = () => {
   const { colorMode } = useColorMode();
-  const [isCompactView, setIsCompactView] = useBoolean();
+  const [isCompactView, setIsCompactView] = useState(
+    localStorage.getItem('isCompactView') === 'true'
+  );
 
   const [servers, setServers] = useState([]);
   const [counter, setCounter] = useState([0]);
 
   const { authentication } = useContext(AuthContext);
-  const { data, isSuccess } = useQuery(['servers', authentication.token], () =>
-    getDashboardData(authentication.token)
+  const { data, isSuccess } = useQuery(
+    ['servers', authentication.token],
+    () => getDashboardData(authentication.token),
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
   );
   const queryClient = useQueryClient();
+
+  const toggleCompactView = () => {
+    setIsCompactView(!isCompactView);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('isCompactView', isCompactView.toString());
+  }, [isCompactView]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -68,7 +77,7 @@ const Dashboard = () => {
       <Center mb={8}>
         <Button
           borderRadius="6px 0 0 6px"
-          onClick={setIsCompactView.toggle}
+          onClick={toggleCompactView}
           leftIcon={<MdOutlineViewHeadline />}
           borderColor={
             isCompactView
@@ -86,7 +95,7 @@ const Dashboard = () => {
         </Button>
         <Button
           borderRadius="0 6px 6px 0"
-          onClick={setIsCompactView.toggle}
+          onClick={toggleCompactView}
           rightIcon={<MdOutlineViewAgenda />}
           borderColor={
             !isCompactView

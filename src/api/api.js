@@ -1,6 +1,8 @@
 const url = `https://api.kacky.gg`;
 const recordsUrl = `https://records.kacky.gg`;
 
+let cachedEvents = null;
+
 export async function login(username, password) {
   const response = await fetch(`${url}/login`, {
     method: 'POST',
@@ -51,6 +53,7 @@ export async function eventLiveState() {
 }
 
 export async function getAllEvents(token) {
+  if (cachedEvents) return cachedEvents;
   const config = {};
   if (token === undefined) {
     config.method = 'GET';
@@ -69,10 +72,18 @@ export async function getAllEvents(token) {
       visibility: 'true',
     });
   }
-
-  const response = await fetch(`${url}/events`, config);
-  if (!response.ok) throw new Error('Network response was not ok');
-  return response.json();
+  try {
+    const response = await fetch(`${url}/events`, config);
+    if (response.status !== 200) {
+      cachedEvents = [];
+      return [];
+    }
+    if (!response.ok) throw new Error('Network response was not ok');
+    cachedEvents = response.json();
+  } catch (error) {
+    cachedEvents = [];
+  }
+  return cachedEvents;
 }
 
 export async function getDashboardData(token) {
@@ -94,21 +105,26 @@ export async function getDashboardData(token) {
 }
 
 export async function getSpreadsheetData(token, type, edition) {
-  const config =
-    token === ''
-      ? {
-          Accept: 'application/json, text/plain, */*',
-        }
-      : {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json, text/plain, */*',
-        };
+  try {
+    const config =
+      token === ''
+        ? {
+            Accept: 'application/json, text/plain, */*',
+          }
+        : {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json, text/plain, */*',
+          };
 
-  const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
-    headers: config,
-  });
-  if (!response.ok) throw new Error('Network response was not ok');
-  return response.json();
+    const response = await fetch(`${url}/spreadsheet/${type}/${edition}`, {
+      headers: config,
+    });
+    if (response.status !== 200) return [];
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  } catch (error) {
+    return [];
+  }
 }
 
 export async function getScheduleData(token) {

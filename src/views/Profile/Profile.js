@@ -43,7 +43,11 @@ const Profile = () => {
   const { authentication } = useContext(AuthContext);
   const { data: profileData, isSuccess } = useQuery(
     ['profile', authentication.token],
-    () => getProfileData(authentication.token)
+    () => getProfileData(authentication.token),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const validateEmail = checkEmail => {
@@ -253,6 +257,7 @@ const Profile = () => {
         >
           <FormLabel>Enter new Password</FormLabel>
           <Input
+            id="password"
             type="password"
             minLength={8}
             maxLength={80}
@@ -261,6 +266,7 @@ const Profile = () => {
             placeholder="New Password"
           />{' '}
           <Input
+            id="confirmPassword"
             type="password"
             minLength={8}
             maxLength={80}
@@ -290,7 +296,7 @@ const Profile = () => {
           <Divider />
         </Box>
         <HStack>
-          <Button disabled="true" variant="danger">
+          <Button disabled variant="danger">
             Delete Account
           </Button>
           <Text fontSize="s">

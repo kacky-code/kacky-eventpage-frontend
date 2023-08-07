@@ -38,14 +38,19 @@ const PreEvent = () => {
   useEffect(() => {
     setTimeout(() => {
       setRemainingTime(updateTimer(eventStart));
-    }, 1000);
-  });
-
-  useEffect(() => {
-    setTimeout(() => {
       setMappingEnd(updateTimer(mappingDeadine));
     }, 1000);
   });
+
+  function isMappingEnded() {
+    return (
+      mappingEnd.days +
+        mappingEnd.hours +
+        mappingEnd.minutes +
+        mappingEnd.seconds >
+      0
+    );
+  }
 
   function toCETtoUserTime(datetimeString) {
     const inputDateTime = DateTime.fromISO(datetimeString, {
@@ -187,22 +192,15 @@ const PreEvent = () => {
             </ListItem>
             <ListItem>
               📬 Mapping Deadline: {toCETtoUserTime('2023-07-31T22:00:00.000')}
-              {mappingEnd.days +
-                mappingEnd.hours +
-                mappingEnd.minutes +
-                mappingEnd.seconds >
-              0
+              {isMappingEnded()
                 ? ` (Closes in ${mappingEnd.days}:${mappingEnd.hours}:${mappingEnd.minutes}:${mappingEnd.seconds})`
                 : ' - I hope you submitted already'}
             </ListItem>
           </List>
         </div>
       </Center>
-      {mappingEnd.days +
-        mappingEnd.hours +
-        mappingEnd.minutes +
-        mappingEnd.seconds >
-      0 ? (
+      
+      {isMappingEnded() && (
         <Center>
           <div
             style={{
@@ -232,7 +230,7 @@ const PreEvent = () => {
             #kacky-reloaded!
           </div>
         </Center>
-      ) : null}
+      )}
     </Stack>
   );
 };
