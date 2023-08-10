@@ -1,6 +1,11 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, { useState, useEffect } from 'react';
-import { Box } from '@chakra-ui/react';
+import {
+  Box,
+  ChakraProvider,
+  ColorModeScript,
+  useColorMode,
+} from '@chakra-ui/react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -29,6 +34,12 @@ import EventManager from './views/Admin/EventManager';
 import WRManager from './views/Admin/WRManager';
 import MapManager from './views/Admin/MapManager';
 import StreamerInfo from './views/StreamerInfo/StreamerInfo';
+import ThemeContext from './context/ThemeContext';
+import {
+  getCurrentBG,
+  getCurrentBGGradient,
+} from './components/Header/Theming/BackgroundColors';
+import baseTheme from './assets/theme/baseTheme';
 
 const cookies = new Cookies();
 
@@ -39,6 +50,14 @@ const App = () => {
     isLoggedIn: (cookies.get('token') || '') !== '',
     token: cookies.get('token') || '',
     expires: cookies.get('expires') || '',
+  });
+
+  const { colorMode } = useColorMode();
+
+  const [currentTheme, setCurrentTheme] = useState({
+    mode: colorMode,
+    themename: getCurrentBG(),
+    gradient: getCurrentBGGradient(),
   });
 
   const [event, setEvent] = useState({
@@ -59,43 +78,55 @@ const App = () => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <EventContext.Provider value={{ event, setEvent }}>
-        <AuthContext.Provider value={{ authentication, setAuthentication }}>
-          <Box textAlign="center">
-            <Routes>
-              <Route path="/" element={<Header>Header</Header>}>
-                <Route
-                  index
-                  element={
-                    event.isLive === 'active' ? (
-                      <Dashboard />
-                    ) : event.isLive === 'post' ? (
-                      <EventEnd />
-                    ) : (
-                      <PreEvent />
-                    )
-                  }
-                />
-                <Route path="schedule" element={<Schedule />} />
-                <Route path="hunting" element={<Hunting />} />
-                <Route path="wrs" element={<WRHolders />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="glance" element={<Glance />} />
-                <Route path="/kackend" element={<AdminIndex />} />
-                <Route path="/kackend/events" element={<EventManager />} />
-                <Route path="/kackend/wrs" element={<WRManager />} />
-                <Route path="/kackend/maps" element={<MapManager />} />
-                <Route path="/streamerstuff" element={<StreamerInfo />} />
-                <Route path="*" element={<div>Nothing here</div>} />
-              </Route>
-            </Routes>
-          </Box>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </AuthContext.Provider>
-      </EventContext.Provider>
-    </QueryClientProvider>
+    <>
+      <ColorModeScript />
+      <ThemeContext.Provider value={{ currentTheme, setCurrentTheme }}>
+        <ChakraProvider theme={baseTheme}>
+          <QueryClientProvider client={queryClient}>
+            <EventContext.Provider value={{ event, setEvent }}>
+              <AuthContext.Provider
+                value={{ authentication, setAuthentication }}
+              >
+                <Box textAlign="center">
+                  <Routes>
+                    <Route path="/" element={<Header>Header</Header>}>
+                      <Route
+                        index
+                        element={
+                          event.isLive === 'active' ? (
+                            <Dashboard />
+                          ) : event.isLive === 'post' ? (
+                            <EventEnd />
+                          ) : (
+                            <PreEvent />
+                          )
+                        }
+                      />
+                      <Route path="schedule" element={<Schedule />} />
+                      <Route path="hunting" element={<Hunting />} />
+                      <Route path="wrs" element={<WRHolders />} />
+                      <Route path="leaderboard" element={<Leaderboard />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="glance" element={<Glance />} />
+                      <Route path="/kackend" element={<AdminIndex />} />
+                      <Route
+                        path="/kackend/events"
+                        element={<EventManager />}
+                      />
+                      <Route path="/kackend/wrs" element={<WRManager />} />
+                      <Route path="/kackend/maps" element={<MapManager />} />
+                      <Route path="/streamerstuff" element={<StreamerInfo />} />
+                      <Route path="*" element={<div>Nothing here</div>} />
+                    </Route>
+                  </Routes>
+                </Box>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </AuthContext.Provider>
+            </EventContext.Provider>
+          </QueryClientProvider>
+        </ChakraProvider>
+      </ThemeContext.Provider>
+    </>
   );
 };
 

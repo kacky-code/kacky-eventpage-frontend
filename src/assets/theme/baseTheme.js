@@ -1,8 +1,10 @@
 import { extendTheme } from '@chakra-ui/react';
+import { getCurrentBGGradient } from '../../components/Header/Theming/BackgroundColors';
 
-const theme = extendTheme({
+const baseTheme = extendTheme({
   config: {
     initialColorMode: localStorage.getItem('chakra-ui-color-mode') || 'dark',
+    initialTheme: localStorage.getItem('chakra-ui-theme') || 'Plum-UranianBlue',
     useSystemColorMode: false,
   },
   styles: {
@@ -11,10 +13,7 @@ const theme = extendTheme({
         overflowY: 'scroll',
       },
       body: {
-        backgroundImage:
-          props.colorMode === 'dark'
-            ? 'linear-gradient(#4e6fbb, #723a5e)'
-            : 'linear-gradient(#f5e8a3, #9be5c3)',
+        backgroundImage: getCurrentBGGradient(),
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         textTransform: 'uppercase',
@@ -306,4 +305,4 @@ const theme = extendTheme({
   },
 });
 
-export default theme;
+export default baseTheme;

@@ -37,13 +37,28 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 import DiscordLogo from '../../assets/logos/discordLogo';
+import ThemingModal from './Theming/ThemeModal';
+import { getCurrentBG } from './Theming/BackgroundColors';
 
 const Header = () => {
   const theme = useTheme();
+  // eslint-disable-next-line no-unused-vars
   const { colorMode, toggleColorMode } = useColorMode();
   const { pathname } = useLocation();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isLoginOpen,
+    onOpen: onLoginOpen,
+    onClose: onLoginClose,
+  } = useDisclosure();
+  const {
+    // eslint-disable-next-line no-unused-vars
+    isOpen: isThemingOpen,
+    // eslint-disable-next-line no-unused-vars
+    onOpen: onThemingOpen,
+    // eslint-disable-next-line no-unused-vars
+    onClose: onThemingClose,
+  } = useDisclosure();
   const { authentication, setAuthentication } = useContext(AuthContext);
   const { event } = useContext(EventContext);
 
@@ -125,7 +140,7 @@ const Header = () => {
     {
       id: 7,
       TabIcon: SwitchIcon,
-      onClick: toggleColorMode,
+      onClick: onThemingOpen,
     },
     {
       id: 8,
@@ -187,13 +202,13 @@ const Header = () => {
     {
       id: 7,
       TabIcon: SwitchIcon,
-      onClick: toggleColorMode,
+      onClick: onThemingOpen,
     },
     {
       id: 8,
       text: 'Login',
       TabIcon: MdOutlineLogout,
-      onClick: onOpen,
+      onClick: onLoginOpen,
     },
   ];
 
@@ -316,7 +331,7 @@ const Header = () => {
           w="100%"
           px={{ base: 4, md: 8 }}
           h={{ base: '60px', md: '80px' }}
-          bg={colorMode === 'dark' ? '#516ab3' : '#ede8a6'}
+          bg={getCurrentBG()[0]}
           borderBottom={{ base: 'none', md: '1px' }}
           borderTop={{ base: '1px', md: 'none' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
@@ -398,7 +413,7 @@ const Header = () => {
                     </MenuItem>
                   ) : (
                     <MenuItem
-                      onClick={onOpen}
+                      onClick={onLoginOpen}
                       h={10}
                       filter={
                         colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
@@ -410,7 +425,7 @@ const Header = () => {
                   )}
                   <MenuItem
                     h={10}
-                    onClick={toggleColorMode}
+                    onClick={onThemingOpen}
                     filter={
                       colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                     }
@@ -421,7 +436,8 @@ const Header = () => {
                 </MenuList>
               </Menu>
             ) : null}
-            <AuthModal isOpen={isOpen} onClose={onClose} />
+            <AuthModal isOpen={isLoginOpen} onClose={onLoginClose} />
+            <ThemingModal isOpen={isThemingOpen} onClose={onThemingClose} />
           </HStack>
           <Box
             ref={indicatorElement}
