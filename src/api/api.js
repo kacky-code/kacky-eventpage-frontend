@@ -50,25 +50,24 @@ export async function eventLiveState() {
   return response.json();
 }
 
-
 export async function getAllEvents(token) {
-  const config = {}
+  const config = {};
   if (token === undefined) {
-    config.method = "GET"
+    config.method = 'GET';
     config.headers = {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
-    }
-  }else {
-    config.method = "POST";
+    };
+  } else {
+    config.method = 'POST';
     config.headers = {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     };
     config.body = JSON.stringify({
-      "visibility": "true"
-    })
+      visibility: 'true',
+    });
   }
 
   const response = await fetch(`${url}/events`, config);
@@ -184,7 +183,7 @@ export async function getFinishes(token) {
 
 export function getMapImageUrl(eventType, mapNumber) {
   // remove "[v2]" and similar
-  const cleanedMapNumber = mapNumber.toString().split(" ")[0];
+  const cleanedMapNumber = mapNumber.toString().split(' ')[0];
   const imageUrl = `https://static.kacky.gg/${eventType}/thumbs/${cleanedMapNumber}.jpg`;
   return imageUrl;
 }
@@ -214,25 +213,31 @@ export async function getPerformance(token, type) {
 }
 
 export async function getLeaderBoardPage(token, startrank, elements) {
-  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    `${recordsUrl}/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    }
+  );
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
 
 export async function getLeaderBoardPlayer(token, searchlogin) {
-  const response = await fetch(`${recordsUrl}/event/leaderboard/kk/8/${searchlogin}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    `${recordsUrl}/event/leaderboard/kk/8/${searchlogin}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+    }
+  );
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
 }
@@ -280,7 +285,7 @@ export async function setMapInfo(token, eventtype, kackyid, data) {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
@@ -294,7 +299,7 @@ export async function setEventInfo(token, data) {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
@@ -304,9 +309,12 @@ export async function setMapInfoAdmin(token, data, overwrite) {
   const formData = new FormData();
   formData.append('file', data);
   if (overwrite === true) {
-    formData.set("overwrite", new Blob(["1"], {
-      type: "text/plain"
-    }));
+    formData.set(
+      'overwrite',
+      new Blob(['1'], {
+        type: 'text/plain',
+      })
+    );
   }
 
   const response = await fetch(`${url}/manage/maps`, {
@@ -314,9 +322,9 @@ export async function setMapInfoAdmin(token, data, overwrite) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    body: formData
+    body: formData,
   });
-  if (!response.ok) throw new Error(response.status.toString());  // Error('Network response was not ok');
+  if (!response.ok) throw new Error(response.status.toString()); // Error('Network response was not ok');
   return response.json();
 }
 
@@ -347,6 +355,19 @@ export async function resetPasswordStep2(token, pwd) {
       token,
       pwd,
     }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function deleteAccount(token) {
+  const response = await fetch(`${url}/usermgnt/delete`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
   });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
