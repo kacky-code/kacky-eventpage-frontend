@@ -54,6 +54,7 @@ export async function eventLiveState() {
 
 export async function getAllEvents(token) {
   if (cachedEvents) return cachedEvents;
+  
   const config = {};
   if (token === undefined) {
     config.method = 'GET';
@@ -371,6 +372,19 @@ export async function resetPasswordStep2(token, pwd) {
       token,
       pwd,
     }),
+  });
+  if (!response.ok) throw new Error('Network response was not ok');
+  return response.json();
+}
+
+export async function deleteAccount(token) {
+  const response = await fetch(`${url}/usermgnt/delete`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
   });
   if (!response.ok) throw new Error('Network response was not ok');
   return response.json();
