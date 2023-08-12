@@ -7,25 +7,40 @@ import {
   Input,
   VStack,
   Button,
-  // IconButton,
-  // eslint-disable-next-line no-unused-vars
   Divider,
   Stack,
   useToast,
   FormErrorMessage,
   Box,
   Link,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialog,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { MdInfoOutline } from 'react-icons/md';
-import { postProfileData, getProfileData } from '../../api/api';
+import Cookies from 'universal-cookie';
+import {
+  postProfileData,
+  getProfileData,
+  deleteAccount,
+  logoutServer,
+} from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 
 const Profile = () => {
   const toast = useToast();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   const [tmnfLogin, setTmnfLogin] = useState('');
   const [tm2020Login, setTm2020Login] = useState('');
@@ -39,6 +54,9 @@ const Profile = () => {
   const [emailValid, setEmailValid] = useState(true);
   const [pwdError, setPwdError] = useState('');
   const [pwdValid, setPwdValid] = useState(true);
+
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const navigate = useNavigate();
 
   const { authentication } = useContext(AuthContext);
   const { data: profileData, isSuccess } = useQuery(
@@ -102,7 +120,46 @@ const Profile = () => {
     },
   });
 
+  const accDeleteMutation = useMutation(
+    () => deleteAccount(authentication.token),
+    {
+      onSuccess: () => {
+        // if it fails, it fails. not really important
+        logoutServer(authentication.token).catch(() => {});
+        const cookies = new Cookies();
+        cookies.remove('token', { path: '/' });
+        cookies.remove('expires', { path: '/' });
+        toast({
+          title: 'Success',
+          description: 'Account was deleted!',
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+      onError: () => {
+        toast({
+          title: 'Error',
+          description: 'An error occurred!',
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+    }
+  );
+
   const onSubmit = data => mutation.mutate(data);
+  const handleDelete = () => {
+    accDeleteMutation.mutate();
+    setTimeout(() => {
+      setIsRedirecting(true);
+    }, 5000);
+  };
+
+  if (isRedirecting) {
+    navigate('/');
+  }
 
   if (!authentication.isLoggedIn)
     return <Text>Login to see your Profile!</Text>;
@@ -296,12 +353,35 @@ const Profile = () => {
           <Divider />
         </Box>
         <HStack>
-          <Button disabled variant="danger">
+          <Button variant="danger" onClick={onOpen}>
             Delete Account
           </Button>
-          <Text fontSize="s">
-            TODO. Contact corkscrew#0874 until implemented.
-          </Text>
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Delete Account?
+                </AlertDialogHeader>
+
+                <AlertDialogBody textTransform="none">
+                  You are about to delete your Account! Are you sure?
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button variant="danger" onClick={handleDelete} ml={3}>
+                    Yeet it!
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </HStack>
       </VStack>
     </Center>
