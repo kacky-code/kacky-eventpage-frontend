@@ -17,26 +17,16 @@ const MapPBCell = memo(({ personalBest, kackyRank, wrHolder }) => {
         fontWeight="400"
         mixBlendMode="difference"
       >
-        {
-          authentication.isLoggedIn ?
-            <>
-              Personal Best:
-            </>
-            :
-            <>
-              WR Holder:
-            </>
-        }
+        {authentication.isLoggedIn ? <>Personal Best:</> : <>WR Holder:</>}
       </Text>
       <Text mixBlendMode="difference" lineHeight="6">
-        {
-          authentication.isLoggedIn ?
-            personalBest !== 0
-              ? `${DateTime.fromMillis(personalBest).toFormat('mm:ss.SSS')  } (Rank ${  kackyRank.toString()  })`
-              : '-'
-          :
-          wrHolder
-        }
+        {authentication.isLoggedIn
+          ? personalBest !== 0
+            ? `${DateTime.fromMillis(personalBest).toFormat(
+                'mm:ss.SSS'
+              )} (Rank ${kackyRank.toString()})`
+            : '-'
+          : wrHolder}
       </Text>
     </>
   );

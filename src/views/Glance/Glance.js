@@ -3,7 +3,9 @@ import {
   Center,
   useBoolean,
   VStack,
-  useColorMode, Text, Box,
+  useColorMode,
+  Text,
+  Box,
 } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { MdGridView, MdOutlineViewHeadline } from 'react-icons/md';
@@ -24,8 +26,13 @@ const Glance = () => {
   const [counter, setCounter] = useState([0]);
 
   const { authentication } = useContext(AuthContext);
-  const { data, isSuccess } = useQuery(['servers', authentication.token], () =>
-    getDashboardData(authentication.token)
+  const { data, isSuccess } = useQuery(
+    ['servers', authentication.token],
+    () => getDashboardData(authentication.token),
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
   );
   const queryClient = useQueryClient();
 
@@ -62,12 +69,11 @@ const Glance = () => {
     return () => clearInterval(timer);
   }, [counter, queryClient]);
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getStreamInfo(authentication.token)
-        .then(json => setMessage(json.data))
+      getStreamInfo(authentication.token).then(json => setMessage(json.data));
     }, 2000);
     return () => clearInterval(interval);
   }, [authentication.token]);
@@ -113,37 +119,32 @@ const Glance = () => {
           Grid View
         </Button>
       </Center>
-      {
-        message === "" ?
-          <VStack spacing={3}>
-            {servers.map((server, index) => (
-              <HotbarCard
-                {...server}
-                timeLeft={counter[index] - mapChangeEstimate}
-                key={server.serverNumber}
-                style={{ transition: "opacity 1s" }}
-              />
-            ))}
-          </VStack>
-        :
-          <Center>
-            <Box
-              w="200px"
-              h="500px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Text
-                fontSize="2xl"
-                letterSpacing='wide'
-                lineHeight="1.5"
-              >
-                {message}
-              </Text>
-            </Box>
-          </Center>
-      }
+      {message === '' ? (
+        <VStack spacing={3}>
+          {servers.map((server, index) => (
+            <HotbarCard
+              {...server}
+              timeLeft={counter[index] - mapChangeEstimate}
+              key={server.serverNumber}
+              style={{ transition: 'opacity 1s' }}
+            />
+          ))}
+        </VStack>
+      ) : (
+        <Center>
+          <Box
+            w="200px"
+            h="500px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text fontSize="2xl" letterSpacing="wide" lineHeight="1.5">
+              {message}
+            </Text>
+          </Box>
+        </Center>
+      )}
     </>
   );
 };

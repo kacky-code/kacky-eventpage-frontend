@@ -15,7 +15,11 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-  VStack, Box, useToast, Flex, Link,
+  VStack,
+  Box,
+  useToast,
+  Flex,
+  Link,
 } from '@chakra-ui/react';
 import MapDetailCell from '../HuntingScheduleTableCells/MapDetailCell';
 import { getMapInfo, setMapInfo } from '../../api/api';
@@ -25,14 +29,14 @@ const WRManager = () => {
   const { authentication } = useContext(AuthContext);
   const toast = useToast();
 
-  const [mapData, setMapData] = useState(undefined)
+  const [mapData, setMapData] = useState(undefined);
   const [kackyId, setKackyId] = useState('');
   const [eventType, setEventType] = useState('');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
 
-  const handleFindClick = (e) => {
+  const handleFindClick = e => {
     e.preventDefault();
     getMapInfo(eventType, kackyId).then(data =>
       setMapData({
@@ -46,32 +50,33 @@ const WRManager = () => {
         finished: false,
         personalBest: 0,
         kackyRank: 0,
-        clip: "",
+        clip: '',
       })
     );
   };
 
   const resetHandler = () => {
-    setMapInfo(authentication.token, eventType, kackyId, { "reset": "" }).then(() => {
-      toast({
-        title: 'Success',
-        description: `WR for map was reset successfully!`,
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      });
-    })
-      .catch((error) => {
+    setMapInfo(authentication.token, eventType, kackyId, { reset: '' })
+      .then(() => {
+        toast({
+          title: 'Success',
+          description: `WR for map was reset successfully!`,
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+      })
+      .catch(error => {
         toast({
           title: 'Connection Error',
-          description: `Could not connect to API! ${  error}`,
+          description: `Could not connect to API! ${error}`,
           status: 'error',
           duration: 4000,
           isClosable: true,
         });
       });
     onClose();
-  }
+  };
 
   try {
     if (!JSON.parse(atob(authentication.token.split('.')[1])).isAdmin) {
@@ -84,13 +89,10 @@ const WRManager = () => {
   return (
     <Center>
       <VStack w="30%">
-        <Flex
-          mb={5}
-          direction='row'
-          justifyItems="start"
-          width="full"
-        >
-          <Button as={Link} href="/kackend">Back</Button>
+        <Flex mb={5} direction="row" justifyItems="start" width="full">
+          <Button as={Link} href="/kackend">
+            Back
+          </Button>
         </Flex>
         <Center>
           <form>
@@ -103,7 +105,7 @@ const WRManager = () => {
                     id="kackyId"
                     placeholder="Enter Kacky ID"
                     value={kackyId}
-                    onChange={(e) => setKackyId(e.target.value)}
+                    onChange={e => setKackyId(e.target.value)}
                   />
                 </FormControl>
 
@@ -113,20 +115,20 @@ const WRManager = () => {
                     id="eventType"
                     placeholder="Select event type"
                     value={eventType}
-                    onChange={(e) => setEventType(e.target.value)}
+                    onChange={e => setEventType(e.target.value)}
                   >
                     <option value="kk">KK</option>
                     <option value="kr">KR</option>
                   </Select>
                 </FormControl>
               </HStack>
-              <Button type="submit" onClick={handleFindClick}>Find</Button>
+              <Button type="submit" onClick={handleFindClick}>
+                Find
+              </Button>
             </VStack>
           </form>
         </Center>
-        { mapData === undefined ?
-          null
-        :
+        {mapData === undefined ? null : (
           <>
             <Center mt={10}>
               <MapDetailCell
@@ -137,7 +139,9 @@ const WRManager = () => {
               />
             </Center>
             <Center mt={10}>
-              <Button variant="danger" onClick={onOpen}>Reset WR</Button>
+              <Button variant="danger" onClick={onOpen}>
+                Reset WR
+              </Button>
               <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
@@ -145,16 +149,16 @@ const WRManager = () => {
               >
                 <AlertDialogOverlay>
                   <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                    <AlertDialogHeader fontSize="lg" fontWeight="bold">
                       Reset Worldrecord?
                     </AlertDialogHeader>
 
                     <AlertDialogBody textTransform="none">
                       You are about to reset the WR on {mapData.number} by&nbsp;
                       {mapData.wrHolder} ({mapData.wrScore / 1000}s).
-                      <br/>
-                      Only do this once it is deleted from
-                      Kacky Records/TMX/Nadeo!
+                      <br />
+                      Only do this once it is deleted from Kacky
+                      Records/TMX/Nadeo!
                     </AlertDialogBody>
 
                     <AlertDialogFooter>
@@ -170,10 +174,10 @@ const WRManager = () => {
               </AlertDialog>
             </Center>
           </>
-        }
+        )}
       </VStack>
     </Center>
   );
-}
+};
 
 export default WRManager;

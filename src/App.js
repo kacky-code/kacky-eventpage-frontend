@@ -34,7 +34,6 @@ const cookies = new Cookies();
 
 const queryClient = new QueryClient();
 
-
 const App = () => {
   const [authentication, setAuthentication] = useState({
     isLoggedIn: (cookies.get('token') || '') !== '',
@@ -42,17 +41,21 @@ const App = () => {
     expires: cookies.get('expires') || '',
   });
 
-  const [event, setEvent] = useState({isLive: "over", name: "", type: "", edition: 0});
+  const [event, setEvent] = useState({
+    isLive: 'over',
+    name: '',
+    type: '',
+    edition: 0,
+  });
 
   useEffect(() => {
-    eventLiveState()
-      .then(data => {
-        setEvent({
-          isLive: data.status,
-          type: (data.type || "e").toLowerCase(),
-          edition: data.edition || "",
-        });
-      })
+    eventLiveState().then(data => {
+      setEvent({
+        isLive: data.status,
+        type: (data.type || 'e').toLowerCase(),
+        edition: data.edition || '',
+      });
+    });
   }, []);
 
   return (
@@ -65,14 +68,14 @@ const App = () => {
                 <Route
                   index
                   element={
-                    event.isLive === "active" ?
+                    event.isLive === 'active' ? (
                       <Dashboard />
-                      :
-                      event.isLive === "post" ?
-                        <EventEnd />
-                        :
-                        <PreEvent />
-                }
+                    ) : event.isLive === 'post' ? (
+                      <EventEnd />
+                    ) : (
+                      <PreEvent />
+                    )
+                  }
                 />
                 <Route path="schedule" element={<Schedule />} />
                 <Route path="hunting" element={<Hunting />} />

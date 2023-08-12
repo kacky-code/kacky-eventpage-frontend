@@ -7,7 +7,18 @@ import {
   useReactTable,
   useSortBy,
 } from '@tanstack/react-table';
-import { Box, Icon, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useColorMode } from '@chakra-ui/react';
+import {
+  Box,
+  Icon,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useColorMode,
+} from '@chakra-ui/react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import PropTypes from 'prop-types';
@@ -15,7 +26,7 @@ import AuthContext from '../../context/AuthContext';
 import defaultColumns from '../WRHolders/WRHolders.service';
 import { getWRHolderLeaderboard } from '../../api/api';
 
-const WRTable = ({eventtype}) => {
+const WRTable = ({ eventtype }) => {
   const { colorMode } = useColorMode();
   const { authentication } = useContext(AuthContext);
 
@@ -27,10 +38,9 @@ const WRTable = ({eventtype}) => {
 
   useEffect(() => {
     setKkData(null);
-    getWRHolderLeaderboard(authentication.token, eventtype)
-      .then(response=>{
-        setKkData(response)
-      })
+    getWRHolderLeaderboard(authentication.token, eventtype).then(response => {
+      setKkData(response);
+    });
   }, [authentication.token, eventtype]);
 
   useEffect(() => {
@@ -45,7 +55,7 @@ const WRTable = ({eventtype}) => {
       const row = {
         rank: null,
         wrs: entry.nwrs,
-        nickname: entry.nickname !== "" ? entry.nickname : entry.login,
+        nickname: entry.nickname !== '' ? entry.nickname : entry.login,
         login: entry.login,
       };
       if (lastScore === null || lastScore !== entry.nwrs) {
@@ -58,7 +68,7 @@ const WRTable = ({eventtype}) => {
         row.rank = rank;
       }
       board.push(row);
-    })
+    });
     setTableData(board);
   }, [kkData]);
 
@@ -125,10 +135,7 @@ const WRTable = ({eventtype}) => {
           {tableKK.getHeaderGroups().map(headerGroup => (
             <Tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <Th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                >
+                <Th key={header.id} colSpan={header.colSpan}>
                   {header.isPlaceholder ? null : (
                     <Box
                       display="flex"
@@ -147,9 +154,9 @@ const WRTable = ({eventtype}) => {
                         header.getContext()
                       )}
                       {{
-                          asc: <Icon w={4} h={4} as={MdArrowUpward} />,
-                          desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                        }[header.column.getIsSorted()] ??
+                        asc: <Icon w={4} h={4} as={MdArrowUpward} />,
+                        desc: <Icon w={4} h={4} as={MdArrowDownward} />,
+                      }[header.column.getIsSorted()] ??
                         (header.column.getCanSort() ? (
                           <Box w={4} h={4} />
                         ) : null)}
@@ -160,19 +167,14 @@ const WRTable = ({eventtype}) => {
             </Tr>
           ))}
         </Thead>
-        <Tbody
-          background={colorMode === 'dark' ? '#3e3d3e' : '#ebebeb'}
-        >
+        <Tbody background={colorMode === 'dark' ? '#3e3d3e' : '#ebebeb'}>
           {rowVirtualizer.getVirtualItems().map(virtualRow => {
             const row = rows[virtualRow.index];
             return (
               <Tr key={row.id}>
                 {row.getVisibleCells().map(cell => (
                   <Td key={cell.id}>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}
               </Tr>
@@ -181,11 +183,11 @@ const WRTable = ({eventtype}) => {
         </Tbody>
       </Table>
     </TableContainer>
-  )
-}
+  );
+};
 
 WRTable.propTypes = {
-  eventtype: PropTypes.oneOf(["kk", "kr"]).isRequired,
-}
+  eventtype: PropTypes.oneOf(['kk', 'kr']).isRequired,
+};
 
 export default WRTable;

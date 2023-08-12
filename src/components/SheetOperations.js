@@ -6,7 +6,7 @@ export function mergeSpreadsheetAndPBs(sheet, pb) {
     const formattedMap = {
       finished: map.finished || false,
       number: map.kacky_id.toString(),
-      version: map.version || "",
+      version: map.version || '',
       author: map.author,
       difficulty: map.map_diff || 0,
       rating: map.rating || 0,
@@ -15,7 +15,7 @@ export function mergeSpreadsheetAndPBs(sheet, pb) {
       clip: map.clip || '',
       discordPing: map.alarm || false,
       wrScore: map.wr_score,
-      wrHolder: map.wr_holder
+      wrHolder: map.wr_holder,
     };
     if (pb !== null && pb[formattedMap.number] !== undefined) {
       formattedMap.finished = true;
@@ -52,12 +52,13 @@ export function mergeScheduleAndPBs(sheet, pb) {
       rating: map.rating || 0,
       personalBest: 0,
       kackyRank: 0,
+      version: map.version || '',
       clip: map.clip || '',
       discordPing: map.alarm || false,
       wrScore: map.wr_score,
       wrHolder: map.wr_holder,
       upcomingIn: map.upcomingIn,
-      server: map.server
+      server: map.server,
     };
     if (pb !== null && pb[formattedMap.number] !== undefined) {
       formattedMap.finished = true;
