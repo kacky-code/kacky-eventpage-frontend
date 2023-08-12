@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { getDefaultBackgrounds } from '../../components/Header/Theming/BackgroundColors';
 
 const theme = extendTheme({
   config: {
@@ -13,8 +14,8 @@ const theme = extendTheme({
       body: {
         backgroundImage:
           props.colorMode === 'dark'
-            ? 'linear-gradient(#4e6fbb, #723a5e)'
-            : 'linear-gradient(#f5e8a3, #9be5c3)',
+            ? getDefaultBackgrounds().darkGradient
+            : getDefaultBackgrounds().lightGradient,
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         textTransform: 'uppercase',
