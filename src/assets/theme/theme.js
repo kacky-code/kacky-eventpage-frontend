@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { getDefaultBackgrounds } from '../../components/Header/Theming/BackgroundColors';
 
 const theme = extendTheme({
   config: {
@@ -11,7 +12,12 @@ const theme = extendTheme({
         overflowY: 'scroll',
       },
       body: {
-        background: props.colorMode === 'dark' ? '#060606' : 'white',
+        backgroundImage:
+          props.colorMode === 'dark'
+            ? getDefaultBackgrounds().darkGradient
+            : getDefaultBackgrounds().lightGradient,
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
         textTransform: 'uppercase',
         fontWeight: 300,
       },
