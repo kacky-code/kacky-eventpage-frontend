@@ -31,11 +31,10 @@ import EventContext from '../../context/EventContext';
 
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
-
 const diffBadgeColorArr = {
-  "hard": { variant: 'orange', text: 'Hard' },
-  "harder": { variant: 'red', text: 'Harder' },
-  "hardest": { variant: 'purple', text: 'Hardest' },
+  hard: { variant: 'orange', text: 'Hard' },
+  harder: { variant: 'red', text: 'Harder' },
+  hardest: { variant: 'purple', text: 'Hardest' },
 };
 
 const ServerCard = ({
@@ -65,7 +64,8 @@ const ServerCard = ({
   return (
     <Box
       bgImage={`url(${getMapImageUrl(
-        event.type, maps[0].number
+        event.type,
+        maps[0].number
       )}), url(${mapImageFallback})`}
       bgPosition="center"
       bgRepeat="no-repeat"
@@ -146,9 +146,9 @@ const ServerCard = ({
                 align="right"
                 textShadow="glow"
               >
-                {event.type === "kk" ? "Kackiest" : "Kacky"}
+                {event.type === 'kk' ? 'Kackiest' : 'Kacky'}
                 <br />
-                {event.type === "kk" ? "Kacky" : "Reloaded"}
+                {event.type === 'kk' ? 'Kacky' : 'Reloaded'}
               </Text>
               <HStack spacing={0}>
                 <Text

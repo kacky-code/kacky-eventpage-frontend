@@ -1,39 +1,36 @@
 import { Box, Icon, Text, Tooltip } from '@chakra-ui/react';
-import {
-  MdAccountCircle,
-  MdOutlineSportsScore,
-} from 'react-icons/md';
+import { MdAccountCircle, MdOutlineSportsScore } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
-import "@fontsource/montserrat";
+import '@fontsource/montserrat';
 
 const columnHelper = createColumnHelper();
 
 const fonts = {
-  "kk": "trebuchet ms, Helvetica, sans-serif",
-  "kr": "Montserrat, Helvetica Neue, Roboto",
-}
+  kk: 'trebuchet ms, Helvetica, sans-serif',
+  kr: 'Montserrat, Helvetica Neue, Roboto',
+};
 
-const rankColor = (rank) => {
+const rankColor = rank => {
   switch (rank) {
     case 1:
-      return "#efb310";
+      return '#efb310';
     case 2:
-      return "#aacee3";
+      return '#aacee3';
     case 3:
-      return "#b06050";
+      return '#b06050';
     default:
       return null;
   }
-}
+};
 
 const defaultColumns = [
-  columnHelper.accessor("rank", {
-    id: "rank",
+  columnHelper.accessor('rank', {
+    id: 'rank',
     header: () => <Text>Rank</Text>,
-    cell: info => <Text
-      color={rankColor(info.getValue())}
-    >{info.getValue()}</Text>
+    cell: info => (
+      <Text color={rankColor(info.getValue())}>{info.getValue()}</Text>
+    ),
   }),
   columnHelper.accessor('nickname', {
     id: 'nickname',
@@ -46,8 +43,10 @@ const defaultColumns = [
     cell: info => (
       <Box textTransform="none">
         <Tooltip label={info.row.original.login} placement="start">
-          <span style={{fontFamily: fonts[info.table.options.meta.eventtype]}}>
-            { /* eslint-disable-next-line react/no-danger */ }
+          <span
+            style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
+          >
+            {/* eslint-disable-next-line react/no-danger */}
             <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
           </span>
         </Tooltip>
@@ -56,22 +55,19 @@ const defaultColumns = [
   }),
   columnHelper.accessor('login', {
     id: 'login',
-    header: () => (
-      <Icon boxSize="16px" as={MdAccountCircle} />
-    ),
-    cell: info => (<Text>{info.getValue()}</Text>
-    ),
+    header: () => <Icon boxSize="16px" as={MdAccountCircle} />,
+    cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('wrs', {
     id: 'wrs',
-    width: "20rem",
+    width: '20rem',
     header: () => (
       <>
         <Icon boxSize="16px" as={MdOutlineSportsScore} />
         <Text>#WRs</Text>
       </>
     ),
-    cell: info => (<Text>{info.getValue()}</Text>),
+    cell: info => <Text>{info.getValue()}</Text>,
   }),
 ];
 

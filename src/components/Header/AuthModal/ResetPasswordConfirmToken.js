@@ -6,7 +6,10 @@ import {
   Input,
   Button,
   VStack,
-  FormErrorMessage, useToast, Flex, Box,
+  FormErrorMessage,
+  useToast,
+  Flex,
+  Box,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { resetPasswordStep2 } from '../../../api/api';
@@ -21,15 +24,15 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
   const [errorToken, setErrorToken] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
 
-  const handleTokenChange = (event) => {
+  const handleTokenChange = event => {
     setToken(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = event => {
     setPassword(event.target.value);
   };
 
-  const handleConfirmPasswordChange = (event) => {
+  const handleConfirmPasswordChange = event => {
     setConfirmPassword(event.target.value);
   };
 
@@ -37,7 +40,9 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
     // Perform validation logic for token here
     const tokenRegex = /^[a-z0-9]{6}$/; // Regular expression to match 6 digits
     setTokenValid(tokenRegex.test(token));
-    setErrorToken(token.length !== 6 || !tokenRegex.test(token) ? 'Invalid Token' : '');
+    setErrorToken(
+      token.length !== 6 || !tokenRegex.test(token) ? 'Invalid Token' : ''
+    );
   };
 
   const validatePassword = () => {
@@ -53,7 +58,7 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     validateToken();
     validatePassword();
@@ -79,10 +84,10 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
           isClosable: true,
         });
       })
-      .catch((error) => {
+      .catch(error => {
         toast({
           title: 'Connection Error',
-          description: `Could not connect to API! ${  error}`,
+          description: `Could not connect to API! ${error}`,
           status: 'error',
           duration: 4000,
           isClosable: true,
