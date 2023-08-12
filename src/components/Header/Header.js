@@ -37,6 +37,7 @@ import AuthContext from '../../context/AuthContext';
 import EventContext from '../../context/EventContext';
 import { logoutServer } from '../../api/api';
 import DiscordLogo from '../../assets/logos/discordLogo';
+import { getDefaultBackgrounds } from './Theming/BackgroundColors';
 
 const Header = () => {
   const theme = useTheme();
@@ -316,7 +317,11 @@ const Header = () => {
           w="100%"
           px={{ base: 4, md: 8 }}
           h={{ base: '60px', md: '80px' }}
-          bg={colorMode === 'dark' ? '#516ab3' : '#ede8a6'}
+          bg={
+            colorMode === 'dark'
+              ? getDefaultBackgrounds().dark[0]
+              : getDefaultBackgrounds().light[0]
+          }
           borderBottom={{ base: 'none', md: '1px' }}
           borderTop={{ base: '1px', md: 'none' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
@@ -329,7 +334,11 @@ const Header = () => {
               borderBottom="1px"
               px={4}
               mt="2px"
-              borderColor={colorMode === 'dark' ? '#516ab3' : '#ede8a6'}
+              borderColor={
+                colorMode === 'dark'
+                  ? getDefaultBackgrounds().dark
+                  : getDefaultBackgrounds().light
+              }
               h="full"
             >
               <Box mt={2} filter={theme.shadows.dropGlow}>
