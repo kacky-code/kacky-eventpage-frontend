@@ -336,8 +336,8 @@ const Header = () => {
               mt="2px"
               borderColor={
                 colorMode === 'dark'
-                  ? getDefaultBackgrounds().dark
-                  : getDefaultBackgrounds().light
+                  ? getDefaultBackgrounds().dark[0]
+                  : getDefaultBackgrounds().light[0]
               }
               h="full"
             >
