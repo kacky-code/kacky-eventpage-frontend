@@ -192,12 +192,12 @@ HeaderTab.defaultProps = {
   route: '',
   subRoutes: [],
   text: '',
+  fontSize: { base: 'xs', md: 'md', xl: 'xl' },
+  indicatorRef: null,
+  isSpacer: false,
   TabIcon: null,
   SVGIcon: null,
   onClick: () => {},
-  indicatorRef: null,
-  isSpacer: false,
-  fontSize: { base: 'xs', md: 'md', xl: 'xl' },
 };
 
 export default HeaderTab;

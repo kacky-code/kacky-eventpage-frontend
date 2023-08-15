@@ -34,7 +34,6 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  useSortBy,
   getExpandedRowModel,
 } from '@tanstack/react-table';
 
@@ -73,14 +72,14 @@ const Hunting = () => {
         <option
           key={i}
           value={array[i].type + array[i].edition}
-          type={array[i].type}
-          edition={array[i].edition}
+          type={array[i].type}          
+          data-edition={array[i].edition}
         >
           {array[i].name}
         </option>
       );
     }
-    /* options.push(<option key={array.length} value={array[0].edition} type={array[0].type} edition="all">All</option>) */
+    /* options.push(<option key={array.length} value={array[0].edition} type={array[0].type} data-edition="all">All</option>) */
     return options;
   }
 
@@ -180,8 +179,7 @@ const Hunting = () => {
           desc: false,
         },
       ],
-    },
-    useSortBy,
+    },    
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -208,15 +206,15 @@ const Hunting = () => {
   function handleChange(event) {
     const option = event.target.selectedOptions[0];
     setCurEventType(option.getAttribute('type'));
-    setCurEventEdition(Number(option.getAttribute('edition')));
+    setCurEventEdition(Number(option.getAttribute('data-edition')));
     setCurEventSelector(
-      option.getAttribute('type') + option.getAttribute('edition')
+      option.getAttribute('type') + option.getAttribute('data-edition')
     );
     Promise.all([
       getSpreadsheetData(
         authentication.token,
         option.getAttribute('type'),
-        option.getAttribute('edition')
+        option.getAttribute('data-edition')
       ),
       authentication.isLoggedIn
         ? getPersonalBests(authentication.token, option.getAttribute('type'))

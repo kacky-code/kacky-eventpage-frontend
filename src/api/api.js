@@ -272,7 +272,7 @@ export async function getStreamInfo(token) {
 }
 
 export async function getWRHolderLeaderboard(token, eventtype) {
-  const response = await fetch(`${url}/wrleaderboard/${eventtype}`, {
+  const response = await fetch(`${url}/wrleaderboard/${eventtype}?html=False`, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json, text/plain, */*',

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 import { Box, Icon, Text } from '@chakra-ui/react';
 import {
   MdAccountCircle,
@@ -7,6 +9,7 @@ import {
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import '@fontsource/montserrat';
+import Parser from 'html-react-parser';
 
 const columnHelper = createColumnHelper();
 
@@ -32,8 +35,7 @@ const defaultColumns = [
     cell: info => (
       <Box textTransform="none">
         <span style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}>
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+        <div>{Parser(MPStyle.Parser.toHTML(info.getValue()))}</div>
         </span>
       </Box>
     ),
@@ -41,7 +43,7 @@ const defaultColumns = [
   columnHelper.accessor('login', {
     id: 'login',
     header: () => <Icon boxSize="16px" as={MdAccountCircle} />,
-    cell: info => <Text>{info.getValue()}</Text>,
+    cell: info => <Text>{`1: ${info.getValue()}`}</Text>,
   }),
   columnHelper.accessor('fins', {
     id: 'fins',

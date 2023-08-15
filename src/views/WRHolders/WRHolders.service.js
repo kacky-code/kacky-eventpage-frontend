@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
 import { Box, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { MdAccountCircle, MdOutlineSportsScore } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import '@fontsource/montserrat';
+import Parser from 'html-react-parser';
 
 const columnHelper = createColumnHelper();
 
@@ -43,11 +45,8 @@ const defaultColumns = [
     cell: info => (
       <Box textTransform="none">
         <Tooltip label={info.row.original.login} placement="start">
-          <span
-            style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
-          >
-            {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+          <span style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}>         
+          <div>{Parser(MPStyle.Parser.toHTML(info.getValue()))}</div>
           </span>
         </Tooltip>
       </Box>

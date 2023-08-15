@@ -9,7 +9,7 @@
     "plugin:react-hooks/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsx-a11y/recommended",
+    "plugin:jsx-a11y/recommended",    
     "airbnb",
     "airbnb/hooks",
     "prettier"
@@ -23,6 +23,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "react/sort-default-props": [0 , {}],
     "react/function-component-definition": [
       "error",
       { "namedComponents": "arrow-function" }
@@ -32,8 +33,6 @@
     "no-nested-ternary": "off"
   },
   "settings": {
-    "import/extensions": [
-      ".css"
-    ]
+    "import/extensions": [".css"]
   }
 }
