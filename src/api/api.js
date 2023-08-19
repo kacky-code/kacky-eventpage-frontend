@@ -54,7 +54,7 @@ export async function eventLiveState() {
 
 export async function getAllEvents(token) {
   if (cachedEvents) return cachedEvents;
-  
+
   const config = {};
   if (token === undefined) {
     config.method = 'GET';
@@ -229,9 +229,15 @@ export async function getPerformance(token, type) {
   return response.json();
 }
 
-export async function getLeaderBoardPage(token, startrank, elements) {
+export async function getLeaderBoardPage(
+  token,
+  eventtype,
+  edition,
+  startrank,
+  elements
+) {
   const response = await fetch(
-    `${recordsUrl}/event/leaderboard/kk/8?start=${startrank}&elems=${elements}`,
+    `${recordsUrl}/event/leaderboard/${eventtype}/${edition}?start=${startrank}&elems=${elements}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -244,9 +250,14 @@ export async function getLeaderBoardPage(token, startrank, elements) {
   return response.json();
 }
 
-export async function getLeaderBoardPlayer(token, searchlogin) {
+export async function getLeaderBoardPlayer(
+  token,
+  eventtype,
+  edition,
+  searchlogin
+) {
   const response = await fetch(
-    `${recordsUrl}/event/leaderboard/kk/8/${searchlogin}`,
+    `${recordsUrl}/event/leaderboard/${eventtype}/${edition}/${searchlogin}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
