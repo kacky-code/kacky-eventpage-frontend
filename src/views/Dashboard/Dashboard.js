@@ -1,5 +1,5 @@
 import { Button, Center, VStack, useColorMode } from '@chakra-ui/react';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -30,6 +30,7 @@ const Dashboard = () => {
     }
   );
   const queryClient = useQueryClient();
+  const newQueryCount = useRef([0]);
 
   const toggleCompactView = () => {
     setIsCompactView(!isCompactView);
@@ -55,6 +56,7 @@ const Dashboard = () => {
       });
       setServers(formattedData);
       setCounter(timeLeftArr);
+      newQueryCount.current = new Array(timeLeftArr.length).fill(0);
     }
   }, [data, isSuccess]);
 
@@ -63,8 +65,14 @@ const Dashboard = () => {
     const timer = setInterval(() => {
       counter.forEach((element, index) => {
         if (counterCopy[index] > 0) counterCopy[index] -= 1;
-        if (counterCopy[index] === 0)
-          queryClient.invalidateQueries(['servers']);
+        if (counterCopy[index] === 0) {
+          newQueryCount.current[index] =
+            (newQueryCount.current[index] + 1) % 20;
+          if (newQueryCount.current[index] === 0) {
+            queryClient.invalidateQueries(['servers']);
+          }
+        }
+
         if (counter.length - 1 === index) setCounter(counterCopy);
       });
     }, 1000);
