@@ -45,7 +45,13 @@ const Leaderboard = () => {
   useEffect(() => {
     if (event.type && event.edition) {
       setData(null);
-      getLeaderBoardPage(authentication.token, 0, 10).then(response => {
+      getLeaderBoardPage(
+        authentication.token,
+        event.type,
+        event.edition,
+        0,
+        10
+      ).then(response => {
         setData(response);
       });
     }
@@ -127,15 +133,24 @@ const Leaderboard = () => {
 
   function searchLogin() {
     if (inputRef.current.value === '') {
-      getLeaderBoardPage(authentication.token, 0, 10).then(response => {
+      getLeaderBoardPage(
+        authentication.token,
+        event.type,
+        event.edition,
+        0,
+        10
+      ).then(response => {
         setData(response);
       });
     } else {
-      getLeaderBoardPlayer(authentication.token, inputRef.current.value).then(
-        response => {
-          setData([response]);
-        }
-      );
+      getLeaderBoardPlayer(
+        authentication.token,
+        event.type,
+        event.edition,
+        inputRef.current.value
+      ).then(response => {
+        setData([response]);
+      });
     }
   }
 
