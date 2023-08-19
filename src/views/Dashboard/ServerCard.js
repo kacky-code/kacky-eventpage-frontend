@@ -32,6 +32,7 @@ import EventContext from '../../context/EventContext';
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
 const diffBadgeColorArr = {
+  white: { variant: 'white', text: '' },
   hard: { variant: 'orange', text: 'Hard' },
   harder: { variant: 'red', text: 'Harder' },
   hardest: { variant: 'purple', text: 'Hardest' },
