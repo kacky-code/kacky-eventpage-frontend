@@ -28,6 +28,7 @@ import MapImageModal from '../../components/MapImageModal';
 import { getMapImageUrl } from '../../api/api';
 import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
 import EventContext from '../../context/EventContext';
+import { getDefaultBackgrounds } from '../../components/Header/Theming/BackgroundColors';
 
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
@@ -77,9 +78,11 @@ const ServerCard = ({
       <Box
         w="full"
         h="full"
-        bgColor={
-          colorMode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(6,6,6,0.05)'
-        }
+        bgColor={`${
+          colorMode === 'dark'
+            ? getDefaultBackgrounds().dark[1]
+            : getDefaultBackgrounds().light[1]
+        }11`}
       >
         <Center
           px={{ base: 4, md: 8 }}
@@ -87,18 +90,40 @@ const ServerCard = ({
           h="full"
           bgGradient={{
             base: `linear(to-r, background 0%, ${
-              colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
-            },  ${
               colorMode === 'dark'
-                ? 'blackAlpha.600 100%'
-                : 'whiteAlpha.700 100%'
-            })`,
-            md: `linear(to-r, background 0%, ${
-              colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
-            },  transparent 100%)`,
-            xl: `linear(to-r, background, ${
-              colorMode === 'dark' ? 'rgba(6,6,6,0.8)' : 'rgba(255,255,255,0.8)'
-            }, background)`,
+                ? getDefaultBackgrounds().dark[0]
+                : getDefaultBackgrounds().light[0]
+            }80 55%,  ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[1]
+                : getDefaultBackgrounds().light[1]
+            } 100%)`,
+            md: `linear(to-r, ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[0]
+                : getDefaultBackgrounds().light[0]
+            }80 0%, ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[1]
+                : getDefaultBackgrounds().light[1]
+            }80 5560%,  ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[0]
+                : getDefaultBackgrounds().light[0]
+            }80 100%)`,
+            xl: `linear(to-r, ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[0]
+                : getDefaultBackgrounds().light[0]
+            }80 0%, ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[1]
+                : getDefaultBackgrounds().light[1]
+            }80 55%, ${
+              colorMode === 'dark'
+                ? getDefaultBackgrounds().dark[0]
+                : getDefaultBackgrounds().light[0]
+            }80 100%)`,
           }}
         >
           <Flex
