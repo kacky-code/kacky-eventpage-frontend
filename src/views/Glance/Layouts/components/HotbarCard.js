@@ -14,9 +14,9 @@ import {
 import React, { useContext } from 'react';
 import { MdOutlineDns, MdArrowRightAlt } from 'react-icons/md';
 
-import { getMapImageUrl } from '../../api/api';
-import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
-import EventContext from '../../context/EventContext';
+import { getMapImageUrl } from '../../../../api/api';
+import mapImageFallback from '../../../../assets/images/mapImageFallback.jpg';
+import EventContext from '../../../../context/EventContext';
 
 const HotbarCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
   const theme = useTheme();
