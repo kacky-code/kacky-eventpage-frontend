@@ -13,6 +13,10 @@ import {
   Input,
   Popover,
   useDisclosure,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
 } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext } from 'react';
 import {
@@ -30,14 +34,18 @@ import { ChromePicker } from 'react-color';
 import { getDashboardData, getStreamInfo } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
-import HotbarCard from './HotbarCard';
 import { getDefaultBackgrounds } from '../../components/Header/Theming/BackgroundColors';
+import VerticalGlanceLayout from './Layouts/VerticalGlanceLayout';
+import HorizontalGlanceLayout from './Layouts/HorizontalGlanceLayout';
+import HorizontalMinimalGlanceLayout from './Layouts/HorizontalMinimalGlanceLayout';
 
 const mapChangeEstimate = 20;
 
 const Glance = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [viewType, setViewType] = useBoolean();
+  const [viewType, setViewType] = useState(
+    localStorage.getItem('glanceLayout') || 'vertical'
+  );
   const [bgColor, setBgColor] = useState(
     localStorage.getItem('glanceBG') || 'theme'
   );
@@ -46,6 +54,10 @@ const Glance = () => {
 
   const [servers, setServers] = useState([]);
   const [counter, setCounter] = useState([0]);
+
+  const [sliderValue, setSliderValue] = useState(
+    localStorage.getItem('glanceSpacing') || 2
+  );
 
   const { authentication } = useContext(AuthContext);
   const { data, isSuccess } = useQuery(
@@ -124,46 +136,83 @@ const Glance = () => {
 
   return (
     <>
-      <VStack spacing="4">
+      <VStack spacing="4" mb={6}>
         <HStack spacing="0" as={Center}>
           <Button
             borderRadius="6px 0 0 6px"
-            onClick={setViewType.toggle}
+            onClick={() => setViewType('vertical')}
             leftIcon={<MdOutlineViewHeadline />}
             borderColor={
-              viewType
+              viewType === 'vertical'
                 ? colorMode === 'dark'
                   ? 'white'
                   : 'black'
                 : 'transparent'
             }
             borderWidth="1px"
-            pointerEvents={viewType ? 'none' : 'auto'}
-            shadow={viewType ? 'glow' : 'none'}
-            textShadow={viewType ? 'glow' : 'none'}
+            pointerEvents={viewType === 'vertical' ? 'none' : 'auto'}
+            shadow={viewType === 'vertical' ? 'glow' : 'none'}
+            textShadow={viewType === 'vertical' ? 'glow' : 'none'}
             minW="8%"
           >
             Vertical
           </Button>
           <Button
-            disabled="True"
-            borderRadius="0 6px 6px 0"
-            onClick={setViewType.toggle}
-            rightIcon={<MdGridView />}
+            borderRadius="00"
+            onClick={() => setViewType('horizontal')}
+            leftIcon={<MdGridView />}
             borderColor={
-              !viewType
+              viewType === 'horizontal'
                 ? colorMode === 'dark'
                   ? 'white'
                   : 'black'
                 : 'transparent'
             }
             borderWidth="1px"
-            pointerEvents={!viewType ? 'none' : 'auto'}
-            shadow={!viewType ? 'glow' : 'none'}
-            textShadow={!viewType ? 'glow' : 'none'}
+            pointerEvents={viewType === 'horizontal' ? 'none' : 'auto'}
+            shadow={viewType === 'horizontal' ? 'glow' : 'none'}
+            textShadow={viewType === 'horizontal' ? 'glow' : 'none'}
             minW="8%"
           >
             Horizontal
+          </Button>
+          <Button
+            borderRadius="00"
+            onClick={() => setViewType('vertical-minimal')}
+            leftIcon={<MdGridView />}
+            borderColor={
+              viewType === 'vertical-minimal'
+                ? colorMode === 'dark'
+                  ? 'white'
+                  : 'black'
+                : 'transparent'
+            }
+            borderWidth="1px"
+            pointerEvents={viewType === 'vertical-minimal' ? 'none' : 'auto'}
+            shadow={viewType === 'vertical-minimal' ? 'glow' : 'none'}
+            textShadow={viewType === 'vertical-minimal' ? 'glow' : 'none'}
+            minW="8%"
+          >
+            Vertical Minimal
+          </Button>
+          <Button
+            borderRadius="0 6px 6px 0"
+            onClick={() => setViewType('horizontal-minimal')}
+            leftIcon={<MdGridView />}
+            borderColor={
+              viewType === 'horizontal-minimal'
+                ? colorMode === 'dark'
+                  ? 'white'
+                  : 'black'
+                : 'transparent'
+            }
+            borderWidth="1px"
+            pointerEvents={viewType === 'horizontal-minimal' ? 'none' : 'auto'}
+            shadow={viewType === 'horizontal-minimal' ? 'glow' : 'none'}
+            textShadow={viewType === 'horizontal-minimal' ? 'glow' : 'none'}
+            minW="8%"
+          >
+            Horizontal Minimal
           </Button>
         </HStack>
         <HStack mb={8} spacing="0" as={Center}>
@@ -253,18 +302,52 @@ const Glance = () => {
             </Popover>
           </HStack>
         ) : null}
+        <HStack>
+          <Text>Spacing:</Text>
+          <Box width={200}>
+            <Slider
+              aria-label="spacing-slider"
+              colorScheme="gray"
+              min={0}
+              max={10}
+              defaultValue={sliderValue}
+              onChange={val => setSliderValue(val)}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
+        </HStack>
       </VStack>
       {message === '' ? (
-        <VStack spacing={3}>
-          {servers.map((server, index) => (
-            <HotbarCard
-              {...server}
-              timeLeft={counter[index] - mapChangeEstimate}
-              key={server.serverNumber}
-              style={{ transition: 'opacity 1s' }}
+        <>
+          {viewType === 'vertical' && (
+            <VerticalGlanceLayout
+              servers={servers}
+              counter={counter}
+              mapChangeEstimate={mapChangeEstimate}
+              elemSpacing={sliderValue}
             />
-          ))}
-        </VStack>
+          )}
+          {viewType === 'horizontal' && (
+            <HorizontalGlanceLayout
+              servers={servers}
+              counter={counter}
+              mapChangeEstimate={mapChangeEstimate}
+              elemSpacing={sliderValue}
+            />
+          )}
+          {viewType === 'horizontal-minimal' && (
+            <HorizontalMinimalGlanceLayout
+              servers={servers}
+              counter={counter}
+              mapChangeEstimate={mapChangeEstimate}
+              elemSpacing={sliderValue}
+            />
+          )}
+        </>
       ) : (
         <Center>
           <Box
