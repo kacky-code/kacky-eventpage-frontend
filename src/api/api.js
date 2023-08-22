@@ -1,5 +1,4 @@
 const url = `https://api.kacky.gg`;
-const recordsUrl = `https://records.kacky.gg`;
 
 let cachedEvents = null;
 
@@ -237,7 +236,7 @@ export async function getLeaderBoardPage(
   elements
 ) {
   const response = await fetch(
-    `${recordsUrl}/event/leaderboard/${eventtype}/${edition}?start=${startrank}&elems=${elements}`,
+    `${url}/records/event/leaderboard/${eventtype}/${edition}?start=${startrank}&elems=${elements}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -257,7 +256,7 @@ export async function getLeaderBoardPlayer(
   searchlogin
 ) {
   const response = await fetch(
-    `${recordsUrl}/event/leaderboard/${eventtype}/${edition}/${searchlogin}`,
+    `${url}/records/event/leaderboard/${eventtype}/${edition}/${searchlogin}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
