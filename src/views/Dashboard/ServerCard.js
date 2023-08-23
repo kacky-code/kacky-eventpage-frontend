@@ -8,7 +8,6 @@ import {
   HStack,
   Text,
   Badge,
-  Image,
   Icon,
   CircularProgress,
   CircularProgressLabel,
@@ -22,7 +21,6 @@ import {
   MdOutlineCheckCircle,
   MdAccessTime,
 } from 'react-icons/md';
-import { BsArrowsAngleExpand } from 'react-icons/bs';
 import MapImageModal from '../../components/MapImageModal';
 
 import { getMapImageUrl } from '../../api/api';
@@ -58,10 +56,6 @@ const ServerCard = ({
   const modalNextMap3 = useDisclosure();
 
   const nextMapModals = [modalNextMap1, modalNextMap2, modalNextMap3];
-  const getFallbackImage = ev => {
-    // eslint-disable-next-line no-param-reassign
-    ev.target.src = mapImageFallback;
-  };
 
   return (
     <Box
@@ -152,18 +146,22 @@ const ServerCard = ({
               >
                 {serverNumber}
               </Text>
-              <Badge
-                visibility={
-                  serverDifficulty === 'undefined' ? 'hidden' : 'visible'
-                }
-                variant={diffBadgeColorArr[serverDifficulty].variant}
-              >
-                {serverDifficulty}
-              </Badge>
+              {serverDifficulty !== "white" ?
+                <Badge
+                  visibility={
+                    serverDifficulty === 'undefined' ? 'hidden' : 'visible'
+                  }
+                  variant={diffBadgeColorArr[serverDifficulty].variant}
+                >
+                  {serverDifficulty}
+                </Badge>
+                : null
+              }
             </HStack>
 
             {/* MAP NUMBER */}
-            <HStack w={isCompactView ? '240px' : '320px'}>
+            <HStack w={isCompactView ? '240px' : '320px'}
+                    onClick={onOpen} cursor="pointer" _hover={{ transform: 'scale(1.05)' }}>
               <Text
                 fontSize={isCompactView ? 'md' : '2xl'}
                 lineHeight={isCompactView ? '16px' : '24px'}
@@ -202,56 +200,7 @@ const ServerCard = ({
               </HStack>
             </HStack>
 
-            {/* MAP IMAGE */}
-            <Box display={{ base: 'none', xl: 'initial' }} position="relative">
-              <Image
-                h={isCompactView ? 16 : 32}
-                alt="Map"
-                onError={getFallbackImage}
-                src={getMapImageUrl(event.type, maps[0].number)}
-              />
-              <Flex
-                onClick={onOpen}
-                role="group"
-                w="full"
-                h="full"
-                align="center"
-                justify="center"
-                position="absolute"
-                left="50%"
-                top="50%"
-                transform="translate(-50%, -50%);"
-                transition="background-color 150ms ease-in-out"
-                cursor="pointer"
-                _hover={{
-                  bg:
-                    colorMode === 'dark' ? 'blackAlpha.600' : 'whiteAlpha.700',
-                }}
-              >
-                <Icon
-                  opacity="0"
-                  transform="scale(0.5);"
-                  transition="transform 100ms ease-in-out"
-                  _groupHover={{
-                    opacity: '1',
-                    transform: 'scale(1);',
-                  }}
-                  filter={
-                    colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                  }
-                  boxSize={8}
-                  as={BsArrowsAngleExpand}
-                />
-              </Flex>
-              <MapImageModal
-                mapNumber={maps[0].number.toString()}
-                author={maps[0].author}
-                isFinished={maps[0].finished}
-                isOpen={isOpen}
-                onClose={onClose}
-                eventtype={event.type}
-              />
-            </Box>
+
 
             {/* NEXT MAPS */}
             <Flex
@@ -397,6 +346,14 @@ const ServerCard = ({
           </Flex>
         </Center>
       </Box>
+      <MapImageModal
+        mapNumber={maps[0].number.toString()}
+        author={maps[0].author}
+        isFinished={maps[0].finished}
+        isOpen={isOpen}
+        onClose={onClose}
+        eventtype={event.type}
+      />
     </Box>
   );
 };
