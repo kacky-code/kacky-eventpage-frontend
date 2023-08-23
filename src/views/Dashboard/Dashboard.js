@@ -1,4 +1,4 @@
-import { Button, Center, VStack, useColorMode } from '@chakra-ui/react';
+import { Button, Center, VStack, useColorMode, HStack } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -82,7 +82,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Center mb={8}>
+      <Center mb={4}>
         <Button
           borderRadius="6px 0 0 6px"
           onClick={toggleCompactView}
@@ -120,16 +120,30 @@ const Dashboard = () => {
           Large View
         </Button>
       </Center>
-      <VStack mb={{ base: 24, md: 0 }} spacing={8}>
-        {servers.map((server, index) => (
-          <ServerCard
-            {...server}
-            timeLeft={counter[index] - mapChangeEstimate}
-            isCompactView={isCompactView}
-            key={server.serverNumber}
-          />
-        ))}
-      </VStack>
+      <HStack w="full" spacing={0}>
+        <VStack mb={{ base: 24, md: 0 }} w="50%" pl={2} pr={1}>
+          {servers.map((server, idx) => (
+            idx < 5 ?
+              <ServerCard
+                {...server}
+                timeLeft={counter[idx] - mapChangeEstimate}
+                isCompactView={isCompactView}
+                key={server.serverNumber}
+              /> : null
+          ))}
+        </VStack>
+        <VStack mb={{ base: 24, md: 0 }} w="50%" pr={2} pl={1}>
+          {servers.map((server, idx) => (
+            idx >= 5 ?
+              <ServerCard
+                {...server}
+                timeLeft={counter[idx] - mapChangeEstimate}
+                isCompactView={isCompactView}
+                key={server.serverNumber}
+              /> : null
+          ))}
+        </VStack>
+      </HStack>
     </>
   );
 };
