@@ -31,7 +31,11 @@ import { getDefaultBackgrounds } from '../../components/Header/Theming/Backgroun
 const nextMapsFontWeight = ['medium', 'normal', 'light'];
 
 const diffBadgeColorArr = {
-  white: { variant: 'white', text: '' },
+  white: { variant: 'white', text: 'White' },
+  green: { variant: 'green', text: 'Green' },
+  blue: { variant: 'blue', text: 'Blue' },
+  red: { variant: 'red', text: 'Red' },
+  black: { variant: 'black', text: 'Black' },
   hard: { variant: 'orange', text: 'Hard' },
   harder: { variant: 'red', text: 'Harder' },
   hardest: { variant: 'purple', text: 'Hardest' },
@@ -146,7 +150,7 @@ const ServerCard = ({
               >
                 {serverNumber}
               </Text>
-              {serverDifficulty !== "white" ?
+              {serverDifficulty !== "" ?  // Servers do not have a difficulty in Phase 1
                 <Badge
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
