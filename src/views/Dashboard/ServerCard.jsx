@@ -146,7 +146,7 @@ const ServerCard = ({
               >
                 {serverNumber}
               </Text>
-              {serverDifficulty !== "white" ?
+              {true ?
                 <Badge
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
