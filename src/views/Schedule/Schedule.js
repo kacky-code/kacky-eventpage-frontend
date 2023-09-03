@@ -33,7 +33,7 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  useSortBy,
+  
   getExpandedRowModel,
 } from '@tanstack/react-table';
 
@@ -124,7 +124,7 @@ const Spreadsheet = () => {
         },
       ],
     },
-    useSortBy,
+    
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

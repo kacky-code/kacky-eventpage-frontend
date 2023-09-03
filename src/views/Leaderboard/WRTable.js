@@ -5,7 +5,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  useSortBy,
+  
 } from '@tanstack/react-table';
 import {
   Box,
@@ -91,7 +91,7 @@ const WRTable = ({ eventtype }) => {
         },
       ],
     },
-    useSortBy,
+    
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

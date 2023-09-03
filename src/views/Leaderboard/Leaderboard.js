@@ -5,7 +5,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  useSortBy,
+  
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
@@ -96,7 +96,7 @@ const Leaderboard = () => {
         },
       ],
     },
-    useSortBy,
+    
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

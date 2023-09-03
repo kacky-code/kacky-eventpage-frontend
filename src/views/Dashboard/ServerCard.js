@@ -151,7 +151,7 @@ const ServerCard = ({
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
                   }
-                  variant={diffBadgeColorArr[serverDifficulty].variant}
+                  variant={diffBadgeColorArr[serverDifficulty] ? diffBadgeColorArr[serverDifficulty].variant : null}
                 >
                   {serverDifficulty}
                 </Badge>
