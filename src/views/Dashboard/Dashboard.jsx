@@ -81,7 +81,7 @@ const Dashboard = () => {
       rowGap='8px'
     >
       {servers.map((server, idx) => (
-        <GridItem gridArea={`_${server.serverNumber}`} key={idx} pl={2}>
+        <GridItem gridArea={`_${server.serverNumber}`} key={idx}>
           <ServerCard
             {...server}
             timeLeft={counter[idx] - mapChangeEstimate}
