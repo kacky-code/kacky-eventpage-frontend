@@ -16,9 +16,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
-import {
-  MdOutlineCheckCircle,
-} from 'react-icons/md';
+import { MdOutlineCheckCircle } from 'react-icons/md';
 import MapImageModal from '../../components/MapImageModal';
 
 import { getMapImageUrl } from '../../api/api';
@@ -64,14 +62,14 @@ const ServerCard = ({
         event.type,
         maps[0].number
       )}), url(${mapImageFallback})`}
-      bgPosition="center"
-      bgRepeat="no-repeat"
-      bgSize="cover"
+      bgPosition='center'
+      bgRepeat='no-repeat'
+      bgSize='cover'
       h={{ base: 'column', xl: 32 }}
     >
       <Box
-        w="full"
-        h="full"
+        w='full'
+        h='full'
         bgColor={`${
           colorMode === 'dark'
             ? getDefaultBackgrounds().dark[1]
@@ -80,8 +78,8 @@ const ServerCard = ({
       >
         <Center
           px={{ base: 4, md: 8 }}
-          w="full"
-          h="full"
+          w='full'
+          h='full'
           bgGradient={{
             base: `linear(to-r, background 0%, ${
               colorMode === 'dark'
@@ -126,42 +124,46 @@ const ServerCard = ({
             pl={{ base: 8, sm: 16, xl: 0 }}
             py={8}
             gap={{ base: 8, xl: 0 }}
-            justify="space-between"
-            w="container.xl"
+            justify='space-between'
+            w='container.xl'
           >
             {/* SERVER */}
-            <HStack w="220px" spacing={4}>
-              <Text
-                textShadow="glow"
-                w='85px'
-                fontSize='5xl'
-                lineHeight= '48px'
-              >
+            <HStack w='220px' spacing={4}>
+              <Text textShadow='glow' w='85px' fontSize='5xl' lineHeight='48px'>
                 # {serverNumber}
               </Text>
-              {serverDifficulty !== "" ?  // Servers do not have a difficulty in Phase 1
-                <Badge width={'5rem'} fontSize={'xl'}
+              {serverDifficulty !== '' ? ( // Servers do not have a difficulty in Phase 1
+                <Badge
+                  width={'5rem'}
+                  fontSize={'xl'}
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
                   }
-                  variant={diffBadgeColorArr[serverDifficulty] ? diffBadgeColorArr[serverDifficulty].variant : null}
+                  variant={
+                    diffBadgeColorArr[serverDifficulty]
+                      ? diffBadgeColorArr[serverDifficulty].variant
+                      : null
+                  }
                 >
                   {serverDifficulty}
                 </Badge>
-                : null
-              }
+              ) : null}
             </HStack>
 
             {/* MAP NUMBER */}
-            <HStack w='320px'
-                    onClick={onOpen} cursor="pointer" _hover={{ transform: 'scale(1.05)' }}>
+            <HStack
+              w='320px'
+              onClick={onOpen}
+              cursor='pointer'
+              _hover={{ transform: 'scale(1.05)' }}
+            >
               <Text
                 fontSize='2xl'
                 lineHeight='24px'
-                letterSpacing="0.4em"
-                fontWeight="light"
-                align="right"
-                textShadow="glow"
+                letterSpacing='0.4em'
+                fontWeight='light'
+                align='right'
+                textShadow='glow'
               >
                 {event.type === 'kk' ? 'Kackiest' : 'Kacky'}
                 <br />
@@ -170,18 +172,18 @@ const ServerCard = ({
               <HStack spacing={0}>
                 <Text
                   lineHeight='60px'
-                  textShadow="glow"
+                  textShadow='glow'
                   fontSize='6xl'
-                  letterSpacing="0.1em"
-                  fontWeight="bold"
+                  letterSpacing='0.1em'
+                  fontWeight='bold'
                 >
                   {maps[0].number}
                 </Text>
                 {maps[0].finished ? (
                   <Icon
                     color={colorMode === 'dark' ? 'green.300' : 'green.500'}
-                    boxSize="20px"
-                    alignSelf="flex-start"
+                    boxSize='20px'
+                    alignSelf='flex-start'
                     filter={
                       colorMode === 'dark'
                         ? theme.shadows.finGlowDark
@@ -193,26 +195,20 @@ const ServerCard = ({
               </HStack>
             </HStack>
 
-
-
             {/* NEXT MAPS */}
-            <Flex
-              direction='row'
-              gap= {2}
-              w='120px'
-            >
+            <Flex direction='row' gap={2} w='120px'>
               <Flex
                 h='88px'
                 direction='column'
                 spacing={0}
-                justify="stretch"
-                align="center"
+                justify='stretch'
+                align='center'
               >
                 <Box
                   bg={colorMode === 'dark' ? 'white' : 'black'}
                   w='2px'
                   h='full'
-                  boxShadow="glow"
+                  boxShadow='glow'
                 />
                 <Box
                   filter={
@@ -221,43 +217,37 @@ const ServerCard = ({
                 >
                   <svg
                     fill={colorMode === 'dark' ? 'white' : 'black'}
-                    height="12px"
-                    width="12px"
+                    height='12px'
+                    width='12px'
                   >
-                    <polygon
-                      points='0,0 12,0 6,12'
-                    />
+                    <polygon points='0,0 12,0 6,12' />
                   </svg>
                 </Box>
               </Flex>
-              <Flex
-                direction='column'
-                align="flex-start"
-                gap={2}
-              >
+              <Flex direction='column' align='flex-start' gap={2}>
                 {maps.slice(1).map((map, index) => (
                   <HStack
                     onClick={nextMapModals[index].onOpen}
-                    cursor="pointer"
+                    cursor='pointer'
                     w='auto'
-                    justify="flex-start"
+                    justify='flex-start'
                     _hover={{ transform: 'scale(1.05)' }}
                     spacing={1}
                     key={map.number}
                   >
                     <Text
-                      lineHeight="24px"
+                      lineHeight='24px'
                       fontWeight={nextMapsFontWeight[index]}
-                      fontSize="2xl"
-                      letterSpacing="0.1em"
-                      textShadow="glow"
+                      fontSize='2xl'
+                      letterSpacing='0.1em'
+                      textShadow='glow'
                     >
                       {map.number}
                     </Text>
                     {map.finished ? (
                       <Icon
                         color={colorMode === 'dark' ? 'green.300' : 'green.500'}
-                        boxSize="20px"
+                        boxSize='20px'
                         filter={
                           colorMode === 'dark'
                             ? theme.shadows.finGlowDark
@@ -280,33 +270,33 @@ const ServerCard = ({
             </Flex>
 
             {/* TIME LEFT */}
-            <Flex justify="center" align="center">
+            <Flex justify='center' align='center'>
               {timeLeft <= 0 ? (
                 <Text
-                  align="center"
+                  align='center'
                   width='114px'
                   ml={4}
-                  color="red.500"
+                  color='red.500'
                   _dark={{ color: 'red.300' }}
-                  fontWeight="normal"
+                  fontWeight='normal'
                   fontSize='md'
-                  letterSpacing="0.1em"
+                  letterSpacing='0.1em'
                   m={0}
                 >
                   Switching to next Map
                 </Text>
-              ) :  (
+              ) : (
                 <CircularProgress
-                  trackColor="transparent"
-                  thickness="2px"
+                  trackColor='transparent'
+                  thickness='2px'
                   color={colorMode === 'dark' ? 'white' : 'black'}
                   value={(timeLeft / timeLimit) * 100}
-                  size="114px"
+                  size='114px'
                 >
                   <CircularProgressLabel
-                    fontWeight="semilight"
-                    fontSize="2xl"
-                    letterSpacing="0.1em"
+                    fontWeight='semilight'
+                    fontSize='2xl'
+                    letterSpacing='0.1em'
                     sx={{ fontVariantNumeric: 'tabular-nums' }}
                   >
                     {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}

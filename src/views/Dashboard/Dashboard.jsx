@@ -1,4 +1,4 @@
-import { Button, Center, VStack, useColorMode, HStack, Box, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -11,8 +11,6 @@ import AuthContext from '../../context/AuthContext';
 const mapChangeEstimate = 0;
 
 const Dashboard = () => {
-  const { colorMode } = useColorMode();
-
   const [servers, setServers] = useState([]);
   const [counter, setCounter] = useState([0]);
 
@@ -27,7 +25,6 @@ const Dashboard = () => {
   );
   const queryClient = useQueryClient();
   const newQueryCount = useRef([0]);
-
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,7 +49,7 @@ const Dashboard = () => {
   useEffect(() => {
     const counterCopy = [...counter];
     const timer = setInterval(() => {
-      counter.forEach((element, index) => {
+      counter.forEach((_, index) => {
         if (counterCopy[index] > 0) counterCopy[index] -= 1;
         if (counterCopy[index] === 0) {
           newQueryCount.current[index] =
@@ -78,16 +75,13 @@ const Dashboard = () => {
                     "_5 _11"
                     "_6 _12"
                     "_13 _13"`}
-      templateColumns={"49.5% 49.5%"}
-      templateRows={"repeat(7, 1fr)"}
-      justifyContent={'space-around'}
-      rowGap={'8px'} >
+      templateColumns='49.5% 49.5%'
+      templateRows='repeat(7, 1fr)'
+      justifyContent='space-around'
+      rowGap='8px'
+    >
       {servers.map((server, idx) => (
-        <GridItem
-          gridArea={'_' + server.serverNumber}
-          key={idx}
-          pl={2}>
-
+        <GridItem gridArea={`_${server.serverNumber}`} key={idx} pl={2}>
           <ServerCard
             {...server}
             timeLeft={counter[idx] - mapChangeEstimate}
