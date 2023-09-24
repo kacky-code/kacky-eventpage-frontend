@@ -17,9 +17,7 @@ import {
 import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
 import {
-  MdOutlineDns,
   MdOutlineCheckCircle,
-  MdAccessTime,
 } from 'react-icons/md';
 import MapImageModal from '../../components/MapImageModal';
 
@@ -47,7 +45,6 @@ const ServerCard = ({
   maps,
   timeLimit,
   timeLeft,
-  isCompactView,
 }) => {
   const theme = useTheme();
   const { colorMode } = useColorMode();
@@ -70,8 +67,7 @@ const ServerCard = ({
       bgPosition="center"
       bgRepeat="no-repeat"
       bgSize="cover"
-      w="full"
-      h={{ base: 'column', xl: isCompactView ? 16 : 32 }}
+      h={{ base: 'column', xl: 32 }}
     >
       <Box
         w="full"
@@ -135,23 +131,16 @@ const ServerCard = ({
           >
             {/* SERVER */}
             <HStack w="220px" spacing={4}>
-              <Icon
-                filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
-                as={MdOutlineDns}
-              />
-              <Text textShadow="glow" letterSpacing="0.1em">
-                Server
-              </Text>
               <Text
                 textShadow="glow"
-                w={isCompactView ? '40px' : '50px'}
-                fontSize={isCompactView ? '4xl' : '5xl'}
-                lineHeight={isCompactView ? '36px' : '48px'}
+                w='85px'
+                fontSize='5xl'
+                lineHeight= '48px'
               >
-                {serverNumber}
+                # {serverNumber}
               </Text>
               {serverDifficulty !== "" ?  // Servers do not have a difficulty in Phase 1
-                <Badge
+                <Badge width={'5rem'} fontSize={'xl'}
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
                   }
@@ -164,11 +153,11 @@ const ServerCard = ({
             </HStack>
 
             {/* MAP NUMBER */}
-            <HStack w={isCompactView ? '240px' : '320px'}
+            <HStack w='320px'
                     onClick={onOpen} cursor="pointer" _hover={{ transform: 'scale(1.05)' }}>
               <Text
-                fontSize={isCompactView ? 'md' : '2xl'}
-                lineHeight={isCompactView ? '16px' : '24px'}
+                fontSize='2xl'
+                lineHeight='24px'
                 letterSpacing="0.4em"
                 fontWeight="light"
                 align="right"
@@ -180,9 +169,9 @@ const ServerCard = ({
               </Text>
               <HStack spacing={0}>
                 <Text
-                  lineHeight={isCompactView ? '48px' : '60px'}
+                  lineHeight='60px'
                   textShadow="glow"
-                  fontSize={isCompactView ? '5xl' : '6xl'}
+                  fontSize='6xl'
                   letterSpacing="0.1em"
                   fontWeight="bold"
                 >
@@ -208,21 +197,21 @@ const ServerCard = ({
 
             {/* NEXT MAPS */}
             <Flex
-              direction={isCompactView ? 'column-reverse' : 'row'}
-              gap={isCompactView ? 1 : 2}
-              w={isCompactView ? 'auto' : '120px'}
+              direction='row'
+              gap= {2}
+              w='120px'
             >
               <Flex
-                h={isCompactView ? 'auto' : '88px'}
-                direction={isCompactView ? 'row' : 'column'}
+                h='88px'
+                direction='column'
                 spacing={0}
                 justify="stretch"
                 align="center"
               >
                 <Box
                   bg={colorMode === 'dark' ? 'white' : 'black'}
-                  w={isCompactView ? 'full' : '2px'}
-                  h={isCompactView ? '2px' : 'full'}
+                  w='2px'
+                  h='full'
                   boxShadow="glow"
                 />
                 <Box
@@ -236,21 +225,21 @@ const ServerCard = ({
                     width="12px"
                   >
                     <polygon
-                      points={isCompactView ? '0,0 12,6 0,12' : '0,0 12,0 6,12'}
+                      points='0,0 12,0 6,12'
                     />
                   </svg>
                 </Box>
               </Flex>
               <Flex
-                direction={isCompactView ? 'row' : 'column'}
+                direction='column'
                 align="flex-start"
-                gap={isCompactView ? 6 : 2}
+                gap={2}
               >
                 {maps.slice(1).map((map, index) => (
                   <HStack
                     onClick={nextMapModals[index].onOpen}
                     cursor="pointer"
-                    w={isCompactView ? '75px' : 'auto'}
+                    w='auto'
                     justify="flex-start"
                     _hover={{ transform: 'scale(1.05)' }}
                     spacing={1}
@@ -295,40 +284,18 @@ const ServerCard = ({
               {timeLeft <= 0 ? (
                 <Text
                   align="center"
-                  width={isCompactView ? '115px' : '114px'}
+                  width='114px'
                   ml={4}
                   color="red.500"
                   _dark={{ color: 'red.300' }}
                   fontWeight="normal"
-                  fontSize={isCompactView ? 'sm' : 'md'}
+                  fontSize='md'
                   letterSpacing="0.1em"
                   m={0}
                 >
                   Switching to next Map
                 </Text>
-              ) : isCompactView ? (
-                <>
-                  <Icon
-                    filter={
-                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                    }
-                    boxSize="24px"
-                    as={MdAccessTime}
-                  />
-                  <Text
-                    align="left"
-                    width="75px"
-                    ml={4}
-                    fontWeight="semilight"
-                    fontSize="2xl"
-                    lineHeight="24px"
-                    letterSpacing="0.1em"
-                    textShadow="glow"
-                  >
-                    {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
-                  </Text>
-                </>
-              ) : (
+              ) :  (
                 <CircularProgress
                   trackColor="transparent"
                   thickness="2px"
@@ -374,7 +341,6 @@ ServerCard.propTypes = {
   ).isRequired,
   timeLimit: PropTypes.number.isRequired,
   timeLeft: PropTypes.number.isRequired,
-  isCompactView: PropTypes.bool.isRequired,
 };
 
 export default ServerCard;
