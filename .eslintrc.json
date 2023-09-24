@@ -14,6 +14,7 @@
     "airbnb/hooks",
     "prettier"
   ],
+  "ignorePatterns": ["dist", "build"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -32,8 +33,6 @@
     "no-nested-ternary": "off"
   },
   "settings": {
-    "import/extensions": [
-      ".css"
-    ]
+    "import/extensions": [".css"]
   }
 }

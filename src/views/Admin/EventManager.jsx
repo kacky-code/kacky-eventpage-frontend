@@ -111,55 +111,55 @@ const EventManager = () => {
 
   return (
     <Center>
-      <VStack spacing={4} width="30%">
-        <Flex mb={5} direction="row" justifyItems="start" width="full">
-          <Button as={Link} href="/kackend">
+      <VStack spacing={4} width='30%'>
+        <Flex mb={5} direction='row' justifyItems='start' width='full'>
+          <Button as={Link} href='/kackend'>
             Back
           </Button>
         </Flex>
-        <Flex direction="column">
-          <Text fontSize="xl" fontWeight="400" textTransform="uppercase" pb={6}>
+        <Flex direction='column'>
+          <Text fontSize='xl' fontWeight='400' textTransform='uppercase' pb={6}>
             Event Management
           </Text>
           <EventTable />
         </Flex>
 
-        <Text fontSize="xl" fontWeight="400" textTransform="uppercase" pt={8}>
+        <Text fontSize='xl' fontWeight='400' textTransform='uppercase' pt={8}>
           Add new Event
         </Text>
         <Center>
           <form>
             <FormControl>
-              <FormLabel htmlFor="eventName">Event Name</FormLabel>
+              <FormLabel htmlFor='eventName'>Event Name</FormLabel>
               <Input
-                type="text"
-                id="eventName"
-                placeholder="Enter event name"
+                type='text'
+                id='eventName'
+                placeholder='Enter event name'
                 value={eventName}
                 onChange={e => setEventName(e.target.value)}
               />
             </FormControl>
 
-            <Flex mt={6} justify="space-between">
-              <FormControl flex="1" marginRight={4}>
-                <FormLabel htmlFor="eventType">Event Type</FormLabel>
+            <Flex mt={6} justify='space-between'>
+              <FormControl flex='1' marginRight={4}>
+                <FormLabel htmlFor='eventType'>Event Type</FormLabel>
                 <Select
-                  id="eventType"
-                  placeholder="Select event type"
+                  id='eventType'
+                  placeholder='Select event type'
                   value={eventType}
                   onChange={e => setEventType(e.target.value)}
                 >
-                  <option value="KK">KK</option>
-                  <option value="KR">KR</option>
+                  <option value='KK'>KK</option>
+                  <option value='KR'>KR</option>
                 </Select>
               </FormControl>
 
-              <FormControl flex="1">
-                <FormLabel htmlFor="edition">Edition</FormLabel>
+              <FormControl flex='1'>
+                <FormLabel htmlFor='edition'>Edition</FormLabel>
                 <Input
-                  type="number"
-                  id="edition"
-                  placeholder="Enter edition"
+                  type='number'
+                  id='edition'
+                  placeholder='Enter edition'
                   value={edition}
                   onChange={e => setEdition(e.target.value)}
                 />
@@ -167,50 +167,50 @@ const EventManager = () => {
             </Flex>
 
             <FormControl mt={6}>
-              <FormLabel htmlFor="eventStart">Event Start (CET/CEST)</FormLabel>
+              <FormLabel htmlFor='eventStart'>Event Start (CET/CEST)</FormLabel>
               <Input
-                type="datetime-local"
-                id="eventStart"
+                type='datetime-local'
+                id='eventStart'
                 value={eventStart}
                 onChange={e => setEventStart(e.target.value)}
               />
             </FormControl>
 
             <FormControl mt={6}>
-              <FormLabel htmlFor="eventEnd">Event End (CET/CEST)</FormLabel>
+              <FormLabel htmlFor='eventEnd'>Event End (CET/CEST)</FormLabel>
               <Input
-                type="datetime-local"
-                id="eventEnd"
+                type='datetime-local'
+                id='eventEnd'
                 value={eventEnd}
                 onChange={e => setEventEnd(e.target.value)}
               />
             </FormControl>
 
-            <Flex mt={6} justify="space-between">
-              <FormControl flex="1" marginRight={4}>
-                <FormLabel htmlFor="mapsFrom">Maps from</FormLabel>
+            <Flex mt={6} justify='space-between'>
+              <FormControl flex='1' marginRight={4}>
+                <FormLabel htmlFor='mapsFrom'>Maps from</FormLabel>
                 <Input
-                  type="number"
-                  id="mapsFrom"
-                  placeholder="First Map ID"
+                  type='number'
+                  id='mapsFrom'
+                  placeholder='First Map ID'
                   value={minMapID}
                   onChange={e => setMinMapID(e.target.value)}
                 />
               </FormControl>
 
-              <FormControl flex="1">
-                <FormLabel htmlFor="mapsTo">Maps to</FormLabel>
+              <FormControl flex='1'>
+                <FormLabel htmlFor='mapsTo'>Maps to</FormLabel>
                 <Input
-                  type="number"
-                  id="mapsTo"
-                  placeholder="Last Map ID"
+                  type='number'
+                  id='mapsTo'
+                  placeholder='Last Map ID'
                   value={maxMapID}
                   onChange={e => setMaxMapID(e.target.value)}
                 />
               </FormControl>
             </Flex>
 
-            <Button mt={6} mb={50} type="submit" onClick={handleSave}>
+            <Button mt={6} mb={50} type='submit' onClick={handleSave}>
               Submit
             </Button>
           </form>

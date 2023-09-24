@@ -99,8 +99,8 @@ const HeaderTab = forwardRef(
     const content = (
       <Stack
         ref={ref}
-        align="center"
-        justify="center"
+        align='center'
+        justify='center'
         direction={{ base: 'column', xl: 'row' }}
         _hover={{
           bg: colorMode === 'dark' ? 'whiteAlpha.100' : 'blackAlpha.100',
@@ -115,9 +115,9 @@ const HeaderTab = forwardRef(
             : {}
         }
         bg={highlight ? 'whiteAlpha.200' : null}
-        transition="background-color 150ms ease-in-out, transform 150ms ease-in-out"
+        transition='background-color 150ms ease-in-out, transform 150ms ease-in-out'
         spacing={{ base: 1, xl: 4 }}
-        h="full"
+        h='full'
         px={text !== '' ? { base: 2, md: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
       >
         {TabIcon !== null ? (
@@ -130,7 +130,7 @@ const HeaderTab = forwardRef(
         {SVGTabIcon !== null ? (
           <Box>
             <SVGTabIcon
-              width="26px"
+              width='26px'
               color={colorMode === 'dark' ? 'white' : 'black'}
             />
           </Box>
@@ -138,9 +138,9 @@ const HeaderTab = forwardRef(
         {text !== '' ? (
           <Text
             noOfLines={1}
-            textShadow="glow"
+            textShadow='glow'
             fontSize={fontSize}
-            letterSpacing="0.1em"
+            letterSpacing='0.1em'
           >
             {text}
           </Text>
@@ -165,7 +165,7 @@ const HeaderTab = forwardRef(
     }
 
     return (
-      <Box cursor="pointer" onClick={onClick} h="full">
+      <Box cursor='pointer' onClick={onClick} h='full'>
         {content}
       </Box>
     );

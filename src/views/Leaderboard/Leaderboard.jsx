@@ -5,7 +5,6 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import {
@@ -96,7 +95,7 @@ const Leaderboard = () => {
         },
       ],
     },
-    
+
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -155,21 +154,21 @@ const Leaderboard = () => {
   }
 
   return (
-    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
-      <VStack overflow="hidden" spacing={4}>
+    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w='full'>
+      <VStack overflow='hidden' spacing={4}>
         <Heading>
           {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
           {event.edition} Leaderboard
         </Heading>
-        <HStack w="full">
-          <Text letterSpacing="0.1em" textShadow="glow">
+        <HStack w='full'>
+          <Text letterSpacing='0.1em' textShadow='glow'>
             Find a Login:
           </Text>
           <Input
             w={300}
             ref={inputRef}
             onKeyUp={e => (e.key === 'Enter' ? searchLogin() : null)}
-            placeholder="tmlogin"
+            placeholder='tmlogin'
           />
           <Button onClick={() => searchLogin()}>Search</Button>
           <Button
@@ -181,8 +180,8 @@ const Leaderboard = () => {
             Reset
           </Button>
           <Button
-            letterSpacing="0.1em"
-            textShadow="glow"
+            letterSpacing='0.1em'
+            textShadow='glow'
             style={{ marginLeft: 'auto' }}
             onClick={() =>
               window.open(
@@ -197,11 +196,11 @@ const Leaderboard = () => {
         </HStack>
         <TableContainer
           ref={tableContainerRef}
-          w="container.xl"
-          borderWidth="1px"
-          borderRadius="md"
+          w='container.xl'
+          borderWidth='1px'
+          borderRadius='md'
         >
-          <Table size="sm">
+          <Table size='sm'>
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
@@ -209,9 +208,9 @@ const Leaderboard = () => {
                     <Th key={header.id} colSpan={header.colSpan}>
                       {header.isPlaceholder ? null : (
                         <Box
-                          display="flex"
+                          display='flex'
                           gap={2}
-                          alignItems="center"
+                          alignItems='center'
                           sx={
                             header.column.getCanSort() && {
                               cursor: 'pointer',

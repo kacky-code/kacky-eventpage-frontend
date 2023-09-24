@@ -86,7 +86,7 @@ const EventTable = () => {
             <Td>{`${rowData.type}${rowData.edition}`}</Td>
             <Td>
               <Switch
-                size="md"
+                size='md'
                 defaultChecked={rowData.visible}
                 onChange={e =>
                   handleVisibilityToggle(rowData.id, e.target.value)

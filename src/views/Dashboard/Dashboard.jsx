@@ -1,6 +1,5 @@
-import { Button, Center, VStack, useColorMode, HStack, Box } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { MdOutlineViewAgenda, MdOutlineViewHeadline } from 'react-icons/md';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import ServerCard from './ServerCard';
@@ -12,11 +11,6 @@ import AuthContext from '../../context/AuthContext';
 const mapChangeEstimate = 0;
 
 const Dashboard = () => {
-  const { colorMode } = useColorMode();
-  const [isCompactView, setIsCompactView] = useState(
-    localStorage.getItem('isCompactView') === 'true'
-  );
-
   const [servers, setServers] = useState([]);
   const [counter, setCounter] = useState([0]);
 
@@ -31,14 +25,6 @@ const Dashboard = () => {
   );
   const queryClient = useQueryClient();
   const newQueryCount = useRef([0]);
-
-  const toggleCompactView = () => {
-    setIsCompactView(!isCompactView);
-  };
-
-  useEffect(() => {
-    localStorage.setItem('isCompactView', isCompactView.toString());
-  }, [isCompactView]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -63,7 +49,7 @@ const Dashboard = () => {
   useEffect(() => {
     const counterCopy = [...counter];
     const timer = setInterval(() => {
-      counter.forEach((element, index) => {
+      counter.forEach((_, index) => {
         if (counterCopy[index] > 0) counterCopy[index] -= 1;
         if (counterCopy[index] === 0) {
           newQueryCount.current[index] =
@@ -81,82 +67,29 @@ const Dashboard = () => {
   }, [counter, queryClient]);
 
   return (
-    <>
-      <Center mb={4}>
-        <Button
-          borderRadius="6px 0 0 6px"
-          onClick={toggleCompactView}
-          leftIcon={<MdOutlineViewHeadline />}
-          borderColor={
-            isCompactView
-              ? colorMode === 'dark'
-                ? 'white'
-                : 'black'
-              : 'transparent'
-          }
-          borderWidth="1px"
-          pointerEvents={isCompactView ? 'none' : 'auto'}
-          shadow={isCompactView ? 'glow' : 'none'}
-          textShadow={isCompactView ? 'glow' : 'none'}
-        >
-          Compact View
-        </Button>
-        <Button
-          borderRadius="0 6px 6px 0"
-          onClick={toggleCompactView}
-          rightIcon={<MdOutlineViewAgenda />}
-          borderColor={
-            !isCompactView
-              ? colorMode === 'dark'
-                ? 'white'
-                : 'black'
-              : 'transparent'
-          }
-          borderWidth="1px"
-          pointerEvents={!isCompactView ? 'none' : 'auto'}
-          shadow={!isCompactView ? 'glow' : 'none'}
-          textShadow={!isCompactView ? 'glow' : 'none'}
-        >
-          Large View
-        </Button>
-      </Center>
-      <HStack w="full" spacing={0}>
-        <VStack mb={{ base: 24, md: 0 }} w="50%" pl={2} pr={1}>
-          {servers.map((server, idx) => (
-            idx < Math.floor(servers.length / 2) ?
-              <ServerCard
-                {...server}
-                timeLeft={counter[idx] - mapChangeEstimate}
-                isCompactView={isCompactView}
-                key={server.serverNumber}
-              /> : null
-          ))}
-        </VStack>
-        <VStack mb={{ base: 24, md: 0 }} w="50%" pr={2} pl={1}>
-          {servers.map((server, idx) => (
-            idx >= Math.floor(servers.length / 2) && idx < (servers.length - (servers.length % 2)) ?
-              <ServerCard
-                {...server}
-                timeLeft={counter[idx] - mapChangeEstimate}
-                isCompactView={isCompactView}
-                key={server.serverNumber}
-              /> : null
-          ))}
-        </VStack>
-      </HStack>
-      { (servers.length > 0 && servers.length % 2) ?
-        <Center>
-          <Box w="50%" px={2} pt={2}>
-            <ServerCard
-              {...servers[servers.length - 1]}
-              timeLeft={counter[counter.length - 1] - mapChangeEstimate}
-              isCompactView={isCompactView}
-              key={servers[servers.length - 1].serverNumber}
-            />
-          </Box>
-        </Center> : null
-      }
-    </>
+    <Grid
+      templateAreas={`"_1 _7"
+                    "_2 _8"
+                    "_3 _9"
+                    "_4 _10"
+                    "_5 _11"
+                    "_6 _12"
+                    "_13 _13"`}
+      templateColumns='49.5% 49.5%'
+      templateRows='repeat(7, 1fr)'
+      justifyContent='space-around'
+      rowGap='8px'
+    >
+      {servers.map((server, idx) => (
+        <GridItem gridArea={`_${server.serverNumber}`} key={idx}>
+          <ServerCard
+            {...server}
+            timeLeft={counter[idx] - mapChangeEstimate}
+            key={server.serverNumber}
+          />
+        </GridItem>
+      ))}
+    </Grid>
   );
 };
 

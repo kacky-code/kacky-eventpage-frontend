@@ -34,7 +34,6 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  
   getExpandedRowModel,
 } from '@tanstack/react-table';
 
@@ -181,7 +180,7 @@ const Hunting = () => {
         },
       ],
     },
-    
+
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -299,29 +298,29 @@ const Hunting = () => {
       mb={{ base: 24, md: 8 }}
       mt={{ base: -4, md: -8 }}
       px={{ base: 4, md: 8 }}
-      w="full"
+      w='full'
     >
-      <VStack overflow="hidden" spacing={4}>
+      <VStack overflow='hidden' spacing={4}>
         {authentication.isLoggedIn ? (
-          <Flex justifyContent="space-between" marginBottom="40px">
+          <Flex justifyContent='space-between' marginBottom='40px'>
             <Chart
               options={kkPerfOptions}
               series={kkPerfSeries}
-              type="donut"
-              width="520"
+              type='donut'
+              width='520'
             />
             <Chart
               options={krPerfOptions}
               series={krPerfSeries}
-              type="donut"
-              width="520"
+              type='donut'
+              width='520'
             />
           </Flex>
         ) : null}
-        <HStack w="full">
+        <HStack w='full'>
           <Button
-            letterSpacing="0.1em"
-            textShadow="glow"
+            letterSpacing='0.1em'
+            textShadow='glow'
             onClick={() =>
               window.open(
                 curEventType === 'kk'
@@ -336,30 +335,30 @@ const Hunting = () => {
             Hunting Stats
           </Button>
           <Text
-            id="labelSelectEdition"
-            letterSpacing="0.1em"
-            textShadow="glow"
+            id='labelSelectEdition'
+            letterSpacing='0.1em'
+            textShadow='glow'
             style={{ marginLeft: 'auto' }}
           >
             Select Kacky Edition :
           </Text>
           <Select
             w={80}
-            aria-label="labelSelectEdition"
+            aria-label='labelSelectEdition'
             value={curEventSelector}
             onChange={event => handleChange(event)}
           >
-            <optgroup label="Kacky Reloaded">{krArray}</optgroup>
-            <optgroup label="Kackiest Kacky">{kkArray}</optgroup>
+            <optgroup label='Kacky Reloaded'>{krArray}</optgroup>
+            <optgroup label='Kackiest Kacky'>{kkArray}</optgroup>
           </Select>
         </HStack>
         <TableContainer
           ref={tableContainerRef}
-          w="container.xl"
-          borderWidth="1px"
-          borderRadius="md"
+          w='container.xl'
+          borderWidth='1px'
+          borderRadius='md'
         >
-          <Table size="sm">
+          <Table size='sm'>
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
@@ -379,9 +378,9 @@ const Hunting = () => {
                     >
                       {header.isPlaceholder ? null : (
                         <Box
-                          display="flex"
+                          display='flex'
                           gap={2}
-                          alignItems="center"
+                          alignItems='center'
                           sx={
                             header.column.getCanSort() && {
                               cursor: 'pointer',
@@ -441,7 +440,7 @@ const Hunting = () => {
                         <MapDetailCell
                           key={row.id.concat('-cell')}
                           data={row.original}
-                          mode="hunting"
+                          mode='hunting'
                           eventtype={curEventType}
                           edition={curEventEdition}
                           table={table}

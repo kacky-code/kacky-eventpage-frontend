@@ -43,7 +43,7 @@ const defaultColumns = [
   columnHelper.accessor('finished', {
     id: 'finished',
     width: '20rem',
-    header: () => <Icon boxSize="16px" as={MdOutlineCheckCircle} />,
+    header: () => <Icon boxSize='16px' as={MdOutlineCheckCircle} />,
     cell: info => <MapFinishedCell finished={info.getValue()} />,
     sortingFn: (rowA, rowB) => {
       if (
@@ -63,7 +63,7 @@ const defaultColumns = [
   }),
   columnHelper.accessor('difficulty', {
     id: 'difficulty',
-    header: () => <Icon boxSize="16px" as={MdTimeline} />,
+    header: () => <Icon boxSize='16px' as={MdTimeline} />,
     cell: info => (
       <Badge variant={diffColorArr[info.getValue().toString()]}>
         &nbsp;&nbsp;
@@ -89,7 +89,7 @@ const defaultColumns = [
     id: 'number',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdTag} />
+        <Icon boxSize='16px' as={MdTag} />
         <Text display={{ base: 'none', lg: 'inline' }}>Map</Text>
       </>
     ),
@@ -106,12 +106,12 @@ const defaultColumns = [
     id: 'author',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdLabelOutline} />
+        <Icon boxSize='16px' as={MdLabelOutline} />
         <Text display={{ base: 'none', lg: 'inline' }}>Author</Text>
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow" fontSize="l">
+      <Text letterSpacing='0.1em' textShadow='glow' fontSize='l'>
         {' '}
         {info.getValue().toString()}
       </Text>
@@ -121,7 +121,7 @@ const defaultColumns = [
     id: 'upcomingIn',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdAccessTime} />
+        <Icon boxSize='16px' as={MdAccessTime} />
         <Text display={{ base: 'none', lg: 'inline' }}>Upcoming In</Text>
       </>
     ),
@@ -129,29 +129,29 @@ const defaultColumns = [
       <HStack spacing={1}>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
-          letterSpacing="0.1em"
-          textShadow="glow"
-          fontSize="lg"
-          fontWeight="medium"
+          letterSpacing='0.1em'
+          textShadow='glow'
+          fontSize='lg'
+          fontWeight='medium'
         >
           {String(Math.floor(info.getValue() / 60)).padStart(2, '0')}
         </Text>
         <Text
           visibility={info.getValue() >= 60 ? 'visible' : 'hidden'}
-          textTransform="lowercase"
+          textTransform='lowercase'
         >
           h
         </Text>
         <Text
-          pl="2"
-          letterSpacing="0.1em"
-          textShadow="glow"
-          fontSize="lg"
-          fontWeight="medium"
+          pl='2'
+          letterSpacing='0.1em'
+          textShadow='glow'
+          fontSize='lg'
+          fontWeight='medium'
         >
           {String(info.getValue() % 60).padStart(2, '0')}
         </Text>
-        <Text textTransform="lowercase">m</Text>
+        <Text textTransform='lowercase'>m</Text>
       </HStack>
     ),
   }),
@@ -159,16 +159,16 @@ const defaultColumns = [
     id: 'server',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdOutlineDns} />
+        <Icon boxSize='16px' as={MdOutlineDns} />
         <Text display={{ base: 'none', lg: 'inline' }}>On Server</Text>
       </>
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
+        <Text textShadow='glow' fontSize='lg' fontWeight='hairline'>
           #
         </Text>
-        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
+        <Text textShadow='glow' fontSize='lg' fontWeight='medium'>
           {info.getValue()}
         </Text>
       </HStack>
@@ -178,12 +178,12 @@ const defaultColumns = [
     id: 'personalBest',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdAccessTime} />
+        <Icon boxSize='16px' as={MdAccessTime} />
         <Text display={{ base: 'none', lg: 'inline' }}>PB</Text>
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow">
+      <Text letterSpacing='0.1em' textShadow='glow'>
         {info.getValue() !== 0
           ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
           : '-'}
@@ -194,12 +194,12 @@ const defaultColumns = [
     id: 'wrScore',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdStars} />
+        <Icon boxSize='16px' as={MdStars} />
         <Text display={{ base: 'none', lg: 'inline' }}>WR</Text>
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow">
+      <Text letterSpacing='0.1em' textShadow='glow'>
         {info.getValue() !== 0
           ? DateTime.fromMillis(info.getValue()).toFormat('mm:ss.SSS')
           : '-'}
@@ -210,12 +210,12 @@ const defaultColumns = [
     id: 'wrHolder',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdStars} />
+        <Icon boxSize='16px' as={MdStars} />
         <Text display={{ base: 'none', lg: 'inline' }}>WR Holder</Text>
       </>
     ),
     cell: info => (
-      <Text letterSpacing="0.1em" textShadow="glow">
+      <Text letterSpacing='0.1em' textShadow='glow'>
         {info.getValue() !== '' ? info.getValue() : '-'}
       </Text>
     ),
@@ -224,16 +224,16 @@ const defaultColumns = [
     id: 'kackyRank',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdOutlineLeaderboard} />
+        <Icon boxSize='16px' as={MdOutlineLeaderboard} />
         <Text display={{ base: 'none', lg: 'inline' }}>Local</Text>
       </>
     ),
     cell: info => (
       <HStack>
-        <Text textShadow="glow" fontSize="lg" fontWeight="hairline">
+        <Text textShadow='glow' fontSize='lg' fontWeight='hairline'>
           {info.getValue() !== 0 ? '#' : ''}
         </Text>
-        <Text textShadow="glow" fontSize="lg" fontWeight="medium">
+        <Text textShadow='glow' fontSize='lg' fontWeight='medium'>
           {info.getValue() !== 0 ? info.getValue() : '-'}
         </Text>
       </HStack>
@@ -243,7 +243,7 @@ const defaultColumns = [
     id: 'clip',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdOutlinePlayCircle} />
+        <Icon boxSize='16px' as={MdOutlinePlayCircle} />
         <Text display={{ base: 'none', lg: 'inline' }}>Clip</Text>
       </>
     ),
@@ -260,7 +260,7 @@ const defaultColumns = [
     id: 'discordPing',
     header: () => (
       <>
-        <Icon boxSize="16px" as={FaDiscord} />
+        <Icon boxSize='16px' as={FaDiscord} />
         <Text display={{ base: 'none', lg: 'inline' }}>Ping</Text>
       </>
     ),

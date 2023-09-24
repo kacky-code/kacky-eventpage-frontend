@@ -36,13 +36,13 @@ const defaultColumns = [
     id: 'nickname',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdAccountCircle} />
+        <Icon boxSize='16px' as={MdAccountCircle} />
         <Text>Nickname</Text>
       </>
     ),
     cell: info => (
-      <Box textTransform="none">
-        <Tooltip label={info.row.original.login} placement="start">
+      <Box textTransform='none'>
+        <Tooltip label={info.row.original.login} placement='start'>
           <span
             style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
           >
@@ -55,7 +55,7 @@ const defaultColumns = [
   }),
   columnHelper.accessor('login', {
     id: 'login',
-    header: () => <Icon boxSize="16px" as={MdAccountCircle} />,
+    header: () => <Icon boxSize='16px' as={MdAccountCircle} />,
     cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('wrs', {
@@ -63,7 +63,7 @@ const defaultColumns = [
     width: '20rem',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdOutlineSportsScore} />
+        <Icon boxSize='16px' as={MdOutlineSportsScore} />
         <Text>#WRs</Text>
       </>
     ),

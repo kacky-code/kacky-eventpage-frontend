@@ -5,7 +5,6 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  
 } from '@tanstack/react-table';
 import {
   Box,
@@ -91,7 +90,7 @@ const WRTable = ({ eventtype }) => {
         },
       ],
     },
-    
+
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -126,11 +125,11 @@ const WRTable = ({ eventtype }) => {
   return (
     <TableContainer
       ref={tableContainerRef}
-      w="container.sm"
-      borderWidth="1px"
-      borderRadius="md"
+      w='container.sm'
+      borderWidth='1px'
+      borderRadius='md'
     >
-      <Table size="sm">
+      <Table size='sm'>
         <Thead>
           {tableKK.getHeaderGroups().map(headerGroup => (
             <Tr key={headerGroup.id}>
@@ -138,9 +137,9 @@ const WRTable = ({ eventtype }) => {
                 <Th key={header.id} colSpan={header.colSpan}>
                   {header.isPlaceholder ? null : (
                     <Box
-                      display="flex"
+                      display='flex'
                       gap={2}
-                      alignItems="center"
+                      alignItems='center'
                       sx={
                         header.column.getCanSort() && {
                           cursor: 'pointer',

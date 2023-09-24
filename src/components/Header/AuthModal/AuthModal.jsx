@@ -29,9 +29,9 @@ const AuthModal = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
     >
-      <ModalOverlay backdropFilter="auto" backdropBlur="10px" />
-      <ModalContent maxW="416px">
-        <Box w="full" h="800px" px="48px" py="64px">
+      <ModalOverlay backdropFilter='auto' backdropBlur='10px' />
+      <ModalContent maxW='416px'>
+        <Box w='full' h='800px' px='48px' py='64px'>
           {mode === 'login' ? (
             <Login onClose={onClose} setMode={setMode} />
           ) : null}
@@ -45,19 +45,19 @@ const AuthModal = ({ isOpen, onClose }) => {
           {mode !== 'login' && (
             <IconButton
               onClick={() => setMode('login')}
-              borderRadius="full"
-              top="8px"
-              left="12px"
-              position="absolute"
-              variant="ghost"
-              fontSize="xl"
+              borderRadius='full'
+              top='8px'
+              left='12px'
+              position='absolute'
+              variant='ghost'
+              fontSize='xl'
               icon={<MdOutlineArrowBack />}
             />
           )}
           <ModalCloseButton
             onClick={() => setMode('login')}
-            boxSize="40px"
-            borderRadius="full"
+            boxSize='40px'
+            borderRadius='full'
           />
         </Box>
       </ModalContent>
