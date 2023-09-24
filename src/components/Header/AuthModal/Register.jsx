@@ -66,26 +66,26 @@ const Register = ({ setMode }) => {
 
   return (
     <Flex
-      direction="column"
-      w="full"
-      h="full"
-      align="center"
-      justify="space-around"
-      as="form"
+      direction='column'
+      w='full'
+      h='full'
+      align='center'
+      justify='space-around'
+      as='form'
       onSubmit={handleSubmit(onSubmit)}
     >
       {isRegistered ? (
-        <HStack justify="center" spacing={4} w="full">
-          <Text letterSpacing="0.1em" fontSize="sm" textShadow="glow">
+        <HStack justify='center' spacing={4} w='full'>
+          <Text letterSpacing='0.1em' fontSize='sm' textShadow='glow'>
             Successfully registered!
           </Text>
           <Text
-            letterSpacing="0.1em"
-            textDecoration="underline"
-            color="blue.500"
+            letterSpacing='0.1em'
+            textDecoration='underline'
+            color='blue.500'
             _dark={{ color: 'blue.100' }}
-            fontSize="sm"
-            textShadow="glow"
+            fontSize='sm'
+            textShadow='glow'
             _hover={{ color: 'blue.200', cursor: 'pointer' }}
             onClick={() => setMode('login')}
           >
@@ -94,10 +94,10 @@ const Register = ({ setMode }) => {
         </HStack>
       ) : (
         <>
-          <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
+          <Text textShadow='glow' letterSpacing='0.1em' fontSize='xl'>
             Register
           </Text>
-          <VStack spacing={6} w="full">
+          <VStack spacing={6} w='full'>
             <FormControl isInvalid={errors.mailadress}>
               <FormLabel>E-Mail</FormLabel>
               <Input
@@ -116,9 +116,9 @@ const Register = ({ setMode }) => {
                     message: 'Not a valid mail adress',
                   },
                 })}
-                type="email"
-                id="mailadress"
-                placeholder="E-Mail"
+                type='email'
+                id='mailadress'
+                placeholder='E-Mail'
               />
               {!errors.mailadress ? (
                 <FormHelperText>Enter your E-Mail here</FormHelperText>
@@ -146,8 +146,8 @@ const Register = ({ setMode }) => {
                     message: 'Only letters and numbers allowed',
                   },
                 })}
-                id="username"
-                placeholder="Username"
+                id='username'
+                placeholder='Username'
               />
               {!errors.username ? (
                 <FormHelperText>Enter your username here</FormHelperText>
@@ -172,9 +172,9 @@ const Register = ({ setMode }) => {
                     message: 'Really? Sleeping on your Keyboard?',
                   },
                 })}
-                id="password"
-                type="password"
-                placeholder="Password"
+                id='password'
+                type='password'
+                placeholder='Password'
               />
               {!errors.password ? (
                 <FormHelperText>Enter your password here</FormHelperText>
@@ -200,9 +200,9 @@ const Register = ({ setMode }) => {
                   validate: value =>
                     value === password.current || 'The passwords do not match',
                 })}
-                id="passwordConfirm"
-                type="password"
-                placeholder="Password"
+                id='passwordConfirm'
+                type='password'
+                placeholder='Password'
               />
               {!errors.passwordConfirm ? (
                 <FormHelperText>Confirm your password here</FormHelperText>
@@ -215,18 +215,18 @@ const Register = ({ setMode }) => {
               )}
             </FormControl>
           </VStack>
-          <VStack spacing={4} w="full">
+          <VStack spacing={4} w='full'>
             <Text
-              h="21px"
-              color="red.500"
+              h='21px'
+              color='red.500'
               _dark={{ color: 'red.300' }}
-              fontWeight="normal"
-              fontSize="sm"
-              letterSpacing="0.1em"
+              fontWeight='normal'
+              fontSize='sm'
+              letterSpacing='0.1em'
             >
               {serverError.isError ? serverError.message : null}
             </Text>
-            <Button w="full" type="submit">
+            <Button w='full' type='submit'>
               Register
             </Button>
           </VStack>

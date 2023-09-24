@@ -21,21 +21,21 @@ const AdminIndex = () => {
       <VStack spacing={4}>
         <ActionCard
           icon={MdOutlineModeEdit}
-          title="Events"
-          description="Do Event stuff."
-          linkTarget="events"
+          title='Events'
+          description='Do Event stuff.'
+          linkTarget='events'
         />
         <ActionCard
           icon={MdOutlineModeEdit}
-          title="Worldrecords"
-          description="Manage Worldrecords. Removal of rouge entries."
-          linkTarget="wrs"
+          title='Worldrecords'
+          description='Manage Worldrecords. Removal of rouge entries.'
+          linkTarget='wrs'
         />
         <ActionCard
           icon={MdOutlineModeEdit}
-          title="Maps"
-          description="Update Map Information"
-          linkTarget="maps"
+          title='Maps'
+          description='Update Map Information'
+          linkTarget='maps'
         />
       </VStack>
     </Center>

@@ -62,9 +62,9 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <EventContext.Provider value={{ event, setEvent }}>
         <AuthContext.Provider value={{ authentication, setAuthentication }}>
-          <Box textAlign="center">
+          <Box textAlign='center'>
             <Routes>
-              <Route path="/" element={<Header>Header</Header>}>
+              <Route path='/' element={<Header>Header</Header>}>
                 <Route
                   index
                   element={
@@ -77,18 +77,18 @@ const App = () => {
                     )
                   }
                 />
-                <Route path="schedule" element={<Schedule />} />
-                <Route path="hunting" element={<Hunting />} />
-                <Route path="wrs" element={<WRHolders />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="glance" element={<Glance />} />
-                <Route path="/kackend" element={<AdminIndex />} />
-                <Route path="/kackend/events" element={<EventManager />} />
-                <Route path="/kackend/wrs" element={<WRManager />} />
-                <Route path="/kackend/maps" element={<MapManager />} />
-                <Route path="/streamerstuff" element={<StreamerInfo />} />
-                <Route path="*" element={<div>Nothing here</div>} />
+                <Route path='schedule' element={<Schedule />} />
+                <Route path='hunting' element={<Hunting />} />
+                <Route path='wrs' element={<WRHolders />} />
+                <Route path='leaderboard' element={<Leaderboard />} />
+                <Route path='profile' element={<Profile />} />
+                <Route path='glance' element={<Glance />} />
+                <Route path='/kackend' element={<AdminIndex />} />
+                <Route path='/kackend/events' element={<EventManager />} />
+                <Route path='/kackend/wrs' element={<WRManager />} />
+                <Route path='/kackend/maps' element={<MapManager />} />
+                <Route path='/streamerstuff' element={<StreamerInfo />} />
+                <Route path='*' element={<div>Nothing here</div>} />
               </Route>
             </Routes>
           </Box>

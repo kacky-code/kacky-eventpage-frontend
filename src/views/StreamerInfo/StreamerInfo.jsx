@@ -18,15 +18,15 @@ import PropTypes from 'prop-types';
 import ExpandBox from './ExpandBox';
 
 const WebHowTo = ({ command, message }) => (
-  <VStack w="full" alignItems="start">
+  <VStack w='full' alignItems='start'>
     <HStack>
-      <Text fontWeight="bold" w={100}>
+      <Text fontWeight='bold' w={100}>
         Command:
       </Text>
       <Text>{command}</Text>
     </HStack>
     <HStack>
-      <Text fontWeight="bold" w={100}>
+      <Text fontWeight='bold' w={100}>
         Message:
       </Text>
       <Text>{message}</Text>
@@ -52,7 +52,7 @@ const StreamerInfo = () => (
         }}
       >
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -60,21 +60,21 @@ const StreamerInfo = () => (
           pb={5}
           mt={4}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
           >
             Kacky API for Streamers
           </Text>
           <Text
-            fontSize="xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
           >
             General Setup
           </Text>
@@ -103,7 +103,7 @@ const StreamerInfo = () => (
         </Flex>
 
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -111,13 +111,13 @@ const StreamerInfo = () => (
           pb={5}
           mt={6}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             List of Finished Maps
@@ -129,10 +129,10 @@ const StreamerInfo = () => (
             shows the Kacky Rank per map.
           </p>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Query Endpoints:
@@ -155,10 +155,10 @@ const StreamerInfo = () => (
             </ListItem>
           </List>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Return Value:
@@ -175,14 +175,14 @@ const StreamerInfo = () => (
                   </Code>
                 </pre>
               }
-              title="How to create Command by using a Nightbot Command?"
+              title='How to create Command by using a Nightbot Command?'
             />
             <ExpandBox
-              title="How to create Command in Nightbot Webinterface?"
+              title='How to create Command in Nightbot Webinterface?'
               content={
                 <WebHowTo
-                  command="!finned"
-                  message="*YourNameHere* finished these maps: $(urlfetch https://api.kacky.gg/event/*tmlogin*/finned?string=ids)"
+                  command='!finned'
+                  message='*YourNameHere* finished these maps: $(urlfetch https://api.kacky.gg/event/*tmlogin*/finned?string=ids)'
                 />
               }
             />
@@ -190,7 +190,7 @@ const StreamerInfo = () => (
         </Flex>
 
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -198,13 +198,13 @@ const StreamerInfo = () => (
           pb={5}
           mt={4}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             List of Unfinished Maps
@@ -213,10 +213,10 @@ const StreamerInfo = () => (
             List of maps that are not yet finished by the provided login.
           </p>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Query Endpoints:
@@ -229,10 +229,10 @@ const StreamerInfo = () => (
             </ListItem>
           </List>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Return Value:
@@ -249,14 +249,14 @@ const StreamerInfo = () => (
                   </Code>
                 </pre>
               }
-              title="Example Command to create a Nightbot Command"
+              title='Example Command to create a Nightbot Command'
             />
             <ExpandBox
-              title="How to create Command in Nightbot Webinterface?"
+              title='How to create Command in Nightbot Webinterface?'
               content={
                 <WebHowTo
-                  command="!unfinned"
-                  message="*YourNameHere* is missing these maps: $(urlfetch https://api.kacky.gg/event/*tmlogin*/unfinned?string=1)"
+                  command='!unfinned'
+                  message='*YourNameHere* is missing these maps: $(urlfetch https://api.kacky.gg/event/*tmlogin*/unfinned?string=1)'
                 />
               }
             />
@@ -264,7 +264,7 @@ const StreamerInfo = () => (
         </Flex>
 
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -272,13 +272,13 @@ const StreamerInfo = () => (
           pb={5}
           mt={4}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Time to Next Unfinished Map
@@ -292,10 +292,10 @@ const StreamerInfo = () => (
             as it also handles multple maps&nbsp; being played at the same time.
           </p>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Query Endpoints:
@@ -308,10 +308,10 @@ const StreamerInfo = () => (
             </ListItem>
           </List>
           <Text
-            fontSize="m"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='m'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Return Value:
@@ -331,14 +331,14 @@ const StreamerInfo = () => (
                   </Code>
                 </pre>
               }
-              title="Example Command to create a Nightbot Command"
+              title='Example Command to create a Nightbot Command'
             />
             <ExpandBox
-              title="How to create Command in Nightbot Webinterface?"
+              title='How to create Command in Nightbot Webinterface?'
               content={
                 <WebHowTo
-                  command="!nextunfinned"
-                  message="Next unfinished map in $(urlfetch https://api.kacky.gg/event/*tmlogin*/nextunfinned?simochat=1)"
+                  command='!nextunfinned'
+                  message='Next unfinished map in $(urlfetch https://api.kacky.gg/event/*tmlogin*/nextunfinned?simochat=1)'
                 />
               }
             />
@@ -346,7 +346,7 @@ const StreamerInfo = () => (
         </Flex>
 
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -354,13 +354,13 @@ const StreamerInfo = () => (
           pb={5}
           mt={4}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Stats for Other Players
@@ -376,7 +376,7 @@ const StreamerInfo = () => (
         </Flex>
 
         <Flex
-          bg="gray.700"
+          bg='gray.700'
           border={1}
           borderRadius={16}
           px={5}
@@ -384,23 +384,23 @@ const StreamerInfo = () => (
           pb={5}
           mt={4}
           // alignItems="center"
-          direction="column"
+          direction='column'
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
             pt={5}
           >
             Hidden Dashboards
           </Text>
           <HStack>
-            <Box w="50%">
+            <Box w='50%'>
               <p>
                 Some might prefer to have a visual schedule on-stream. For this,
                 you might want to check out{' '}
-                <Link href="https://kacky.gg/glance">
+                <Link href='https://kacky.gg/glance'>
                   https://kacky.gg/glance
                 </Link>
                 <br />
@@ -413,10 +413,10 @@ const StreamerInfo = () => (
                 shows how long the map is playing already.
               </p>
             </Box>
-            <Center w="50%">
+            <Center w='50%'>
               <Image
                 w={314}
-                src="https://static.kacky.gg/misc/glance_example.jpg"
+                src='https://static.kacky.gg/misc/glance_example.jpg'
               />
             </Center>
           </HStack>

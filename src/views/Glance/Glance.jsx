@@ -136,10 +136,10 @@ const Glance = () => {
 
   return (
     <>
-      <VStack spacing="4" mb={6}>
-        <HStack spacing="0" as={Center}>
+      <VStack spacing='4' mb={6}>
+        <HStack spacing='0' as={Center}>
           <Button
-            borderRadius="6px 0 0 6px"
+            borderRadius='6px 0 0 6px'
             onClick={() => setViewType('vertical')}
             leftIcon={<MdOutlineViewHeadline />}
             borderColor={
@@ -149,16 +149,16 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={viewType === 'vertical' ? 'none' : 'auto'}
             shadow={viewType === 'vertical' ? 'glow' : 'none'}
             textShadow={viewType === 'vertical' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Vertical
           </Button>
           <Button
-            borderRadius="00"
+            borderRadius='00'
             onClick={() => setViewType('horizontal')}
             leftIcon={<MdGridView />}
             borderColor={
@@ -168,16 +168,16 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={viewType === 'horizontal' ? 'none' : 'auto'}
             shadow={viewType === 'horizontal' ? 'glow' : 'none'}
             textShadow={viewType === 'horizontal' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Horizontal
           </Button>
           <Button
-            borderRadius="00"
+            borderRadius='00'
             onClick={() => setViewType('vertical-minimal')}
             leftIcon={<MdGridView />}
             borderColor={
@@ -187,16 +187,16 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={viewType === 'vertical-minimal' ? 'none' : 'auto'}
             shadow={viewType === 'vertical-minimal' ? 'glow' : 'none'}
             textShadow={viewType === 'vertical-minimal' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Vertical Minimal
           </Button>
           <Button
-            borderRadius="0 6px 6px 0"
+            borderRadius='0 6px 6px 0'
             onClick={() => setViewType('horizontal-minimal')}
             leftIcon={<MdGridView />}
             borderColor={
@@ -206,19 +206,19 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={viewType === 'horizontal-minimal' ? 'none' : 'auto'}
             shadow={viewType === 'horizontal-minimal' ? 'glow' : 'none'}
             textShadow={viewType === 'horizontal-minimal' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Horizontal Minimal
           </Button>
         </HStack>
-        <HStack mb={8} spacing="0" as={Center}>
+        <HStack mb={8} spacing='0' as={Center}>
           <Button
-            alignSelf="start"
-            borderRadius="6px 0 0 6px"
+            alignSelf='start'
+            borderRadius='6px 0 0 6px'
             onClick={() => setBgColor('theme')}
             leftIcon={
               colorMode === 'dark' ? (
@@ -234,16 +234,16 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={bgColor === 'theme' ? 'none' : 'auto'}
             shadow={bgColor === 'theme' ? 'glow' : 'none'}
             textShadow={bgColor === 'theme' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Theme
           </Button>
           <Button
-            borderRadius="0 6px 6px 0"
+            borderRadius='0 6px 6px 0'
             onClick={() => setBgColor('#000000')}
             rightIcon={<MdGridView />}
             borderColor={
@@ -253,11 +253,11 @@ const Glance = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={bgColor !== 'theme' ? 'none' : 'auto'}
             shadow={bgColor !== 'theme' ? 'glow' : 'none'}
             textShadow={bgColor !== 'theme' ? 'glow' : 'none'}
-            minW="8%"
+            minW='8%'
           >
             Custom
           </Button>
@@ -273,15 +273,15 @@ const Glance = () => {
                   ? 'white'
                   : 'black'
               }
-              placeholder="hex color"
+              placeholder='hex color'
             />
             <IconButton
               onClick={toggleColorMode}
-              icon={<MdInvertColors fontSize="24px" />}
+              icon={<MdInvertColors fontSize='24px' />}
               aria-label="Toggles the page's color mode to change text color."
             />
             <Popover
-              placement="right"
+              placement='right'
               onOpen={onOpen}
               onClose={onClose}
               isOpen={isOpen}
@@ -289,8 +289,8 @@ const Glance = () => {
               <PopoverTrigger>
                 <IconButton
                   onClick={onOpen}
-                  icon={<MdOutlineModeEdit fontSize="24px" />}
-                  aria-label="Select a custom background color."
+                  icon={<MdOutlineModeEdit fontSize='24px' />}
+                  aria-label='Select a custom background color.'
                 />
               </PopoverTrigger>
               <PopoverContent>
@@ -306,8 +306,8 @@ const Glance = () => {
           <Text>Spacing:</Text>
           <Box width={200}>
             <Slider
-              aria-label="spacing-slider"
-              colorScheme="gray"
+              aria-label='spacing-slider'
+              colorScheme='gray'
               min={0}
               max={10}
               defaultValue={sliderValue}
@@ -351,13 +351,13 @@ const Glance = () => {
       ) : (
         <Center>
           <Box
-            w="200px"
-            h="500px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+            w='200px'
+            h='500px'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
           >
-            <Text fontSize="2xl" letterSpacing="wide" lineHeight="1.5">
+            <Text fontSize='2xl' letterSpacing='wide' lineHeight='1.5'>
               {message}
             </Text>
           </Box>

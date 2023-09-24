@@ -35,13 +35,13 @@ const MapDetailCell = memo(
       <Flex margin={3}>
         <Center
           display={{ base: 'none', xl: 'initial' }}
-          position="relative"
-          w="427px"
+          position='relative'
+          w='427px'
           marginRight={10}
         >
           <LazyLoadImage
-            w="427px"
-            alt="Map"
+            w='427px'
+            alt='Map'
             onError={getFallbackImage}
             placeholderSrc={getFallbackImage}
             src={getMapImageUrl(eventtype, data.number)}
@@ -57,27 +57,27 @@ const MapDetailCell = memo(
           />
         </Center>
         <Flex
-          direction="column"
-          justifyContent="space-around"
-          alignContent="center"
+          direction='column'
+          justifyContent='space-around'
+          alignContent='center'
         >
-          <Flex alignContent="center" height="40px" align="center">
+          <Flex alignContent='center' height='40px' align='center'>
             <Text
-              width="200px"
-              textShadow="glow"
-              letterSpacing="0.2em"
-              fontSize="lg"
-              fontWeight="400"
+              width='200px'
+              textShadow='glow'
+              letterSpacing='0.2em'
+              fontSize='lg'
+              fontWeight='400'
             >
               Author:
             </Text>
             <Text>{data.author}</Text>
           </Flex>
-          <Flex alignContent="center" height="40px" align="center">
+          <Flex alignContent='center' height='40px' align='center'>
             <MapWRCell wrScore={data.wrScore} wrHolder={data.wrHolder} />
           </Flex>
           {mode === 'minimal' ? null : (
-            <Flex height="40px" align="center">
+            <Flex height='40px' align='center'>
               <MapPBCell
                 personalBest={data.personalBest}
                 wrHolder={data.wrHolder}
@@ -89,21 +89,21 @@ const MapDetailCell = memo(
         <Spacer />
         {authentication.isLoggedIn && mode !== 'minimal' ? (
           <Flex
-            marginLeft="20"
-            direction="column"
-            justifyContent="space-around"
+            marginLeft='20'
+            direction='column'
+            justifyContent='space-around'
           >
-            <Flex alignContent="center" height="40px" align="center">
+            <Flex alignContent='center' height='40px' align='center'>
               <Tooltip
                 label={`Rated Difficulty: ${data.rating}`}
-                placement="start"
+                placement='start'
               >
                 <Text
-                  width="200px"
-                  textShadow="glow"
-                  letterSpacing="0.2em"
-                  fontSize="lg"
-                  fontWeight="400"
+                  width='200px'
+                  textShadow='glow'
+                  letterSpacing='0.2em'
+                  fontSize='lg'
+                  fontWeight='400'
                 >
                   Difficulty:
                 </Text>
@@ -117,13 +117,13 @@ const MapDetailCell = memo(
                 rowIndex={rowIndex}
               />
             </Flex>
-            <Flex height="40px" align="center">
+            <Flex height='40px' align='center'>
               <Text
-                width="200px"
-                textShadow="glow"
-                letterSpacing="0.2em"
-                fontSize="lg"
-                fontWeight="400"
+                width='200px'
+                textShadow='glow'
+                letterSpacing='0.2em'
+                fontSize='lg'
+                fontWeight='400'
               >
                 Clip:
               </Text>
@@ -136,14 +136,14 @@ const MapDetailCell = memo(
                 table={table}
               />
             </Flex>
-            <Flex alignContent="center" height="40px" align="center">
+            <Flex alignContent='center' height='40px' align='center'>
               <Box display={mode === 'hunting' ? 'none' : 'inherit'}>
                 <Text
-                  width="200px"
-                  textShadow="glow"
-                  letterSpacing="0.2em"
-                  fontSize="lg"
-                  fontWeight="400"
+                  width='200px'
+                  textShadow='glow'
+                  letterSpacing='0.2em'
+                  fontSize='lg'
+                  fontWeight='400'
                 >
                   Discord Alarm:
                 </Text>
@@ -160,21 +160,21 @@ const MapDetailCell = memo(
           </Flex>
         ) : mode === 'minimal' ? null : (
           <Flex
-            marginLeft="20"
-            direction="column"
-            justifyContent="space-around"
+            marginLeft='20'
+            direction='column'
+            justifyContent='space-around'
           >
-            <Flex alignContent="center" height="40px" align="center">
+            <Flex alignContent='center' height='40px' align='center'>
               <Tooltip
                 label={`Rated Difficulty: ${data.rating}`}
-                placement="start"
+                placement='start'
               >
                 <Text
-                  width="200px"
-                  textShadow="glow"
-                  letterSpacing="0.2em"
-                  fontSize="lg"
-                  fontWeight="400"
+                  width='200px'
+                  textShadow='glow'
+                  letterSpacing='0.2em'
+                  fontSize='lg'
+                  fontWeight='400'
                 >
                   Difficulty:
                 </Text>

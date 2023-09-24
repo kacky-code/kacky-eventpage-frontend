@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>      
+    <BrowserRouter>
       <ColorModeScript />
       <ChakraProvider theme={theme}>
         <App />

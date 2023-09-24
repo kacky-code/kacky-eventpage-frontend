@@ -76,20 +76,20 @@ const ResetPassword = ({ setMode }) => {
 
   return (
     <Flex
-      direction="column"
-      w="full"
-      h="75%"
-      align="center"
-      justify="space-around"
+      direction='column'
+      w='full'
+      h='75%'
+      align='center'
+      justify='space-around'
     >
-      <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
+      <Text textShadow='glow' letterSpacing='0.1em' fontSize='xl'>
         Reset Password
       </Text>
-      <VStack spacing={6} w="full" as="form" onSubmit={handleSubmit}>
+      <VStack spacing={6} w='full' as='form' onSubmit={handleSubmit}>
         <FormControl isInvalid={!usernameValid}>
           <FormLabel>Username</FormLabel>
           <Input
-            placeholder=""
+            placeholder=''
             value={username}
             onChange={handleUsernameChange}
             onBlur={validateUsername}
@@ -99,7 +99,7 @@ const ResetPassword = ({ setMode }) => {
         <FormControl isInvalid={!emailValid}>
           <FormLabel>E-Mail</FormLabel>
           <Input
-            placeholder=""
+            placeholder=''
             value={email}
             onChange={handleEmailChange}
             onBlur={validateEmail}
@@ -107,7 +107,7 @@ const ResetPassword = ({ setMode }) => {
           <FormErrorMessage>{emailError}</FormErrorMessage>
         </FormControl>
         <Box height={5} />
-        <Button type="submit" w="full">
+        <Button type='submit' w='full'>
           Reset my Password
         </Button>
       </VStack>

@@ -175,14 +175,14 @@ const Profile = () => {
   }
 
   return (
-    <Center px={8} w="100%">
-      <VStack spacing={6} align="flex-start" w="container.xl">
+    <Center px={8} w='100%'>
+      <VStack spacing={6} align='flex-start' w='container.xl'>
         {admin ? (
-          <Button as={Link} href="/kackend">
+          <Button as={Link} href='/kackend'>
             Admin Backend
           </Button>
         ) : null}
-        <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
+        <Text textShadow='glow' letterSpacing='0.1em' fontSize='xl'>
           Your Profile
         </Text>
         <Stack
@@ -192,7 +192,7 @@ const Profile = () => {
         >
           <FormControl>
             <HStack spacing={4} mb={2}>
-              <FormLabel m="0">TMNF Login</FormLabel>
+              <FormLabel m='0'>TMNF Login</FormLabel>
               {/* <IconButton
                 borderRadius="full"
                 size="sm"
@@ -206,7 +206,7 @@ const Profile = () => {
                 maxLength={80}
                 defaultValue={tmnfLogin}
                 onChange={e => setTmnfLogin(e.target.value)}
-                placeholder="Enter TMNF Login"
+                placeholder='Enter TMNF Login'
               />
               <Button
                 onClick={() =>
@@ -220,7 +220,7 @@ const Profile = () => {
 
           <FormControl>
             <HStack spacing={4} mb={2}>
-              <FormLabel m="0">TM2020 Login</FormLabel>
+              <FormLabel m='0'>TM2020 Login</FormLabel>
               {/* <IconButton
                 borderRadius="full"
                 size="sm"
@@ -234,7 +234,7 @@ const Profile = () => {
                 maxLength={80}
                 defaultValue={tm2020Login}
                 onChange={e => setTm2020Login(e.target.value)}
-                placeholder="Enter TM2020 Login"
+                placeholder='Enter TM2020 Login'
               />
               <Button
                 onClick={() =>
@@ -248,7 +248,7 @@ const Profile = () => {
 
           <FormControl>
             <HStack spacing={4} mb={2}>
-              <FormLabel m="0">Discord ID</FormLabel>
+              <FormLabel m='0'>Discord ID</FormLabel>
               {/* <IconButton
                 borderRadius="full"
                 size="sm"
@@ -262,7 +262,7 @@ const Profile = () => {
                 maxLength={80}
                 defaultValue={discordLogin}
                 onChange={e => setDiscordLogin(e.target.value)}
-                placeholder="Enter Discord ID (Username#0000)"
+                placeholder='Enter Discord ID (Username#0000)'
               />
               <Button
                 onClick={() =>
@@ -280,15 +280,15 @@ const Profile = () => {
         <Divider />
         <FormControl
           maxW={{ base: 'full', md: '330px' }}
-          align="left"
+          align='left'
           isInvalid={!emailValid}
         >
           <FormLabel>Enter new E-Mail</FormLabel>
           <Input
             maxLength={80}
-            defaultValue=""
+            defaultValue=''
             onBlur={e => validateEmail(e.target.value)}
-            placeholder="New E-Mail"
+            placeholder='New E-Mail'
           />
           <FormErrorMessage>{emailError}</FormErrorMessage>
           <Button
@@ -309,28 +309,28 @@ const Profile = () => {
         <Divider />
         <FormControl
           maxW={{ base: 'full', md: '330px' }}
-          align="left"
+          align='left'
           isInvalid={!pwdValid}
         >
           <FormLabel>Enter new Password</FormLabel>
           <Input
-            id="password"
-            type="password"
+            id='password'
+            type='password'
             minLength={8}
             maxLength={80}
             onChange={e => setNewPwd(e.target.value)}
             onBlur={validatePasswords}
-            placeholder="New Password"
+            placeholder='New Password'
           />{' '}
           <Input
-            id="confirmPassword"
-            type="password"
+            id='confirmPassword'
+            type='password'
             minLength={8}
             maxLength={80}
-            defaultValue=""
+            defaultValue=''
             onChange={e => setNewConfirmPwd(e.target.value)}
             onBlur={validatePasswords}
-            placeholder="Confirm new Password"
+            placeholder='Confirm new Password'
             mt={4}
           />
           <FormErrorMessage>{pwdError}</FormErrorMessage>
@@ -349,11 +349,11 @@ const Profile = () => {
             Update Password
           </Button>
         </FormControl>
-        <Box paddingTop="50px" height="full" width="full">
+        <Box paddingTop='50px' height='full' width='full'>
           <Divider />
         </Box>
         <HStack>
-          <Button variant="danger" onClick={onOpen}>
+          <Button variant='danger' onClick={onOpen}>
             Delete Account
           </Button>
           <AlertDialog
@@ -363,11 +363,11 @@ const Profile = () => {
           >
             <AlertDialogOverlay>
               <AlertDialogContent>
-                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                   Delete Account?
                 </AlertDialogHeader>
 
-                <AlertDialogBody textTransform="none">
+                <AlertDialogBody textTransform='none'>
                   You are about to delete your Account! Are you sure?
                 </AlertDialogBody>
 
@@ -375,7 +375,7 @@ const Profile = () => {
                   <Button ref={cancelRef} onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button variant="danger" onClick={handleDelete} ml={3}>
+                  <Button variant='danger' onClick={handleDelete} ml={3}>
                     Yeet it!
                   </Button>
                 </AlertDialogFooter>

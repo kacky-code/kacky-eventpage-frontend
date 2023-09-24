@@ -18,14 +18,14 @@ const WRHolders = () => {
       px={{ base: 4, md: 8 }}
       mt={{ base: -16, md: -20 }}
       mb={{ base: 24, md: 8 }}
-      w="full"
+      w='full'
     >
-      <VStack overflow="hidden" spacing={4}>
+      <VStack overflow='hidden' spacing={4}>
         <Heading>List of WR Holders</Heading>
 
         <Center mb={8}>
           <Button
-            borderRadius="6px 0 0 6px"
+            borderRadius='6px 0 0 6px'
             onClick={setKrView.toggle}
             borderColor={
               krView
@@ -34,17 +34,17 @@ const WRHolders = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={krView ? 'none' : 'auto'}
             shadow={krView ? 'glow' : 'none'}
             textShadow={krView ? 'glow' : 'none'}
-            fontSize="xl"
-            letterSpacing="0.1em"
+            fontSize='xl'
+            letterSpacing='0.1em'
           >
             Kackiest Kacky
           </Button>
           <Button
-            borderRadius="0 6px 6px 0"
+            borderRadius='0 6px 6px 0'
             onClick={setKrView.toggle}
             borderColor={
               !krView
@@ -53,23 +53,23 @@ const WRHolders = () => {
                   : 'black'
                 : 'transparent'
             }
-            borderWidth="1px"
+            borderWidth='1px'
             pointerEvents={!krView ? 'none' : 'auto'}
             shadow={!krView ? 'glow' : 'none'}
             textShadow={!krView ? 'glow' : 'none'}
-            fontSize="xl"
-            letterSpacing="0.1em"
+            fontSize='xl'
+            letterSpacing='0.1em'
           >
             Kacky Reloaded
           </Button>
         </Center>
         {krView ? (
           <VStack mr={5}>
-            <WRTable eventtype="kk" />
+            <WRTable eventtype='kk' />
           </VStack>
         ) : (
-          <VStack justifyItems="start" height="full">
-            <WRTable eventtype="kr" />
+          <VStack justifyItems='start' height='full'>
+            <WRTable eventtype='kr' />
           </VStack>
         )}
       </VStack>

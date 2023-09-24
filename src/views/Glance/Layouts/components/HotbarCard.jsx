@@ -30,19 +30,19 @@ const HotbarCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
         event.type,
         maps[0].number
       )}), url(${mapImageFallback})`}
-      bgPosition="center"
-      bgRepeat="no-repeat"
-      bgSize="cover"
-      w="200px"
-      h="100px"
+      bgPosition='center'
+      bgRepeat='no-repeat'
+      bgSize='cover'
+      w='200px'
+      h='100px'
       bgColor={
         colorMode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(6,6,6,0.05)'
       }
     >
       <Center
         px={{ base: 4, md: 8 }}
-        w="full"
-        h="full"
+        w='full'
+        h='full'
         bgGradient={{
           base: `linear(to-r, background 0%, ${
             colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
@@ -57,7 +57,7 @@ const HotbarCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
           }, background)`,
         }}
       >
-        <Flex direction="column" align="center" justify="center">
+        <Flex direction='column' align='center' justify='center'>
           {/* SERVER */}
           <HStack spacing={1}>
             <Icon
@@ -69,14 +69,14 @@ const HotbarCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
 
           {/* NEXT MAPS */}
           <Box marginTop={3}>
-            <Flex direction="row" align="flex-start" gap="10px">
+            <Flex direction='row' align='flex-start' gap='10px'>
               {maps.slice(0, 2).map((map, index) => (
-                <HStack w="auto" justify="center" key={map.number}>
+                <HStack w='auto' justify='center' key={map.number}>
                   <Text
-                    lineHeight="24px"
-                    fontSize="2xl"
-                    fontWeight="medium"
-                    letterSpacing="0.1em"
+                    lineHeight='24px'
+                    fontSize='2xl'
+                    fontWeight='medium'
+                    letterSpacing='0.1em'
                     color={
                       map.finished
                         ? colorMode === 'dark'
@@ -102,11 +102,11 @@ const HotbarCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
             <Progress
               filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
               value={100 - (timeLeft / timeLimit) * 100}
-              orientation="horizontal"
-              colorScheme="gray"
-              size="md"
+              orientation='horizontal'
+              colorScheme='gray'
+              size='md'
               outline={colorMode}
-              marginTop="10px"
+              marginTop='10px'
             />
           </Box>
         </Flex>

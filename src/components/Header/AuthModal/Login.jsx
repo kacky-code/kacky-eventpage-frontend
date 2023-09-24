@@ -71,18 +71,18 @@ const Login = ({ setMode, onClose }) => {
 
   return (
     <Flex
-      direction="column"
-      w="full"
-      h="full"
-      align="center"
-      justify="space-around"
-      as="form"
+      direction='column'
+      w='full'
+      h='full'
+      align='center'
+      justify='space-around'
+      as='form'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
+      <Text textShadow='glow' letterSpacing='0.1em' fontSize='xl'>
         Login
       </Text>
-      <VStack spacing={6} w="full">
+      <VStack spacing={6} w='full'>
         <FormControl isInvalid={errors.username}>
           <FormLabel>Username</FormLabel>
           <Input
@@ -98,8 +98,8 @@ const Login = ({ setMode, onClose }) => {
                 message: 'Only letters and numbers allowed',
               },
             })}
-            id="username"
-            placeholder=""
+            id='username'
+            placeholder=''
           />
           {!errors.username ? (
             <FormHelperText>Enter your username here</FormHelperText>
@@ -120,9 +120,9 @@ const Login = ({ setMode, onClose }) => {
                 message: 'Really? Sleeping on your Keyboard?',
               },
             })}
-            id="password"
-            type="password"
-            placeholder=""
+            id='password'
+            type='password'
+            placeholder=''
           />
           {!errors.password ? (
             <FormHelperText>Enter your password here</FormHelperText>
@@ -134,44 +134,44 @@ const Login = ({ setMode, onClose }) => {
         </FormControl>
       </VStack>
 
-      <VStack spacing={4} w="full">
+      <VStack spacing={4} w='full'>
         <Text
-          h="21px"
-          color="red.500"
+          h='21px'
+          color='red.500'
           _dark={{ color: 'red.300' }}
-          fontWeight="normal"
-          fontSize="sm"
-          letterSpacing="0.1em"
+          fontWeight='normal'
+          fontSize='sm'
+          letterSpacing='0.1em'
         >
           {serverError.isError ? serverError.message : null}
         </Text>
-        <Button type="submit" w="full">
+        <Button type='submit' w='full'>
           Login
         </Button>
         <Text
-          letterSpacing="0.1em"
-          textDecoration="underline"
-          color="blue.500"
+          letterSpacing='0.1em'
+          textDecoration='underline'
+          color='blue.500'
           _dark={{ color: 'blue.100' }}
-          fontSize="sm"
-          textShadow="glow"
+          fontSize='sm'
+          textShadow='glow'
           _hover={{ color: 'blue.200', cursor: 'pointer' }}
           onClick={() => setMode('resetPassword')}
         >
           Forgot your Password?
         </Text>
       </VStack>
-      <HStack justify="center" spacing={4} w="full">
-        <Text letterSpacing="0.1em" fontSize="sm" textShadow="glow">
+      <HStack justify='center' spacing={4} w='full'>
+        <Text letterSpacing='0.1em' fontSize='sm' textShadow='glow'>
           No Account?
         </Text>
         <Text
-          letterSpacing="0.1em"
-          textDecoration="underline"
-          color="blue.500"
+          letterSpacing='0.1em'
+          textDecoration='underline'
+          color='blue.500'
           _dark={{ color: 'blue.100' }}
-          fontSize="sm"
-          textShadow="glow"
+          fontSize='sm'
+          textShadow='glow'
           _hover={{ color: 'blue.200', cursor: 'pointer' }}
           onClick={() => setMode('register')}
         >

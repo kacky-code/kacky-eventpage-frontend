@@ -108,17 +108,17 @@ const MapManager = () => {
   return (
     <Center>
       <VStack>
-        <Flex direction="row" justifyItems="start" width="full">
-          <Button as={Link} href="/kackend">
+        <Flex direction='row' justifyItems='start' width='full'>
+          <Button as={Link} href='/kackend'>
             Back
           </Button>
         </Flex>
-        <Flex direction="column" alignItems="start">
+        <Flex direction='column' alignItems='start'>
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
           >
             What this? How it do be working?
           </Text>
@@ -132,7 +132,7 @@ const MapManager = () => {
           >
             With this you can bulk-update maps by providing a CSV file with all
             the information. <br />
-            <Link href="https://static.kacky.gg/map_update_template.csv">
+            <Link href='https://static.kacky.gg/map_update_template.csv'>
               Get the template CSV here:
               https://static.kacky.gg/map_update_template.csv
             </Link>
@@ -179,19 +179,19 @@ const MapManager = () => {
             point.
           </div>
         </Flex>
-        <form /* style={{ width: '30%' }} */ encType="multipart/form-data">
+        <form /* style={{ width: '30%' }} */ encType='multipart/form-data'>
           <FormControl mt={6}>
-            <FormLabel htmlFor="file">Map File (CSV, max 1MB)</FormLabel>
+            <FormLabel htmlFor='file'>Map File (CSV, max 1MB)</FormLabel>
             <Input
-              type="file"
-              name="file"
-              id="file"
-              accept=".csv"
+              type='file'
+              name='file'
+              id='file'
+              accept='.csv'
               onChange={handleFileChange}
             />
           </FormControl>
 
-          <Button mt={6} type="submit" onClick={handleUpload}>
+          <Button mt={6} type='submit' onClick={handleUpload}>
             Upload
           </Button>
 
@@ -203,7 +203,7 @@ const MapManager = () => {
           >
             <AlertDialogOverlay>
               <AlertDialogContent>
-                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                   {isLoading ? 'Uploading...' : 'Upload Result'}
                 </AlertDialogHeader>
 
@@ -212,9 +212,9 @@ const MapManager = () => {
                     <Center>
                       <CircularProgress
                         isIndeterminate
-                        color="blue.500"
-                        size="48px"
-                        thickness="4px"
+                        color='blue.500'
+                        size='48px'
+                        thickness='4px'
                       />
                     </Center>
                   ) : (
@@ -226,7 +226,7 @@ const MapManager = () => {
                   <Button onClick={onClose}>Close</Button>
                   {overwriteOption ? (
                     <Button
-                      variant="danger"
+                      variant='danger'
                       onClick={handleUploadOverwrite}
                       ml={3}
                     >
