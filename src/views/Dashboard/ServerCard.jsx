@@ -229,7 +229,7 @@ const ServerCard = ({
                   <HStack
                     onClick={nextMapModals[index].onOpen}
                     cursor='pointer'
-                    w='auto'
+                    w='100%'
                     justify='flex-start'
                     _hover={{ transform: 'scale(1.05)' }}
                     spacing={1}
@@ -241,6 +241,7 @@ const ServerCard = ({
                       fontSize='2xl'
                       letterSpacing='0.1em'
                       textShadow='glow'
+                      w='100%'
                     >
                       {map.number}
                     </Text>
