@@ -30,6 +30,7 @@ import {
 
 import Cookies from 'universal-cookie';
 
+import Footer from '../Footer/Footer'
 import KrLogo2023 from '../../assets/logos/krLogo2023';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
@@ -478,6 +479,7 @@ const Header = () => {
       <Box pt={{ base: '16px', md: '120px', xl: '150px' }}>
         <Outlet />
       </Box>
+      <Footer />
     </>
   );
 };
