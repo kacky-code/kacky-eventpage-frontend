@@ -25,12 +25,12 @@ const defaultColumns = [
     id: 'nickname',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdAccountCircle} />
+        <Icon boxSize='16px' as={MdAccountCircle} />
         <Text>Nickname</Text>
       </>
     ),
     cell: info => (
-      <Box textTransform="none">
+      <Box textTransform='none'>
         <span style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}>
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
@@ -40,7 +40,7 @@ const defaultColumns = [
   }),
   columnHelper.accessor('login', {
     id: 'login',
-    header: () => <Icon boxSize="16px" as={MdAccountCircle} />,
+    header: () => <Icon boxSize='16px' as={MdAccountCircle} />,
     cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('fins', {
@@ -48,7 +48,7 @@ const defaultColumns = [
     width: '20rem',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdOutlineSportsScore} />
+        <Icon boxSize='16px' as={MdOutlineSportsScore} />
         <Text>#Fins</Text>
       </>
     ),
@@ -58,7 +58,7 @@ const defaultColumns = [
     id: 'avg',
     header: () => (
       <>
-        <Icon boxSize="16px" as={MdBarChart} />
+        <Icon boxSize='16px' as={MdBarChart} />
         <Text>avg</Text>
       </>
     ),

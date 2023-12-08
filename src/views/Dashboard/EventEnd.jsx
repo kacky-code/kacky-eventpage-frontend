@@ -49,7 +49,11 @@ const EventEnd = () => {
   const { data, isSuccess } = useQuery(
     ['profile', authentication.token],
     () => getFinishes(authentication.token),
-    { enabled: authentication.isLoggedIn, retry: false, refetchOnWindowFocus: false, }
+    {
+      enabled: authentication.isLoggedIn,
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
   );
   useEffect(() => {
     if (isSuccess) {
@@ -61,17 +65,17 @@ const EventEnd = () => {
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Stack>
         <Text
-          textShadow="glow"
-          letterSpacing="0.2em"
+          textShadow='glow'
+          letterSpacing='0.2em'
           fontSize={{ base: '2xl', md: '4xl' }}
         >
           {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
           {event.edition} is over!
         </Text>
         <Text
-          fontWeight="500"
-          textShadow="glow"
-          letterSpacing="0.2em"
+          fontWeight='500'
+          textShadow='glow'
+          letterSpacing='0.2em'
           fontSize={{ base: 'lg', md: '2xl' }}
         >
           Thanks for participating in the Event!
@@ -79,40 +83,40 @@ const EventEnd = () => {
       </Stack>
       {authentication.isLoggedIn ? (
         <Flex
-          justify="center"
+          justify='center'
           gap={{ base: '4rem', md: '6rem' }}
           direction={{ base: 'column', md: 'row' }}
-          align="center"
-          w="full"
+          align='center'
+          w='full'
         >
           {isSuccess ? (
-            <Stack order={{ base: 3, md: 1 }} align="center">
+            <Stack order={{ base: 3, md: 1 }} align='center'>
               <Icon
                 filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
-                boxSize="32px"
+                boxSize='32px'
                 as={MdOutlineCheckCircle}
               />
               <Text
-                textShadow="glow"
-                letterSpacing="0.2em"
-                fontSize="lg"
-                fontWeight="400"
+                textShadow='glow'
+                letterSpacing='0.2em'
+                fontSize='lg'
+                fontWeight='400'
               >
                 You finished
               </Text>
               <Text
-                letterSpacing="0.2em"
-                fontSize="3xl"
-                color="green.300"
-                filter="drop-shadow(0px 0px 20px #4afc47);"
+                letterSpacing='0.2em'
+                fontSize='3xl'
+                color='green.300'
+                filter='drop-shadow(0px 0px 20px #4afc47);'
               >
                 {finishes}
               </Text>
               <Text
-                textShadow="glow"
-                letterSpacing="0.2em"
-                fontSize="lg"
-                fontWeight="400"
+                textShadow='glow'
+                letterSpacing='0.2em'
+                fontSize='lg'
+                fontWeight='400'
               >
                 Maps this Edition!
               </Text>
@@ -120,9 +124,9 @@ const EventEnd = () => {
           ) : null}
 
           <Box
-            m="-14rem"
+            m='-14rem'
             order={2}
-            bgGradient="radial(rgba(74, 252, 71, 0.1) 0%, transparent 60%)"
+            bgGradient='radial(rgba(74, 252, 71, 0.1) 0%, transparent 60%)'
             p={48}
           >
             <CircularProgress
@@ -131,18 +135,18 @@ const EventEnd = () => {
                   ? 'rgba(256,256,256, 0.1)'
                   : 'rgba(0,0,0, 0.05)'
               }
-              thickness="1px"
+              thickness='1px'
               min={0}
               max={50}
-              color="green.300"
+              color='green.300'
               value={finishes}
-              size="20rem"
-              filter="drop-shadow(0px 0px 20px #4afc47);"
+              size='20rem'
+              filter='drop-shadow(0px 0px 20px #4afc47);'
             >
               <CircularProgressLabel
-                fontSize="4xl"
-                color="green.300"
-                letterSpacing="0.2em"
+                fontSize='4xl'
+                color='green.300'
+                letterSpacing='0.2em'
               >
                 {finishes} / 50
               </CircularProgressLabel>
@@ -150,33 +154,33 @@ const EventEnd = () => {
           </Box>
 
           {isSuccess ? (
-            <Stack order={4} align="center">
+            <Stack order={4} align='center'>
               <Icon
                 filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'}
-                boxSize="32px"
+                boxSize='32px'
                 as={MdOutlineLeaderboard}
               />
               <Text
-                textShadow="glow"
-                letterSpacing="0.2em"
-                fontSize="lg"
-                fontWeight="400"
+                textShadow='glow'
+                letterSpacing='0.2em'
+                fontSize='lg'
+                fontWeight='400'
               >
                 This grants you {finishes > 9 && 'the'}
               </Text>
               <Text
-                letterSpacing="0.2em"
-                fontSize="3xl"
+                letterSpacing='0.2em'
+                fontSize='3xl'
                 color={getRank().color}
                 filter={`drop-shadow(0px 0px 10px ${getRank().color});`}
               >
                 {getRank().name}
               </Text>
               <Text
-                textShadow="glow"
-                letterSpacing="0.2em"
-                fontSize="lg"
-                fontWeight="400"
+                textShadow='glow'
+                letterSpacing='0.2em'
+                fontSize='lg'
+                fontWeight='400'
               >
                 Rank!
               </Text>
@@ -186,18 +190,18 @@ const EventEnd = () => {
       ) : null}
       {authentication.isLoggedIn && isSuccess ? (
         <Text
-          fontWeight="500"
-          textShadow="glow"
-          letterSpacing="0.2em"
+          fontWeight='500'
+          textShadow='glow'
+          letterSpacing='0.2em'
           fontSize={{ base: 'lg', md: '2xl' }}
         >
           {getRank().text}
         </Text>
       ) : (
         <Text
-          fontWeight="500"
-          textShadow="glow"
-          letterSpacing="0.2em"
+          fontWeight='500'
+          textShadow='glow'
+          letterSpacing='0.2em'
           fontSize={{ base: 'lg', md: '2xl' }}
         >
           See you next Edition!

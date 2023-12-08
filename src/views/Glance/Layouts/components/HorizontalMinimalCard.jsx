@@ -31,19 +31,19 @@ const HorizontalMinimalCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
         event.type,
         maps[0].number
       )}), url(${mapImageFallback})`}
-      bgPosition="center"
-      bgRepeat="no-repeat"
-      bgSize="cover"
-      w="100px"
-      h="175px"
+      bgPosition='center'
+      bgRepeat='no-repeat'
+      bgSize='cover'
+      w='100px'
+      h='175px'
       bgColor={
         colorMode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(6,6,6,0.05)'
       }
     >
       <Center
         px={{ base: 4, md: 8 }}
-        w="full"
-        h="full"
+        w='full'
+        h='full'
         bgGradient={{
           base: `linear(to-r, background 0%, ${
             colorMode === 'dark' ? 'blackAlpha.800 40%' : 'whiteAlpha.900 40%'
@@ -58,7 +58,7 @@ const HorizontalMinimalCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
           }, background)`,
         }}
       >
-        <Flex direction="column" align="center" justify="center">
+        <Flex direction='column' align='center' justify='center'>
           {/* SERVER */}
           <HStack spacing={1}>
             <Icon
@@ -66,17 +66,17 @@ const HorizontalMinimalCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
               fontSize={22}
               as={MdOutlineDns}
             />
-            <Text fontSize="xl">{serverNumber}</Text>
+            <Text fontSize='xl'>{serverNumber}</Text>
           </HStack>
           {/* NEXT MAPS */}
           <Box marginTop={2}>
-            <VStack direction="row" align="flex-start" gap="5px">
-              <VStack w="auto" justify="center">
+            <VStack direction='row' align='flex-start' gap='5px'>
+              <VStack w='auto' justify='center'>
                 <Text
-                  lineHeight="24px"
-                  fontSize="2xl"
-                  fontWeight="medium"
-                  letterSpacing="0.1em"
+                  lineHeight='24px'
+                  fontSize='2xl'
+                  fontWeight='medium'
+                  letterSpacing='0.1em'
                   color={
                     maps[0].finished
                       ? colorMode === 'dark'
@@ -95,10 +95,10 @@ const HorizontalMinimalCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
                   as={MdSouth}
                 />
                 <Text
-                  lineHeight="24px"
-                  fontSize="2xl"
-                  fontWeight="medium"
-                  letterSpacing="0.1em"
+                  lineHeight='24px'
+                  fontSize='2xl'
+                  fontWeight='medium'
+                  letterSpacing='0.1em'
                   color={
                     maps[1].finished
                       ? colorMode === 'dark'

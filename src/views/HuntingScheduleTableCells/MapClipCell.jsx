@@ -61,8 +61,8 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
 
   return (
     <HStack
-      w="100px"
-      h="40px"
+      w='100px'
+      h='40px'
       onMouseEnter={() => setRenderPopOver(true)}
       onMouseLeave={() => setRenderPopOver(true)}
     >
@@ -75,17 +75,17 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
               }
             }
             href={clip}
-            target="_blank"
-            rel="noopener noreferrer"
+            target='_blank'
+            rel='noopener noreferrer'
           >
             <IconButton
               disabled={clip === '' || !authentication.isLoggedIn}
-              icon={<MdOutlinePlayCircle fontSize="24px" />}
+              icon={<MdOutlinePlayCircle fontSize='24px' />}
             />
           </Link>
 
           <Popover
-            placement="right"
+            placement='right'
             onOpen={onOpen}
             onClose={onClose}
             isOpen={isOpen}
@@ -96,9 +96,9 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
                 onClick={onOpen}
                 icon={
                   clip === '' ? (
-                    <MdAddCircleOutline fontSize="24px" />
+                    <MdAddCircleOutline fontSize='24px' />
                   ) : (
-                    <MdOutlineModeEdit fontSize="24px" />
+                    <MdOutlineModeEdit fontSize='24px' />
                   )
                 }
               />
@@ -107,7 +107,7 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
               <HStack>
                 <Input
                   onChange={e => setCurrentClip(e.target.value)}
-                  placeholder="Enter Clip Url"
+                  placeholder='Enter Clip Url'
                   defaultValue={clip}
                 />
                 <Button disabled={currentClip === clip} onClick={onSubmit}>
@@ -118,7 +118,7 @@ const MapClipCell = memo(({ clip, eventtype, rowIndex, table, mapId }) => {
           </Popover>
         </>
       ) : (
-        clip !== '' && <Icon m={2} boxSize="24px" as={MdOutlinePlayCircle} />
+        clip !== '' && <Icon m={2} boxSize='24px' as={MdOutlinePlayCircle} />
       )}
     </HStack>
   );

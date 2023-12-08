@@ -78,9 +78,9 @@ const PreEvent = () => {
   return (
     <Stack spacing={16} mt={8} mb={32} px={{ base: 4, md: 8 }}>
       <Text
-        fontWeight="500"
-        textShadow="glow"
-        letterSpacing="0.2em"
+        fontWeight='500'
+        textShadow='glow'
+        letterSpacing='0.2em'
         fontSize={{ base: 'lg', md: '5xl' }}
       >
         Kacky Reloaded 4 - August 2023
@@ -88,57 +88,57 @@ const PreEvent = () => {
       <Center>
         <HStack>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             {`${remainingTime.days}`}
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             :
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             {`${remainingTime.hours}`}
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             :
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             {`${remainingTime.minutes}`}
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             :
           </Text>
           <Text
-            fontWeight="500"
-            textShadow="glow"
-            letterSpacing="0.2em"
+            fontWeight='500'
+            textShadow='glow'
+            letterSpacing='0.2em'
             fontSize={{ base: 'lg', md: '4xl' }}
           >
             {`${remainingTime.seconds}`}
@@ -156,11 +156,11 @@ const PreEvent = () => {
           }}
         >
           <Text
-            fontSize="2xl"
-            fontWeight="400"
-            textTransform="uppercase"
-            textDecoration="underline"
-            textUnderlineOffset="0.2em"
+            fontSize='2xl'
+            fontWeight='400'
+            textTransform='uppercase'
+            textDecoration='underline'
+            textUnderlineOffset='0.2em'
           >
             General Info:
           </Text>
@@ -176,17 +176,17 @@ const PreEvent = () => {
             <ListItem>🗺️ Maps: Kacky Reloaded #226 - #300</ListItem>
             <ListItem>
               🌐 Kacky Event-Website:{' '}
-              <Link href="https://kacky.gg">https://kacky.gg/</Link>
+              <Link href='https://kacky.gg'>https://kacky.gg/</Link>
             </ListItem>
             <ListItem>
               📊 Kacky Statistics & History:{' '}
-              <Link href="https://kackyreloaded.com/">
+              <Link href='https://kackyreloaded.com/'>
                 https://kackyreloaded.com/
               </Link>
             </ListItem>
             <ListItem>
               🔗 Discord Invite:{' '}
-              <Link href="http://kacky.gg/discord">
+              <Link href='http://kacky.gg/discord'>
                 http://kacky.gg/discord
               </Link>
             </ListItem>
@@ -199,7 +199,7 @@ const PreEvent = () => {
           </List>
         </div>
       </Center>
-      
+
       {isMappingEnded() && (
         <Center>
           <div
@@ -212,16 +212,16 @@ const PreEvent = () => {
             }}
           >
             <Text
-              fontSize="2xl"
-              fontWeight="400"
-              textTransform="uppercase"
-              textDecoration="underline"
-              textUnderlineOffset="0.2em"
+              fontSize='2xl'
+              fontWeight='400'
+              textTransform='uppercase'
+              textDecoration='underline'
+              textUnderlineOffset='0.2em'
             >
               Mapping Information:
             </Text>
             Do you want to build a map for KR4? Join the Kacky Discord Server (
-            <Link href="http://kacky.gg/discord">http://kacky.gg/discord</Link>)
+            <Link href='http://kacky.gg/discord'>http://kacky.gg/discord</Link>)
             and check channel #📢kacky-reloaded-4
             <br />
             It get&apos;s updated with the latest info and rules.

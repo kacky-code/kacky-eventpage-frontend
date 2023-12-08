@@ -18,17 +18,17 @@ const MapNumberCell = memo(
 
     return (
       <HStack
-        w="100px"
+        w='100px'
         onMouseEnter={() => setRenderImage(true)}
         onMouseLeave={() => setRenderImage(false)}
-        role="group"
+        role='group'
         spacing={4}
       >
         <Text
-          letterSpacing="0.1em"
-          textShadow="glow"
-          fontSize="xl"
-          fontWeight="700"
+          letterSpacing='0.1em'
+          textShadow='glow'
+          fontSize='xl'
+          fontWeight='700'
         >
           {number} {version}
         </Text>
@@ -40,7 +40,7 @@ const MapNumberCell = memo(
               _groupHover={{
                 visibility: 'visible',
               }}
-              icon={<MdOutlineImage fontSize="24px" />}
+              icon={<MdOutlineImage fontSize='24px' />}
             />
             <MapImageModal
               mapNumber={parseInt(number, 10)}

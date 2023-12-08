@@ -88,9 +88,9 @@ const WRManager = () => {
 
   return (
     <Center>
-      <VStack w="30%">
-        <Flex mb={5} direction="row" justifyItems="start" width="full">
-          <Button as={Link} href="/kackend">
+      <VStack w='30%'>
+        <Flex mb={5} direction='row' justifyItems='start' width='full'>
+          <Button as={Link} href='/kackend'>
             Back
           </Button>
         </Flex>
@@ -99,30 +99,30 @@ const WRManager = () => {
             <VStack mb={5}>
               <HStack spacing={4}>
                 <FormControl>
-                  <FormLabel htmlFor="kackyId">Kacky ID</FormLabel>
+                  <FormLabel htmlFor='kackyId'>Kacky ID</FormLabel>
                   <Input
-                    type="number"
-                    id="kackyId"
-                    placeholder="Enter Kacky ID"
+                    type='number'
+                    id='kackyId'
+                    placeholder='Enter Kacky ID'
                     value={kackyId}
                     onChange={e => setKackyId(e.target.value)}
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor="eventType">Event Type</FormLabel>
+                  <FormLabel htmlFor='eventType'>Event Type</FormLabel>
                   <Select
-                    id="eventType"
-                    placeholder="Select event type"
+                    id='eventType'
+                    placeholder='Select event type'
                     value={eventType}
                     onChange={e => setEventType(e.target.value)}
                   >
-                    <option value="kk">KK</option>
-                    <option value="kr">KR</option>
+                    <option value='kk'>KK</option>
+                    <option value='kr'>KR</option>
                   </Select>
                 </FormControl>
               </HStack>
-              <Button type="submit" onClick={handleFindClick}>
+              <Button type='submit' onClick={handleFindClick}>
                 Find
               </Button>
             </VStack>
@@ -132,14 +132,14 @@ const WRManager = () => {
           <>
             <Center mt={10}>
               <MapDetailCell
-                mode="minimal"
+                mode='minimal'
                 data={mapData}
                 edition={1}
                 eventtype={eventType}
               />
             </Center>
             <Center mt={10}>
-              <Button variant="danger" onClick={onOpen}>
+              <Button variant='danger' onClick={onOpen}>
                 Reset WR
               </Button>
               <AlertDialog
@@ -149,11 +149,11 @@ const WRManager = () => {
               >
                 <AlertDialogOverlay>
                   <AlertDialogContent>
-                    <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                       Reset Worldrecord?
                     </AlertDialogHeader>
 
-                    <AlertDialogBody textTransform="none">
+                    <AlertDialogBody textTransform='none'>
                       You are about to reset the WR on {mapData.number} by&nbsp;
                       {mapData.wrHolder} ({mapData.wrScore / 1000}s).
                       <br />
@@ -165,7 +165,7 @@ const WRManager = () => {
                       <Button ref={cancelRef} onClick={onClose}>
                         Cancel
                       </Button>
-                      <Button variant="danger" onClick={resetHandler} ml={3}>
+                      <Button variant='danger' onClick={resetHandler} ml={3}>
                         Yeet it!
                       </Button>
                     </AlertDialogFooter>

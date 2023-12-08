@@ -33,7 +33,6 @@ import {
   getSortedRowModel,
   useReactTable,
   getFilteredRowModel,
-  
   getExpandedRowModel,
 } from '@tanstack/react-table';
 
@@ -124,7 +123,7 @@ const Spreadsheet = () => {
         },
       ],
     },
-    
+
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -172,14 +171,14 @@ const Spreadsheet = () => {
   };
 
   return (
-    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w="full">
-      <VStack overflow="hidden" spacing={4}>
+    <Center mb={{ base: 24, md: 8 }} px={{ base: 4, md: 8 }} w='full'>
+      <VStack overflow='hidden' spacing={4}>
         <Heading>
           {event.type === 'kk' ? 'Kackiest Kacky' : 'Kacky Reloaded'}{' '}
           {event.edition} Schedule
         </Heading>
-        <HStack w="full">
-          <Text letterSpacing="0.1em" textShadow="glow">
+        <HStack w='full'>
+          <Text letterSpacing='0.1em' textShadow='glow'>
             Filter for a Map :
           </Text>
           <Input
@@ -190,16 +189,16 @@ const Spreadsheet = () => {
                 .getHeaderGroups()[0]
                 .headers[1].column.setFilterValue(e.target.value)
             }
-            placeholder="#000"
+            placeholder='#000'
           />
         </HStack>
         <TableContainer
           ref={tableContainerRef}
-          w="container.xl"
-          borderWidth="1px"
-          borderRadius="md"
+          w='container.xl'
+          borderWidth='1px'
+          borderRadius='md'
         >
-          <Table size="sm">
+          <Table size='sm'>
             <Thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <Tr key={headerGroup.id}>
@@ -219,9 +218,9 @@ const Spreadsheet = () => {
                     >
                       {header.isPlaceholder ? null : (
                         <Box
-                          display="flex"
+                          display='flex'
                           gap={2}
-                          alignItems="center"
+                          alignItems='center'
                           sx={
                             header.column.getCanSort() && {
                               cursor: 'pointer',
@@ -279,7 +278,7 @@ const Spreadsheet = () => {
                           data={row.original}
                           eventtype={event.type}
                           edition={event.edition}
-                          mode="schedule"
+                          mode='schedule'
                           table={table}
                           rowIndex={row.index}
                         />

@@ -30,6 +30,7 @@ import {
 
 import Cookies from 'universal-cookie';
 
+import Footer from '../Footer/Footer'
 import KrLogo2023 from '../../assets/logos/krLogo2023';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
@@ -309,12 +310,12 @@ const Header = () => {
 
   return (
     <>
-      <VStack as="nav">
+      <VStack as='nav'>
         <Center
-          pos="fixed"
+          pos='fixed'
           bottom={{ base: '0', md: 'auto' }}
-          zIndex="sticky"
-          w="100%"
+          zIndex='sticky'
+          w='100%'
           px={{ base: 4, md: 8 }}
           h={{ base: '60px', md: '80px' }}
           bg={
@@ -325,21 +326,21 @@ const Header = () => {
           borderBottom={{ base: 'none', md: '1px' }}
           borderTop={{ base: '1px', md: 'none' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
-          backdropFilter="auto"
-          backdropBlur="16px"
+          backdropFilter='auto'
+          backdropBlur='16px'
         >
-          <HStack spacing={0} pt={{ base: 1, md: 4 }} h="full" w="container.xl">
+          <HStack spacing={0} pt={{ base: 1, md: 4 }} h='full' w='container.xl'>
             <Box
               display={{ base: 'none', md: 'block' }}
-              borderBottom="1px"
+              borderBottom='1px'
               px={4}
-              mt="2px"
+              mt='2px'
               borderColor={
                 colorMode === 'dark'
                   ? getDefaultBackgrounds().dark[0]
                   : getDefaultBackgrounds().light[0]
               }
-              h="full"
+              h='full'
             >
               <Box mt={2} filter={theme.shadows.dropGlow}>
                 <KrLogo2023
@@ -359,12 +360,12 @@ const Header = () => {
               <Menu autoSelect={false}>
                 <MenuButton
                   TabIcon={MdOutlineMoreVert}
-                  text="More"
+                  text='More'
                   as={HeaderTab}
                 />
-                <MenuList minW="0" w="160px" fontSize="xs">
+                <MenuList minW='0' w='160px' fontSize='xs'>
                   {authentication.isLoggedIn ? (
-                    <Link to="/profile">
+                    <Link to='/profile'>
                       <MenuItem
                         h={10}
                         filter={
@@ -372,7 +373,7 @@ const Header = () => {
                         }
                         icon={
                           <DiscordLogo
-                            width="10"
+                            width='10'
                             color={colorMode === 'dark' ? 'white' : 'black'}
                           />
                         }
@@ -382,13 +383,13 @@ const Header = () => {
                     </Link>
                   ) : null}
                   {authentication.isLoggedIn ? (
-                    <Link to="/profile">
+                    <Link to='/profile'>
                       <MenuItem
                         h={10}
                         filter={
                           colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                         }
-                        icon={<MdPersonOutline fontSize="1.25rem" />}
+                        icon={<MdPersonOutline fontSize='1.25rem' />}
                       >
                         Profile
                       </MenuItem>
@@ -401,7 +402,7 @@ const Header = () => {
                       filter={
                         colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                       }
-                      icon={<MdOutlineLogout fontSize="1.25rem" />}
+                      icon={<MdOutlineLogout fontSize='1.25rem' />}
                     >
                       Logout
                     </MenuItem>
@@ -412,7 +413,7 @@ const Header = () => {
                       filter={
                         colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                       }
-                      icon={<MdOutlineLogout fontSize="1.25rem" />}
+                      icon={<MdOutlineLogout fontSize='1.25rem' />}
                     >
                       Login
                     </MenuItem>
@@ -423,7 +424,7 @@ const Header = () => {
                     filter={
                       colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                     }
-                    icon={<SwitchIcon fontSize="1.25rem" />}
+                    icon={<SwitchIcon fontSize='1.25rem' />}
                   >
                     Theme
                   </MenuItem>
@@ -434,34 +435,34 @@ const Header = () => {
           </HStack>
           <Box
             ref={indicatorElement}
-            boxShadow="glow"
+            boxShadow='glow'
             bg={colorMode === 'dark' ? 'white' : 'black'}
-            borderRadius="md"
-            h="4px"
+            borderRadius='md'
+            h='4px'
             visibility={
               pathname === '/profile' ? { base: 'hidden', md: 'visible' } : null
             }
-            position="absolute"
+            position='absolute'
             bottom={{ base: 'initial', md: '-4px' }}
             top={{ base: '-1px', md: 'initial' }}
-            transition="all 150ms ease-in-out"
+            transition='all 150ms ease-in-out'
           />
         </Center>
         <Center
-          pos="sticky"
-          w="inherit"
+          pos='sticky'
+          w='inherit'
           px={{ base: 4, md: 8 }}
           h={{ base: '40px', md: '60px' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
           pt={{ base: '80px', md: '100px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
           display={huntingSubMenuVisible ? 'inherit' : 'none'}
-          alignItems="center"
-          justifyContent="center"
+          alignItems='center'
+          justifyContent='center'
         >
           {huntingSubMenu.map(tab => (
             <Box
-              h="inherit"
+              h='inherit'
               display={tab.isBlank ? 'none' : 'inherit'}
               key={tab.id}
             >
@@ -478,6 +479,7 @@ const Header = () => {
       <Box pt={{ base: '16px', md: '120px', xl: '150px' }}>
         <Outlet />
       </Box>
+      <Footer />
     </>
   );
 };

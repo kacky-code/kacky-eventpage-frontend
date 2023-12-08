@@ -11,12 +11,12 @@ const ActionCard = ({
 }) => (
   <Link to={linkTarget}>
     <Box
-      bg="gray.700"
+      bg='gray.700'
       border={1}
       borderRadius={16}
       p={2}
-      display="flex"
-      alignItems="center"
+      display='flex'
+      alignItems='center'
       w={400}
       _hover={{
         bg: 'gray.800',
@@ -26,11 +26,11 @@ const ActionCard = ({
       <Box ml={5}>
         <IconComponent size={40} />
       </Box>
-      <Box m={2} mr={0} alignItems="center" width="full">
-        <Text fontSize="lg" fontWeight="bold" letterSpacing="0.1em" mb={2}>
+      <Box m={2} mr={0} alignItems='center' width='full'>
+        <Text fontSize='lg' fontWeight='bold' letterSpacing='0.1em' mb={2}>
           {title}
         </Text>
-        <Text fontSize="s">{description}</Text>
+        <Text fontSize='s'>{description}</Text>
       </Box>
     </Box>
   </Link>

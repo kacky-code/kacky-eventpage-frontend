@@ -60,20 +60,20 @@ const MapDifficultyCell = memo(
           onClick={() => setRenderMenuList(true)}
           disabled={!authentication.isLoggedIn}
           _hover={{ bg: 'whiteAlpha.200' }}
-          textAlign="left"
-          w="100"
-          h="full"
-          borderRadius="none"
+          textAlign='left'
+          w='100'
+          h='full'
+          borderRadius='none'
         >
           <Badge
             variant={diffBadgeColorArr[difficulty].variant}
-            fontSize="medium"
+            fontSize='medium'
           >
             {diffBadgeColorArr[difficulty].text}
           </Badge>
         </MenuButton>
         {renderMenuList ? (
-          <MenuList minW="0" w="140px">
+          <MenuList minW='0' w='140px'>
             {diffBadgeColorArr.map((diff, index) => (
               <MenuItem
                 onClick={() =>
@@ -90,7 +90,7 @@ const MapDifficultyCell = memo(
                 {diff.text === 'undefined' ? (
                   <Text>none</Text>
                 ) : (
-                  <Badge variant={diff.variant} fontSize="medium">
+                  <Badge variant={diff.variant} fontSize='medium'>
                     {diff.text}
                   </Badge>
                 )}

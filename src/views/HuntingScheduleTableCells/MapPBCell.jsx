@@ -10,15 +10,15 @@ const MapPBCell = memo(({ personalBest, kackyRank, wrHolder }) => {
   return (
     <>
       <Text
-        width="200px"
-        textShadow="glow"
-        letterSpacing="0.2em"
-        fontSize="lg"
-        fontWeight="400"
+        width='200px'
+        textShadow='glow'
+        letterSpacing='0.2em'
+        fontSize='lg'
+        fontWeight='400'
       >
         {authentication.isLoggedIn ? <>Personal Best:</> : <>WR Holder:</>}
       </Text>
-      <Text lineHeight="6">
+      <Text lineHeight='6'>
         {authentication.isLoggedIn
           ? personalBest !== 0
             ? `${DateTime.fromMillis(personalBest).toFormat(

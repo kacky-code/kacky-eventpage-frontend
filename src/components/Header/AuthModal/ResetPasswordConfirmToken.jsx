@@ -97,20 +97,20 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
 
   return (
     <Flex
-      direction="column"
-      w="full"
-      h="75%"
-      align="center"
-      justify="space-around"
+      direction='column'
+      w='full'
+      h='75%'
+      align='center'
+      justify='space-around'
     >
-      <Text textShadow="glow" letterSpacing="0.1em" fontSize="xl">
+      <Text textShadow='glow' letterSpacing='0.1em' fontSize='xl'>
         Reset Password - Confirm Token
       </Text>
-      <VStack spacing={6} w="full" as="form" onSubmit={handleSubmit}>
+      <VStack spacing={6} w='full' as='form' onSubmit={handleSubmit}>
         <FormControl isInvalid={!tokenValid}>
           <FormLabel>Token (Check E-Mails)</FormLabel>
           <Input
-            placeholder="6 characters"
+            placeholder='6 characters'
             value={token}
             onChange={handleTokenChange}
             onBlur={validateToken}
@@ -120,8 +120,8 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
         <FormControl isInvalid={!passwordValid}>
           <FormLabel>New Password</FormLabel>
           <Input
-            type="password"
-            placeholder=""
+            type='password'
+            placeholder=''
             value={password}
             onChange={handlePasswordChange}
             onBlur={validatePassword}
@@ -131,8 +131,8 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
         <FormControl isInvalid={password !== confirmPassword}>
           <FormLabel>Confirm Password</FormLabel>
           <Input
-            type="password"
-            placeholder=""
+            type='password'
+            placeholder=''
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />
@@ -141,7 +141,7 @@ const ResetPasswordConfirmToken = ({ setMode }) => {
           )}
         </FormControl>
         <Box height={5} />
-        <Button type="submit" w="full">
+        <Button type='submit' w='full'>
           Submit
         </Button>
       </VStack>
