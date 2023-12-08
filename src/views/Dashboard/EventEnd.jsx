@@ -23,7 +23,7 @@ const rank = {
   bronze: { color: '#CD7F32', name: 'bronze', text: 'Not bad!' },
   silver: { color: '#C0C0C0', name: 'silver', text: 'Wow!' },
   gold: { color: '#FFD700', name: 'gold', text: 'Impressive!' },
-  kacky: { color: '#fc2f21', name: 'kacky', text: 'You are a legend!' },
+  kacky: { color: '#fc2f21', name: 'kacky', text: 'Nice! You won KR4!' },
 };
 
 const EventEnd = () => {
@@ -35,12 +35,13 @@ const EventEnd = () => {
   const theme = useTheme();
 
   const getRank = () => {
-    if (finishes < 5) return rank.none;
-    if (finishes < 15) return rank.plastic;
-    if (finishes < 25) return rank.bronze;
-    if (finishes < 40) return rank.silver;
-    if (finishes < 50) return rank.gold;
-    if (finishes === 50) return rank.kacky;
+    if (finishes < 10) return rank.none;
+    if (finishes < 25) return rank.plastic;
+    if (finishes < 50) return rank.bronze;
+    if (finishes < 65) return rank.silver;
+    if (finishes === 69) return rank.kacky;
+    if (finishes < 75) return rank.gold;
+    if (finishes === 75) return rank.kacky;
 
     return rank.none;
   };
