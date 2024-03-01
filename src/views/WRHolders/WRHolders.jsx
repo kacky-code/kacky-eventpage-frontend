@@ -21,7 +21,7 @@ const WRHolders = () => {
       w='full'
     >
       <VStack overflow='hidden' spacing={4}>
-        <Heading mt={{ base: 14, md: 0 }} mb={{ base: 0, md: 4 }}>List of WR Holders</Heading>
+        <Heading mt={{ base: 14, md: 10 }} mb={{ base: 0, md: 4 }}>List of WR Holders</Heading>
 
         <Center mb={{ base: 0, md: 4 }}>
           <Button
