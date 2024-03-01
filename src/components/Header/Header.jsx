@@ -310,7 +310,9 @@ const Header = () => {
 
   return (
     <>
-      <VStack as='nav'>
+      <VStack 
+        as='nav'
+      >
         <Center
           pos='fixed'
           bottom={{ base: '0', md: 'auto' }}
@@ -454,9 +456,10 @@ const Header = () => {
           px={{ base: 4, md: 8 }}
           h={{ base: '40px', md: '60px' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
-          pt={{ base: '80px', md: '100px' }}
+          pt={{ base: '10px', md: '130px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
           display={huntingSubMenuVisible ? 'inherit' : 'none'}
+          gap={ 1 }
           alignItems='center'
           justifyContent='center'
         >
@@ -476,7 +479,7 @@ const Header = () => {
         </Center>
       </VStack>
 
-      <Box pt={{ base: '16px', md: '120px', xl: '150px' }}>
+      <Box pt={{ base: '16px', md: '80px' }}>
         <Outlet />
       </Box>
       <Footer />

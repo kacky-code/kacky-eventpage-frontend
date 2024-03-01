@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Link } from '@chakra-ui/react';
 
 const Footer = () =>
-  <Box mb={5} textTransform='none' fontSize="large">
+  <Box mb={{ base: '65px', md: 5 }} textTransform='none' fontSize="large">
     Like this project? Maybe you want to help with&nbsp;
       <Link
         href='https://github.com/kacky-code/kacky-eventpage-frontend'
