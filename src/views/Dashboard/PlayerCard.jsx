@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -20,16 +20,15 @@ const PlayerCard = ({name, rank, fins, avg}) => {
 
 
   return (
-    <Box marginTop={(rank - 1) * 5} width={160}>
+    <Flex flexDir={ 'column' } marginTop={(rank - 1) * 5} width={{ base: 115, md: 160}}>
       <Text
-        height={30}
         fontSize={rank === 1 ? 30 : 25}
         color={rankcolor}
+        whiteSpace={{ base:'pre-line', md: 'unset' }}
       >
-        {medal} {name}
+        {medal}{'\n'}{name}
       </Text>
       <Text
-        marginTop={-(rank - 3) * 5 + 2}
         fontSize='lg'
       >
         Fins: {fins}
@@ -39,7 +38,7 @@ const PlayerCard = ({name, rank, fins, avg}) => {
       >
         Average: {avg}
       </Text>
-    </Box>
+    </Flex>
   )
 }
 
