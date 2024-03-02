@@ -340,11 +340,13 @@ const Hunting = () => {
               )
             }
           >
-            Global&nbsp;
-            {curEventType === 'kk' ? 'KK' : 'KR'}
-            {`${curEventEdition} `}
-            Hunting Stats
-            {<Icon w={6} h={6} as={MdArrowOutward} />}
+            <Text>
+              Global&nbsp;
+              {curEventType === 'kk' ? 'KK' : 'KR'}
+              {`${curEventEdition} `}
+              Hunting Stats
+            </Text>
+            <Icon w={6} h={6} as={MdArrowOutward} />
           </Button>
           <Flex
             flexDir={ 'row' }
