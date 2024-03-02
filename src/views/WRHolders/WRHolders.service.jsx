@@ -3,6 +3,7 @@ import { MdAccountCircle, MdOutlineSportsScore } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import '@fontsource/montserrat';
+import DOMPurify from 'dompurify';
 
 const columnHelper = createColumnHelper();
 
@@ -47,7 +48,7 @@ const defaultColumns = [
             style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
           >
             {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info.getValue()) }} />
           </span>
         </Tooltip>
       </Box>
