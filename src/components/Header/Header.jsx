@@ -473,7 +473,7 @@ const Header = () => {
             >
               <HeaderTab
                 indicatorRef={indicatorElementSubMenu}
-                fontSize={{ base: 'xs', md: 'md', xl: 'l' }}
+                fontSize={{ base: 'md', xl: 'l' }}
                 {...tab}
               />
             </Box>

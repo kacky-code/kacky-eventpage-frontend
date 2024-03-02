@@ -20,9 +20,11 @@ import {
   Center,
   Select,
   VStack,
+  useTheme,
   useColorMode,
   Flex,
   Button,
+  useBreakpointValue
 } from '@chakra-ui/react';
 
 import { MdArrowDownward, MdArrowUpward, MdArrowOutward } from 'react-icons/md';
@@ -150,6 +152,7 @@ const Hunting = () => {
 
   const [sorting, setSorting] = useState([]);
 
+  const theme = useTheme();
   const { colorMode } = useColorMode();
 
   const [expanded, setExpanded] = useState({});
@@ -228,6 +231,11 @@ const Hunting = () => {
 
   const tableContainerRef = useRef(null);
   const { rows } = table.getRowModel();
+
+  const selectorText = useBreakpointValue({
+    base: 'Edition',
+    lg: 'Select Kacky Edition :',
+  });
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
@@ -346,7 +354,7 @@ const Hunting = () => {
               {`${curEventEdition} `}
               Hunting Stats
             </Text>
-            <Icon w={6} h={6} as={MdArrowOutward} />
+            <Icon w={6} h={6} as={MdArrowOutward} filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'} />
           </Button>
           <Flex
             flexDir={ 'row' }
@@ -359,18 +367,8 @@ const Hunting = () => {
               letterSpacing='0.1em'
               textShadow='glow'
               className='edition-text'
-              display={{ base: 'none', lg: 'block' }}
             >
-              Select Kacky Edition :
-            </Text>
-            <Text
-              id='labelSelectEdition'
-              letterSpacing='0.1em'
-              textShadow='glow'
-              className='edition-text'
-              display={{ base: 'block', lg: 'none' }}
-            >
-              Edition
+              {selectorText}
             </Text>
             <Select
               w={80}
