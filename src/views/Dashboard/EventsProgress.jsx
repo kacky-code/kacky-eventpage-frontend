@@ -14,7 +14,7 @@ export const donutChartOptionsCharts1 = {
     horizontalAlign: 'left',
     fontSize: '14px',
     labels: {
-      colors: ['light-grey'],
+      colors: Array(8).fill("light-grey"),
     },
     formatter: (seriesName, opts) => [
       seriesName,
