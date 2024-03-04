@@ -30,7 +30,7 @@ import {
 
 import Cookies from 'universal-cookie';
 
-import Footer from '../Footer/Footer'
+import Footer from '../Footer/Footer';
 import KrLogo2023 from '../../assets/logos/krLogo2023';
 import HeaderTab from './HeaderTab';
 import AuthModal from './AuthModal/AuthModal';
@@ -249,12 +249,13 @@ const Header = () => {
       id: 5,
       isSpacer: true,
     },
-    {
-      id: 6,
-      route: '/leaderboard',
-      text: '',
-      TabIcon: MdOutlineLeaderboard,
-    },
+    // {
+    //   id: 6,
+    //   route: '/leaderboard',
+    //   text: '',
+    //   TabIcon: MdOutlineLeaderboard,
+    // },
+    // Don't need to display leaderboard twice
   ];
 
   const huntingSubMenu = [
@@ -329,7 +330,12 @@ const Header = () => {
           backdropFilter='auto'
           backdropBlur='16px'
         >
-          <HStack spacing={0} pt={{ base: 1, md: 4 }} h='full' w='container.xl'>
+          <HStack
+            spacing={0}
+            pt={{ base: 1, md: 4 }}
+            h='full'
+            w={'container.xl'}
+          >
             <Box
               display={{ base: 'none', md: 'block' }}
               borderBottom='1px'
@@ -363,7 +369,7 @@ const Header = () => {
                   text='More'
                   as={HeaderTab}
                 />
-                <MenuList minW='0' w='160px' fontSize='xs'>
+                <MenuList minW='0' w='160px' fontSize='xl'>
                   {authentication.isLoggedIn ? (
                     <Link to='/profile'>
                       <MenuItem
@@ -454,7 +460,7 @@ const Header = () => {
           px={{ base: 4, md: 8 }}
           h={{ base: '40px', md: '60px' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
-          pt={{ base: '80px', md: '100px' }}
+          pt={{ base: '0', md: '100px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
           display={huntingSubMenuVisible ? 'inherit' : 'none'}
           alignItems='center'
@@ -468,15 +474,14 @@ const Header = () => {
             >
               <HeaderTab
                 indicatorRef={indicatorElementSubMenu}
-                fontSize={{ base: 'xs', md: 'md', xl: 'l' }}
+                fontSize={{ base: 'xs', md: 'md', xl: 'md' }}
                 {...tab}
               />
             </Box>
           ))}
         </Center>
       </VStack>
-
-      <Box pt={{ base: '16px', md: '120px', xl: '150px' }}>
+      <Box pt={{ base: '16px', md: '120px', xl: '150px' }} align={'center'}>
         <Outlet />
       </Box>
       <Footer />

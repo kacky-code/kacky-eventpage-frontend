@@ -107,16 +107,14 @@ const HeaderTab = forwardRef(
           transform: { base: 'translateY(0px)', md: 'translateY(-2px)' },
         }}
         transform={
-          highlight
-            ? {
-                base: 'translateY(0px)',
-                md: 'translateY(-2px)',
-              }
-            : {}
+          highlight && {
+            base: 'translateY(0px)',
+            md: 'translateY(-2px)',
+          }
         }
         bg={highlight ? 'whiteAlpha.200' : null}
         transition='background-color 150ms ease-in-out, transform 150ms ease-in-out'
-        spacing={{ base: 1, xl: 4 }}
+        spacing={{ base: 1, xl: 2 }}
         h='full'
         px={text !== '' ? { base: 2, md: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
       >
@@ -197,7 +195,7 @@ HeaderTab.defaultProps = {
   onClick: () => {},
   indicatorRef: null,
   isSpacer: false,
-  fontSize: { base: 'xs', md: 'md', xl: 'xl' },
+  fontSize: { base: 'xs', md: 'md', xl: 'md' },
 };
 
 export default HeaderTab;

@@ -1,25 +1,33 @@
 import React from 'react';
 import { Box, Link } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
-const Footer = () =>
-  <Box mb={5} textTransform='none' fontSize="large">
-    Like this project? Maybe you want to help with&nbsp;
+const Footer = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5, delay: 1 }}
+  >
+    <Box mb={5} textTransform='none' fontSize='large' py={8}>
+      Like this project? Maybe you want to help with&nbsp;
       <Link
         href='https://github.com/kacky-code/kacky-eventpage-frontend'
         isExternal
-        textDecoration="underline"
+        textDecoration='underline'
       >
-          coding
+        coding
       </Link>
       &nbsp;or&nbsp;
       <Link
         href='https://ko-fi.com/corkscrew'
         isExternal
-        textDecoration="underline"
+        textDecoration='underline'
       >
-          server costs
+        server costs
       </Link>
       ?
-  </Box>
+    </Box>
+  </motion.div>
+);
 
-export default Footer
+export default Footer;

@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DateTime } from 'luxon';
 import { MdOutlineCheckCircle } from 'react-icons/md';
 import MapImageModal from '../../components/MapImageModal';
@@ -62,10 +63,11 @@ const ServerCard = ({
         event.type,
         maps[0].number
       )}), url(${mapImageFallback})`}
+      bgColor='black'
       bgPosition='center'
       bgRepeat='no-repeat'
       bgSize='cover'
-      h={{ base: 'column', xl: 32 }}
+      position='relative'
     >
       <Box
         w='full'
@@ -74,7 +76,7 @@ const ServerCard = ({
           colorMode === 'dark'
             ? getDefaultBackgrounds().dark[1]
             : getDefaultBackgrounds().light[1]
-        }11`}
+        }75`}
       >
         <Center
           px={{ base: 4, md: 8 }}
@@ -98,7 +100,7 @@ const ServerCard = ({
               colorMode === 'dark'
                 ? getDefaultBackgrounds().dark[1]
                 : getDefaultBackgrounds().light[1]
-            }80 5560%,  ${
+            }80 55%,  ${
               colorMode === 'dark'
                 ? getDefaultBackgrounds().dark[0]
                 : getDefaultBackgrounds().light[0]
@@ -119,22 +121,25 @@ const ServerCard = ({
           }}
         >
           <Flex
-            direction={{ base: 'column', xl: 'row' }}
-            align={{ base: 'flex-start', xl: 'center' }}
-            pl={{ base: 8, sm: 16, xl: 0 }}
-            py={8}
-            gap={{ base: 8, xl: 0 }}
-            justify='space-between'
+            direction={{ base: 'column', md: 'row', xl: 'row' }}
+            align={{ base: 'center' }}
+            // pl={{ base: 8, sm: 16, xl: 0 }}
+            py={{ base: 8, lg: 2 }}
+            gap={{ base: 8 }}
+            justify={('center', 'space-between')}
             w='container.xl'
           >
             {/* SERVER */}
-            <HStack w='220px' spacing={4}>
+            <HStack
+              spacing={4}
+              alignItems={['center']}
+              justifyContent={{ base: 'center', xl: 'start' }}
+            >
               <Text textShadow='glow' w='85px' fontSize='5xl' lineHeight='48px'>
                 # {serverNumber}
               </Text>
               {serverDifficulty !== '' ? ( // Servers do not have a difficulty in Phase 1
                 <Badge
-                  width={'5rem'}
                   fontSize={'xl'}
                   visibility={
                     serverDifficulty === 'undefined' ? 'hidden' : 'visible'
@@ -152,10 +157,11 @@ const ServerCard = ({
 
             {/* MAP NUMBER */}
             <HStack
-              w='320px'
+              px={4}
               onClick={onOpen}
               cursor='pointer'
               _hover={{ transform: 'scale(1.05)' }}
+              transition='transform 0.1s ease-in-out'
             >
               <Text
                 fontSize='2xl'
@@ -196,114 +202,140 @@ const ServerCard = ({
             </HStack>
 
             {/* NEXT MAPS */}
-            <Flex direction='row' gap={2} w='120px'>
-              <Flex
-                h='88px'
-                direction='column'
-                spacing={0}
-                justify='stretch'
-                align='center'
-              >
-                <Box
-                  bg={colorMode === 'dark' ? 'white' : 'black'}
-                  w='2px'
-                  h='full'
-                  boxShadow='glow'
-                />
-                <Box
-                  filter={
-                    colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
-                  }
-                >
-                  <svg
-                    fill={colorMode === 'dark' ? 'white' : 'black'}
-                    height='12px'
-                    width='12px'
-                  >
-                    <polygon points='0,0 12,0 6,12' />
-                  </svg>
-                </Box>
-              </Flex>
-              <Flex direction='column' align='flex-start' gap={2}>
-                {maps.slice(1).map((map, index) => (
-                  <HStack
-                    onClick={nextMapModals[index].onOpen}
-                    cursor='pointer'
-                    w='100%'
-                    justify='flex-start'
-                    _hover={{ transform: 'scale(1.05)' }}
-                    spacing={1}
-                    key={map.number}
-                  >
-                    <Text
-                      lineHeight='24px'
-                      fontWeight={nextMapsFontWeight[index]}
-                      fontSize='2xl'
-                      letterSpacing='0.1em'
-                      textShadow='glow'
-                      w='100%'
-                    >
-                      {map.number}
-                    </Text>
-                    {map.finished ? (
-                      <Icon
-                        color={colorMode === 'dark' ? 'green.300' : 'green.500'}
-                        boxSize='20px'
-                        filter={
-                          colorMode === 'dark'
-                            ? theme.shadows.finGlowDark
-                            : theme.shadows.finGlowLight
-                        }
-                        as={MdOutlineCheckCircle}
-                      />
-                    ) : null}
-                    <MapImageModal
-                      mapNumber={map.number.toString()}
-                      author={map.author}
-                      isFinished={map.finished}
-                      isOpen={nextMapModals[index].isOpen}
-                      onClose={nextMapModals[index].onClose}
-                      eventtype={event.type}
-                    />
-                  </HStack>
-                ))}
-              </Flex>
-            </Flex>
-
-            {/* TIME LEFT */}
-            <Flex justify='center' align='center'>
-              {timeLeft <= 0 ? (
-                <Text
+            <Flex
+              direction={'row'}
+              justify='end'
+              align='center'
+              gap={{ base: '2', md: '4', lg: '10', xl: '10' }}
+            >
+              <Flex direction='row' spacing={0} gap={2}>
+                <Flex
+                  h='88px'
+                  direction='column'
+                  spacing={0}
+                  justify='stretch'
                   align='center'
-                  width='114px'
-                  ml={4}
-                  color='red.500'
-                  _dark={{ color: 'red.300' }}
-                  fontWeight='normal'
-                  fontSize='md'
-                  letterSpacing='0.1em'
-                  m={0}
                 >
-                  Switching to next Map
-                </Text>
-              ) : (
-                <CircularProgress
-                  trackColor='transparent'
-                  thickness='2px'
-                  color={colorMode === 'dark' ? 'white' : 'black'}
-                  value={(timeLeft / timeLimit) * 100}
-                  size='114px'
-                >
-                  <CircularProgressLabel
-                    fontWeight='semilight'
-                    fontSize='2xl'
-                    letterSpacing='0.1em'
-                    sx={{ fontVariantNumeric: 'tabular-nums' }}
+                  <Box
+                    bg={colorMode === 'dark' ? 'white' : 'black'}
+                    w='2px'
+                    h='full'
+                    boxShadow='glow'
+                  />
+                  <Box
+                    filter={
+                      colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
+                    }
                   >
-                    {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
-                  </CircularProgressLabel>
-                </CircularProgress>
-              )}
+                    <svg
+                      fill={colorMode === 'dark' ? 'white' : 'black'}
+                      height='12px'
+                      width='12px'
+                    >
+                      <polygon points='0,0 12,0 6,12' />
+                    </svg>
+                  </Box>
+                </Flex>
+                <Flex direction='column' align='flex-start' gap={2}>
+                  {maps.slice(1).map((map, index) => (
+                    <HStack
+                      onClick={nextMapModals[index].onOpen}
+                      cursor='pointer'
+                      w='100%'
+                      justify='flex-start'
+                      _hover={{ transform: 'scale(1.05)' }}
+                      transition='transform 0.1s ease-in-out'
+                      spacing={1}
+                      key={map.number}
+                    >
+                      <Text
+                        lineHeight='24px'
+                        fontWeight={nextMapsFontWeight[index]}
+                        fontSize='2xl'
+                        letterSpacing='0.1em'
+                        textShadow='glow'
+                        w='100%'
+                      >
+                        {map.number}
+                      </Text>
+                      {map.finished ? (
+                        <Icon
+                          color={
+                            colorMode === 'dark' ? 'green.300' : 'green.500'
+                          }
+                          boxSize='20px'
+                          filter={
+                            colorMode === 'dark'
+                              ? theme.shadows.finGlowDark
+                              : theme.shadows.finGlowLight
+                          }
+                          as={MdOutlineCheckCircle}
+                        />
+                      ) : null}
+                      <MapImageModal
+                        mapNumber={map.number.toString()}
+                        author={map.author}
+                        isFinished={map.finished}
+                        isOpen={nextMapModals[index].isOpen}
+                        onClose={nextMapModals[index].onClose}
+                        eventtype={event.type}
+                      />
+                    </HStack>
+                  ))}
+                </Flex>
+              </Flex>
+              {/* TIME LEFT */}
+              <Flex justify='center' align='center' h='7rem' w='7rem'>
+                <AnimatePresence>
+                  {timeLeft <= 0 ? (
+                    <motion.div
+                      key='loading'
+                      initial={{ opacity: 0, scale: 1.1, position: 'absolute' }} // Start slightly enlarged
+                      animate={{ opacity: 1, scale: 1, position: 'absolute' }} // Animate layout changes
+                      exit={{ opacity: 0, scale: 0.9, position: 'absolute' }} // End slightly smaller
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Text
+                        align='center'
+                        width='114px'
+                        color='red.500'
+                        _dark={{ color: 'red.300' }}
+                        fontWeight='bold'
+                        fontSize={{ base: 'xl', md: 'xl', xl: 'lg' }}
+                        letterSpacing='0.1em'
+                        m={0}
+                      >
+                        Loading next Map
+                      </Text>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key='timer'
+                      initial={{ opacity: 0, scale: 0.9, position: 'absolute' }} // Start slightly shrunk
+                      animate={{ opacity: 1, scale: 1, position: 'absolute' }}
+                      exit={{ opacity: 0, scale: 1.1, position: 'absolute' }} // End slightly enlarged
+                      transition={{ duration: 0.5 }}
+                    >
+                      <CircularProgress
+                        trackColor='transparent'
+                        thickness='2px'
+                        color={colorMode === 'dark' ? 'white' : 'black'}
+                        value={(timeLeft / timeLimit) * 100}
+                        size='114px'
+                      >
+                        <CircularProgressLabel
+                          fontWeight='semilight'
+                          fontSize='2xl'
+                          letterSpacing='0.1em'
+                          sx={{ fontVariantNumeric: 'tabular-nums' }}
+                        >
+                          {DateTime.fromSeconds(timeLeft).toFormat('mm:ss')}
+                        </CircularProgressLabel>
+                      </CircularProgress>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Flex>
             </Flex>
           </Flex>
         </Center>

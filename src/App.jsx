@@ -1,40 +1,59 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
+// React
 import React, { useState, useEffect } from 'react';
-import { Box } from '@chakra-ui/react';
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Routes, Route } from 'react-router-dom';
 
+// UI
+import { Box } from '@chakra-ui/react';
+
+// React Query
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// Cookies
 import Cookies from 'universal-cookie';
 
+// API
 import { eventLiveState } from './api/api';
 
+// Context
+import AuthContext from './context/AuthContext';
+import EventContext from './context/EventContext';
+// Navigation
 import Header from './components/Header/Header';
+
+// Views - Dashboard
 import Dashboard from './views/Dashboard/Dashboard';
+import PreEvent from './views/Dashboard/PreEvent';
+import EventEnd from './views/Dashboard/EventEnd';
+import OffSeason from './views/Dashboard/OffSeason';
+
+// Views - Navigation routes
 import Schedule from './views/Schedule/Schedule';
 import Hunting from './views/Hunting/Hunting';
 import Profile from './views/Profile/Profile';
-
-import AuthContext from './context/AuthContext';
-import EventContext from './context/EventContext';
-import EventEnd from './views/Dashboard/EventEnd';
-import PreEvent from './views/Dashboard/PreEvent';
-import Leaderboard from './views/Leaderboard/Leaderboard';
 import Glance from './views/Glance/Glance';
+
+// Views - Leaderboard
+import Leaderboard from './views/Leaderboard/Leaderboard';
 import WRHolders from './views/WRHolders/WRHolders';
 
+// Views - Streamer Info
+import StreamerInfo from './views/StreamerInfo/StreamerInfo';
+
+// Views - Admin
 import AdminIndex from './views/Admin/AdminIndex';
 import EventManager from './views/Admin/EventManager';
 import WRManager from './views/Admin/WRManager';
 import MapManager from './views/Admin/MapManager';
-import StreamerInfo from './views/StreamerInfo/StreamerInfo';
 
 const cookies = new Cookies();
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [authentication, setAuthentication] = useState({
     isLoggedIn: (cookies.get('token') || '') !== '',
     token: cookies.get('token') || '',
@@ -48,6 +67,21 @@ const App = () => {
     edition: 0,
   });
 
+  const EventSwitcher = ({ event }) => {
+    switch (event.isLive) {
+      case 'active':
+        return <Dashboard />;
+      case 'post':
+        return <EventEnd />;
+      case 'offseason':
+        return <OffSeason />;
+      case 'pre':
+        return <PreEvent />;
+      default:
+        return <PreEvent />;
+    }
+  };
+
   useEffect(() => {
     eventLiveState().then(data => {
       setEvent({
@@ -55,6 +89,7 @@ const App = () => {
         type: (data.type || 'e').toLowerCase(),
         edition: data.edition || '',
       });
+      setIsSuccess(true); // Indicate loading completion
     });
   }, []);
 
@@ -67,15 +102,7 @@ const App = () => {
               <Route path='/' element={<Header>Header</Header>}>
                 <Route
                   index
-                  element={
-                    event.isLive === 'active' ? (
-                      <Dashboard />
-                    ) : event.isLive === 'post' ? (
-                      <EventEnd />
-                    ) : (
-                      <PreEvent />
-                    )
-                  }
+                  element={isSuccess ? <EventSwitcher event={event} /> : null}
                 />
                 <Route path='schedule' element={<Schedule />} />
                 <Route path='hunting' element={<Hunting />} />

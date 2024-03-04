@@ -18,9 +18,9 @@ import React, { useContext } from 'react';
 import { MdOutlineDns, MdSouth } from 'react-icons/md';
 import { motion } from 'framer-motion';
 
-import { getMapImageUrl } from '../../../../api/api';
-import mapImageFallback from '../../../../assets/images/mapImageFallback.jpg';
-import EventContext from '../../../../context/EventContext';
+import { getMapImageUrl } from '../../api/api';
+import mapImageFallback from '../../assets/images/mapImageFallback.jpg';
+import EventContext from '../../context/EventContext';
 
 // eslint-disable-next-line no-unused-vars
 const HorizontalMinimalCard = ({ serverNumber, maps, timeLimit, timeLeft }) => {
