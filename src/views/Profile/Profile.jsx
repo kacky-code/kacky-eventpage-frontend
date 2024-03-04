@@ -20,6 +20,7 @@ import {
   AlertDialogFooter,
   AlertDialog,
   useDisclosure,
+  Flex,
 } from '@chakra-ui/react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -176,7 +177,12 @@ const Profile = () => {
 
   return (
     <Center px={8} w='100%'>
-      <VStack spacing={6} align='flex-start' w='container.xl'>
+      <Flex
+        gap={6}
+        direction={{ base: 'column' }}
+        align='center'
+        w='container.xl'
+      >
         {admin ? (
           <Button as={Link} href='/kackend'>
             Admin Backend
@@ -383,7 +389,7 @@ const Profile = () => {
             </AlertDialogOverlay>
           </AlertDialog>
         </HStack>
-      </VStack>
+      </Flex>
     </Center>
   );
 };

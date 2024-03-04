@@ -13,6 +13,7 @@ import {
   Input,
   Popover,
   useDisclosure,
+  Skeleton,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -30,12 +31,16 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ChromePicker } from 'react-color';
+
+import { motion } from 'framer-motion';
+
 // eslint-disable-next-line no-unused-vars
 import { getDashboardData, getStreamInfo } from '../../api/api';
 
 import AuthContext from '../../context/AuthContext';
 import { getDefaultBackgrounds } from '../../components/Header/Theming/BackgroundColors';
 import VerticalGlanceLayout from './Layouts/VerticalGlanceLayout';
+import VerticalMinimalGlanceLayout from './Layouts/VerticalMinimalGlanceLayout';
 import HorizontalGlanceLayout from './Layouts/HorizontalGlanceLayout';
 import HorizontalMinimalGlanceLayout from './Layouts/HorizontalMinimalGlanceLayout';
 
@@ -60,7 +65,7 @@ const Glance = () => {
   );
 
   const { authentication } = useContext(AuthContext);
-  const { data, isSuccess } = useQuery(
+  const { data, isSuccess, isLoading, error } = useQuery(
     ['servers', authentication.token],
     () => getDashboardData(authentication.token),
     {
@@ -82,6 +87,7 @@ const Glance = () => {
           serverDifficulty: server.serverDifficulty,
           timeLimit: server.timeLimit * 60,
         };
+        console.log(data);
         formattedData.push(formattedServer);
       });
       setServers(formattedData);
@@ -90,17 +96,19 @@ const Glance = () => {
   }, [data, isSuccess]);
 
   useEffect(() => {
-    const counterCopy = [...counter];
-    const timer = setInterval(() => {
-      counter.forEach((element, index) => {
-        if (counterCopy[index] > 0) counterCopy[index] -= 1;
-        if (counterCopy[index] === 0)
-          queryClient.invalidateQueries(['servers']);
-        if (counter.length - 1 === index) setCounter(counterCopy);
-      });
-    }, 1000);
+    if (isSuccess) {
+      const counterCopy = [...counter];
+      const timer = setInterval(() => {
+        counter.forEach((element, index) => {
+          if (counterCopy[index] > 0) counterCopy[index] -= 1;
+          if (counterCopy[index] === 0)
+            queryClient.invalidateQueries(['servers']);
+          if (counter.length - 1 === index) setCounter(counterCopy);
+        });
+      }, 1000);
 
-    return () => clearInterval(timer);
+      return () => clearInterval(timer);
+    }
   }, [counter, queryClient]);
 
   // eslint-disable-next-line no-unused-vars
@@ -133,6 +141,54 @@ const Glance = () => {
       bgColor[0] === '#' ? bgColor : `#${bgColor}`;
     localStorage.setItem('glanceBG', bgColor);
   }, [bgColor, setIsInvalidColor, colorMode]);
+
+  if (error || isLoading) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Box
+          display={['flex']} // Use flexbox layout
+          flexDirection={['column', 'column', 'column']} // Stack items vertically on small screens, horizontally on larger screens
+          justifyContent={['flex-start', 'flex-start', 'center']} // Align items to the start on small screens, space them evenly on larger screens
+          alignItems={['flex-start']} // Align items to the start vertically
+          flexWrap='wrap' // Allow items to wrap to the next line if there's not enough space
+          gap='8px' // Add gap between items
+          maxW={{ xl: 'container.xl' }}
+        >
+          {[...Array(7)].map((_, idx) => (
+            <Box
+              key={idx}
+              width={['100%', '100%', '100%']} // Full width on small screens, half width on larger screens with gap adjustment
+              marginBottom={['8px', '8px', '0']} // Add bottom margin to create space between rows on small screens
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <Skeleton
+                  height='100px'
+                  startColor={`${
+                    colorMode === 'dark'
+                      ? getDefaultBackgrounds().dark[0]
+                      : getDefaultBackgrounds().light[0]
+                  }75`}
+                  endColor={`${
+                    colorMode === 'dark'
+                      ? getDefaultBackgrounds().dark[1]
+                      : getDefaultBackgrounds().light[1]
+                  }75`}
+                />
+              </motion.div>
+            </Box>
+          ))}
+        </Box>
+      </motion.div>
+    );
+  }
 
   return (
     <>
@@ -341,6 +397,14 @@ const Glance = () => {
           )}
           {viewType === 'horizontal-minimal' && (
             <HorizontalMinimalGlanceLayout
+              servers={servers}
+              counter={counter}
+              mapChangeEstimate={mapChangeEstimate}
+              elemSpacing={sliderValue}
+            />
+          )}
+          {viewType === 'vertical-minimal' && (
+            <VerticalMinimalGlanceLayout
               servers={servers}
               counter={counter}
               mapChangeEstimate={mapChangeEstimate}

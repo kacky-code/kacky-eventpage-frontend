@@ -17,6 +17,7 @@ const light = {
   'UranianBlue-Celadon': ['#9be5c3', '#bce6fd'],
   'UranianBlue-Melon': ['#ffbda5', '#bce6fd'],
   'UranianBlue-Plum': ['#e792d3', '#bce6fd'],
+  'UranianYellow-Plum': ['#FFFCCE', '#FFFAA6'],
   'UranianBlue-Vanilla': ['#f5e8a3', '#bce6fd'],
   UranianBlue: ['#bce6fd', '#bce6fd'],
   'Vanilla-Celadon': ['#9be5c3', '#f5e8a3'],
@@ -45,6 +46,7 @@ const dark = {
   'UranianBlue-Celadon': ['#3d7052', '#4d71bf'],
   'UranianBlue-Melon': ['#de4e42', '#4e70b5'],
   'UranianBlue-Plum': ['#713a5e', '#4e6eb5'],
+  'UranianYellow-Plum': ['#0F0E00', '#222000'],
   'UranianBlue-Vanilla': ['#8f7441', '#4e71bc'],
   UranianBlue: ['#4d71c3', '#4d71c3'],
   'Vanilla-Celadon': ['#3e7051', '#887441'],
@@ -64,7 +66,7 @@ export function getCurrentBG() {
     (!Object.keys(light).includes(currentTheme) &&
       !Object.keys(dark).includes(currentTheme))
   ) {
-    localStorage.setItem('chakra-ui-theme', 'Plum-UranianBlue');
+    localStorage.setItem('chakra-ui-theme', 'UranianYellow-Plum');
     localStorage.setItem('chakra-ui-color-mode', 'dark');
   }
 
@@ -82,9 +84,9 @@ export function getBackgrounds() {
 
 export function getDefaultBackgrounds() {
   return {
-    light: [light['Celadon-Melon'][0], light['Celadon-Melon'][1]],
-    dark: [dark['UranianBlue-Plum'][0], dark['UranianBlue-Plum'][1]],
-    lightGradient: `linear-gradient(${light['Celadon-Melon'][0]}, ${light['Celadon-Melon'][1]});`,
-    darkGradient: `linear-gradient(${dark['UranianBlue-Plum'][0]}, ${dark['UranianBlue-Plum'][1]});`,
+    light: [light['UranianYellow-Plum'][0], light['UranianYellow-Plum'][1]],
+    dark: [dark['UranianYellow-Plum'][0], dark['UranianYellow-Plum'][1]],
+    lightGradient: `linear-gradient(${light['UranianYellow-Plum'][0]}, ${light['UranianYellow-Plum'][1]});`,
+    darkGradient: `linear-gradient(${dark['UranianYellow-Plum'][0]}, ${dark['UranianYellow-Plum'][1]});`,
   };
 }

@@ -25,8 +25,14 @@ VerticalGlanceLayout.propTypes = {
   servers: PropTypes.arrayOf(
     PropTypes.shape({
       serverNumber: PropTypes.string,
-      maps: PropTypes.arrayOf(PropTypes.number),
-      serverDifficulty: PropTypes.number,
+      maps: PropTypes.arrayOf(
+        PropTypes.shape({
+          number: PropTypes.number.isRequired,
+          author: PropTypes.string.isRequired,
+          finished: PropTypes.bool.isRequired,
+        })
+      ),
+      serverDifficulty: PropTypes.string, // Change expected type to string
       timeLimit: PropTypes.number,
     })
   ).isRequired,

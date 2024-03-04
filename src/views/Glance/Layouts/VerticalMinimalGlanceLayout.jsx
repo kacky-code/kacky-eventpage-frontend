@@ -1,27 +1,29 @@
-import { HStack } from '@chakra-ui/react';
+import { Center, HStack } from '@chakra-ui/react';
 import React from 'react';
 import PropTypes from 'prop-types';
-import HotbarCard from './components/HotbarCard';
+import VerticalMinimalCard from './components/VerticalMinimalCard';
 
-const HorizontalGlanceLayout = ({
+const VerticalMinimalGlanceLayout = ({
   servers,
   counter,
   mapChangeEstimate,
   elemSpacing,
 }) => (
-  <HStack spacing={elemSpacing} justify='center'>
-    {servers.map((server, index) => (
-      <HotbarCard
-        {...server}
-        timeLeft={counter[index] - mapChangeEstimate}
-        key={server.serverNumber}
-        style={{ transition: 'opacity 1s' }}
-      />
-    ))}
-  </HStack>
+  <Center>
+    <HStack spacing={elemSpacing}>
+      {servers.map((server, index) => (
+        <VerticalMinimalCard
+          {...server}
+          timeLeft={counter[index] - mapChangeEstimate}
+          key={server.serverNumber}
+          style={{ transition: 'opacity 1s' }}
+        />
+      ))}
+    </HStack>
+  </Center>
 );
 
-HorizontalGlanceLayout.propTypes = {
+VerticalMinimalGlanceLayout.propTypes = {
   servers: PropTypes.arrayOf(
     PropTypes.shape({
       serverNumber: PropTypes.string,
@@ -41,4 +43,4 @@ HorizontalGlanceLayout.propTypes = {
   elemSpacing: PropTypes.number.isRequired,
 };
 
-export default HorizontalGlanceLayout;
+export default VerticalMinimalGlanceLayout;
