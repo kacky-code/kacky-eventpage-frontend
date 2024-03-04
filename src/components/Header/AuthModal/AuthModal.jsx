@@ -31,7 +31,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     >
       <ModalOverlay backdropFilter='auto' backdropBlur='10px' />
       <ModalContent maxW='416px'>
-        <Box w='full' h='800px' px='48px' py='64px'>
+        <Box w='full' h={{ base: '600px', md: '800px' }} px='48px' py={{ base: '32px', md: '64px' }}>
           {mode === 'login' ? (
             <Login onClose={onClose} setMode={setMode} />
           ) : null}

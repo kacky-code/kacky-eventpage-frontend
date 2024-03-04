@@ -101,7 +101,7 @@ const HeaderTab = forwardRef(
         ref={ref}
         align='center'
         justify='center'
-        direction={{ base: 'column', xl: 'row' }}
+        direction={ 'row' }
         _hover={{
           bg: colorMode === 'dark' ? 'whiteAlpha.100' : 'blackAlpha.100',
           transform: { base: 'translateY(0px)', md: 'translateY(-2px)' },
@@ -116,7 +116,7 @@ const HeaderTab = forwardRef(
         transition='background-color 150ms ease-in-out, transform 150ms ease-in-out'
         spacing={{ base: 1, xl: 2 }}
         h='full'
-        px={text !== '' ? { base: 2, md: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
+        px={text !== '' ? { base: 4, xl: 8 } : { base: 1, md: 2, xl: 4 }}
       >
         {TabIcon !== null ? (
           <Icon

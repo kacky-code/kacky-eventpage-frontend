@@ -2,14 +2,14 @@ import React from 'react';
 import { Box, Link } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
-const Footer = () => (
-  <motion.div
+const Footer = () =>
+<motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.5, delay: 1 }}
   >
-    <Box mb={5} textTransform='none' fontSize='large' py={8}>
-      Like this project? Maybe you want to help with&nbsp;
+  <Box mb={{ base: '65px', md: 5 }} textTransform='none' fontSize="large" px={{ base: 4, md: null }}>
+    Like this project? Maybe you want to help with&nbsp;
       <Link
         href='https://github.com/kacky-code/kacky-eventpage-frontend'
         isExternal

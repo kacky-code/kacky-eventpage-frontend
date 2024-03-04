@@ -3,6 +3,7 @@ import { MdAccountCircle, MdOutlineSportsScore } from 'react-icons/md';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import '@fontsource/montserrat';
+import DOMPurify from 'dompurify';
 
 const columnHelper = createColumnHelper();
 
@@ -11,29 +12,18 @@ const fonts = {
   kr: 'Montserrat, Helvetica Neue, Roboto',
 };
 
-const rankColor = rank => {
-  switch (rank) {
-    case 1:
-      return '#efb310';
-    case 2:
-      return '#aacee3';
-    case 3:
-      return '#b06050';
-    default:
-      return null;
-  }
-};
-
 const defaultColumns = [
   columnHelper.accessor('rank', {
     id: 'rank',
+    width: "auto",
     header: () => <Text>Rank</Text>,
     cell: info => (
-      <Text color={rankColor(info.getValue())}>{info.getValue()}</Text>
+      <Text>{info.getValue()}</Text>
     ),
   }),
   columnHelper.accessor('nickname', {
     id: 'nickname',
+    width: "auto",
     header: () => (
       <>
         <Icon boxSize='16px' as={MdAccountCircle} />
@@ -41,13 +31,13 @@ const defaultColumns = [
       </>
     ),
     cell: info => (
-      <Box textTransform='none'>
+      <Box>
         <Tooltip label={info.row.original.login} placement='start'>
           <span
             style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
           >
             {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: info.getValue() }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info.getValue(), { FORBID_ATTR: ['style'] }) }} />
           </span>
         </Tooltip>
       </Box>
@@ -55,15 +45,16 @@ const defaultColumns = [
   }),
   columnHelper.accessor('login', {
     id: 'login',
+    width: "auto",
     header: () => <Icon boxSize='16px' as={MdAccountCircle} />,
     cell: info => <Text>{info.getValue()}</Text>,
   }),
   columnHelper.accessor('wrs', {
     id: 'wrs',
-    width: '20rem',
+    width: "auto",
     header: () => (
       <>
-        <Icon boxSize='16px' as={MdOutlineSportsScore} />
+        <Icon boxSize='16px' as={MdOutlineSportsScore} display={{ base: 'none', md: 'block'}} />
         <Text>#WRs</Text>
       </>
     ),

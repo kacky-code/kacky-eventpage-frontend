@@ -75,8 +75,6 @@ const App = () => {
         return <EventEnd />;
       case 'offseason':
         return <OffSeason />;
-      case 'pre':
-        return <PreEvent />;
       default:
         return <PreEvent />;
     }

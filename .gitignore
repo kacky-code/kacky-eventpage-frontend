@@ -23,6 +23,7 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+yarn.lock
 dist
 
 packages/react-devtools-core/dist

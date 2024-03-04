@@ -17,6 +17,7 @@ import {
   Thead,
   Tr,
   useColorMode,
+  useBreakpointValue
 } from '@chakra-ui/react';
 import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -112,6 +113,16 @@ const WRTable = ({ eventtype }) => {
     },
   });
 
+  const colspans = useBreakpointValue({
+    base: [ '17%', '58%', '25%' ],
+    md: [ '35%', '50%', '15%' ]
+  });
+
+  const plRank = useBreakpointValue({
+    base: 0,
+    md: 4
+  });
+
   const tableContainerRef = useRef(null);
   const { rows } = tableKK.getRowModel();
 
@@ -125,20 +136,27 @@ const WRTable = ({ eventtype }) => {
   return (
     <TableContainer
       ref={tableContainerRef}
-      w='container.sm'
+      w={{ base: 'fit-content', md: 'container.sm' }}
       borderWidth='1px'
       borderRadius='md'
     >
-      <Table size='sm'>
+      <Table size='sm' layout='fixed'>
+        <colgroup>
+          <col width={colspans[0]} />
+          <col width={colspans[1]} />
+          <col width={colspans[2]} />
+        </colgroup>
         <Thead>
           {tableKK.getHeaderGroups().map(headerGroup => (
             <Tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
-                <Th key={header.id} colSpan={header.colSpan}>
+                <Th 
+                  key={header.id}
+                >
                   {header.isPlaceholder ? null : (
                     <Box
                       display='flex'
-                      gap={2}
+                      gap={1}
                       alignItems='center'
                       sx={
                         header.column.getCanSort() && {
@@ -147,6 +165,7 @@ const WRTable = ({ eventtype }) => {
                         }
                       }
                       onClick={header.column.getToggleSortingHandler()}
+                      placeContent={header.id === 'wrs' ? 'center' : 'baseline'}
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -155,10 +174,7 @@ const WRTable = ({ eventtype }) => {
                       {{
                         asc: <Icon w={4} h={4} as={MdArrowUpward} />,
                         desc: <Icon w={4} h={4} as={MdArrowDownward} />,
-                      }[header.column.getIsSorted()] ??
-                        (header.column.getCanSort() ? (
-                          <Box w={4} h={4} />
-                        ) : null)}
+                      }[header.column.getIsSorted()] ?? null }
                     </Box>
                   )}
                 </Th>
@@ -166,13 +182,19 @@ const WRTable = ({ eventtype }) => {
             </Tr>
           ))}
         </Thead>
-        <Tbody background={colorMode === 'dark' ? '#3e3d3e' : '#ebebeb'}>
+        <Tbody>
           {rowVirtualizer.getVirtualItems().map(virtualRow => {
             const row = rows[virtualRow.index];
             return (
               <Tr key={row.id}>
                 {row.getVisibleCells().map(cell => (
-                  <Td key={cell.id}>
+                  <Td 
+                    key={cell.id} 
+                    letterSpacing='0.1em'
+                    textShadow={'glow'}
+                    pl={{ base: null, md: cell.id.split('_')[1] === 'rank' ? 7: 4 }}
+                    textAlign={{ base: cell.id.split('_')[1] === 'nickname' ? 'start' : 'center', md: cell.id.split('_')[1] === 'wrs' ? 'center' : 'start'  }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}

@@ -317,7 +317,7 @@ const Header = () => {
           bottom={{ base: '0', md: 'auto' }}
           zIndex='sticky'
           w='100%'
-          px={{ base: 4, md: 8 }}
+          px={{ base: 0, md: 8 }}
           h={{ base: '60px', md: '80px' }}
           bg={
             colorMode === 'dark'
@@ -334,7 +334,7 @@ const Header = () => {
             spacing={0}
             pt={{ base: 1, md: 4 }}
             h='full'
-            w={'container.xl'}
+            w={{ base: 'full', md: 'container.xl' }}
           >
             <Box
               display={{ base: 'none', md: 'block' }}
@@ -369,7 +369,12 @@ const Header = () => {
                   text='More'
                   as={HeaderTab}
                 />
-                <MenuList minW='0' w='160px' fontSize='xl'>
+                <MenuList
+                  minW='0'
+                  w='160px'
+                  fontSize='xs'
+                  mr={{ base: 1, md: null }}
+                >
                   {authentication.isLoggedIn ? (
                     <Link to='/profile'>
                       <MenuItem
@@ -416,6 +421,7 @@ const Header = () => {
                     <MenuItem
                       onClick={onOpen}
                       h={10}
+                      backgroundColor={'transparent'}
                       filter={
                         colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                       }
@@ -427,6 +433,7 @@ const Header = () => {
                   <MenuItem
                     h={10}
                     onClick={toggleColorMode}
+                    backgroundColor={'transparent'}
                     filter={
                       colorMode === 'dark' ? theme.shadows.dropGlow : 'none'
                     }
@@ -460,9 +467,10 @@ const Header = () => {
           px={{ base: 4, md: 8 }}
           h={{ base: '40px', md: '60px' }}
           borderColor={colorMode === 'dark' ? 'gray.300' : 'black'}
-          pt={{ base: '0', md: '100px' }}
+          pt={{ base: '10px', md: '130px' }}
           // visible={huntingSubMenuVisible ? { base: 'hidden', md: 'visible' } : { base: 'hidden', md: 'hidden' }}
           display={huntingSubMenuVisible ? 'inherit' : 'none'}
+          gap={1}
           alignItems='center'
           justifyContent='center'
         >
@@ -474,14 +482,15 @@ const Header = () => {
             >
               <HeaderTab
                 indicatorRef={indicatorElementSubMenu}
-                fontSize={{ base: 'xs', md: 'md', xl: 'md' }}
+                fontSize={{ base: 'md', xl: 'l' }}
                 {...tab}
               />
             </Box>
           ))}
         </Center>
       </VStack>
-      <Box pt={{ base: '16px', md: '120px', xl: '150px' }} align={'center'}>
+
+      <Box pt={{ base: '16px', md: '80px' }}>
         <Outlet />
       </Box>
       <Footer />
