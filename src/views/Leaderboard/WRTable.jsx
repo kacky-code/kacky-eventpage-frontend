@@ -182,16 +182,15 @@ const WRTable = ({ eventtype }) => {
             </Tr>
           ))}
         </Thead>
-        <Tbody>
+        <Tbody background={colorMode === 'dark' ? '#3e3d3e' : '#ebebeb'}>
           {rowVirtualizer.getVirtualItems().map(virtualRow => {
             const row = rows[virtualRow.index];
             return (
               <Tr key={row.id}>
                 {row.getVisibleCells().map(cell => (
                   <Td 
-                    key={cell.id} 
-                    letterSpacing='0.1em'
-                    textShadow={'glow'}
+                    key={cell.id}
+                    textTransform='none'
                     pl={{ base: null, md: cell.id.split('_')[1] === 'rank' ? 7: 4 }}
                     textAlign={{ base: cell.id.split('_')[1] === 'nickname' ? 'start' : 'center', md: cell.id.split('_')[1] === 'wrs' ? 'center' : 'start'  }}
                   >

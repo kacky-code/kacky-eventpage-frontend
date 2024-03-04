@@ -12,13 +12,26 @@ const fonts = {
   kr: 'Montserrat, Helvetica Neue, Roboto',
 };
 
+const rankColor = rank => {
+  switch (rank) {
+    case 1:
+      return '#efb310';
+    case 2:
+      return '#aacee3';
+    case 3:
+      return '#b06050';
+    default:
+      return null;
+  }
+};
+
 const defaultColumns = [
   columnHelper.accessor('rank', {
     id: 'rank',
     width: "auto",
     header: () => <Text>Rank</Text>,
     cell: info => (
-      <Text>{info.getValue()}</Text>
+      <Text color={rankColor(info.getValue())}>{info.getValue()}</Text>
     ),
   }),
   columnHelper.accessor('nickname', {
@@ -37,7 +50,7 @@ const defaultColumns = [
             style={{ fontFamily: fonts[info.table.options.meta.eventtype] }}
           >
             {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info.getValue(), { FORBID_ATTR: ['style'] }) }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info.getValue()) }} />
           </span>
         </Tooltip>
       </Box>
