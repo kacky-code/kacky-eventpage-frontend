@@ -20,6 +20,7 @@ import AuthContext from './context/AuthContext';
 import EventContext from './context/EventContext';
 import EventEnd from './views/Dashboard/EventEnd';
 import PreEvent from './views/Dashboard/PreEvent';
+import Offseason from './views/Dashboard/Offseason';
 import Leaderboard from './views/Leaderboard/Leaderboard';
 import Glance from './views/Glance/Glance';
 import WRHolders from './views/WRHolders/WRHolders';
@@ -72,9 +73,11 @@ const App = () => {
                       <Dashboard />
                     ) : event.isLive === 'post' ? (
                       <EventEnd />
+                    ) : (event.isLive === 'offseason' ? (
+                      <Offseason />
                     ) : (
                       <PreEvent />
-                    )
+                    ))
                   }
                 />
                 <Route path='schedule' element={<Schedule />} />

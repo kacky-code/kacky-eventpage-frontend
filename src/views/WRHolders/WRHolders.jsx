@@ -21,9 +21,14 @@ const WRHolders = () => {
       w='full'
     >
       <VStack overflow='hidden' spacing={4}>
-        <Heading>List of WR Holders</Heading>
+        <Heading 
+          mt={{ base: 14, md: 10 }}
+          mb={{ base: 0, md: 4 }}
+        >
+          List of WR Holders
+        </Heading>
 
-        <Center mb={8}>
+        <Center mb={{ base: 0, md: 4 }}>
           <Button
             borderRadius='6px 0 0 6px'
             onClick={setKrView.toggle}
@@ -38,7 +43,7 @@ const WRHolders = () => {
             pointerEvents={krView ? 'none' : 'auto'}
             shadow={krView ? 'glow' : 'none'}
             textShadow={krView ? 'glow' : 'none'}
-            fontSize='xl'
+            fontSize={{ base: 'm', md: 'xl'}}
             letterSpacing='0.1em'
           >
             Kackiest Kacky
@@ -57,14 +62,14 @@ const WRHolders = () => {
             pointerEvents={!krView ? 'none' : 'auto'}
             shadow={!krView ? 'glow' : 'none'}
             textShadow={!krView ? 'glow' : 'none'}
-            fontSize='xl'
+            fontSize={{ base: 'm', md: 'xl'}}
             letterSpacing='0.1em'
           >
             Kacky Reloaded
           </Button>
         </Center>
         {krView ? (
-          <VStack mr={5}>
+          <VStack>
             <WRTable eventtype='kk' />
           </VStack>
         ) : (

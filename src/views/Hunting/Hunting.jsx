@@ -18,15 +18,16 @@ import {
   Box,
   Text,
   Center,
-  HStack,
   Select,
   VStack,
+  useTheme,
   useColorMode,
   Flex,
   Button,
+  useBreakpointValue
 } from '@chakra-ui/react';
 
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md';
+import { MdArrowDownward, MdArrowUpward, MdArrowOutward } from 'react-icons/md';
 
 import {
   flexRender,
@@ -151,6 +152,7 @@ const Hunting = () => {
 
   const [sorting, setSorting] = useState([]);
 
+  const theme = useTheme();
   const { colorMode } = useColorMode();
 
   const [expanded, setExpanded] = useState({});
@@ -230,6 +232,11 @@ const Hunting = () => {
   const tableContainerRef = useRef(null);
   const { rows } = table.getRowModel();
 
+  const selectorText = useBreakpointValue({
+    base: 'Edition',
+    lg: 'Select Kacky Edition :',
+  });
+
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => tableContainerRef.current,
@@ -296,13 +303,17 @@ const Hunting = () => {
   return (
     <Center
       mb={{ base: 24, md: 8 }}
-      mt={{ base: -4, md: -8 }}
+      mt={{ base: 0, md: -8 }}
       px={{ base: 4, md: 8 }}
       w='full'
     >
       <VStack overflow='hidden' spacing={4}>
         {authentication.isLoggedIn ? (
-          <Flex justifyContent='space-between' marginBottom='40px'>
+          <Flex 
+            justifyContent='space-between' 
+            marginBottom='40px'
+            display={{ base: 'none', md: 'flex'}}
+          >
             <Chart
               options={kkPerfOptions}
               series={kkPerfSeries}
@@ -317,10 +328,18 @@ const Hunting = () => {
             />
           </Flex>
         ) : null}
-        <HStack w='full'>
+        <Flex
+          flexDir={{ base: 'column', md: 'row'}}
+          justifyContent={{ base: null, md: 'space-between' }}
+          w='full'
+          gap={ 4 }
+        >
           <Button
+            className='external'
             letterSpacing='0.1em'
             textShadow='glow'
+            w='fit-content'
+            alignSelf={{ base: 'center', md: null }}
             onClick={() =>
               window.open(
                 curEventType === 'kk'
@@ -329,29 +348,40 @@ const Hunting = () => {
               )
             }
           >
-            Global&nbsp;
-            {curEventType === 'kk' ? 'KK' : 'KR'}
-            {`${curEventEdition} `}
-            Hunting Stats
+            <Text>
+              Global&nbsp;
+              {curEventType === 'kk' ? 'KK' : 'KR'}
+              {`${curEventEdition} `}
+              Hunting Stats
+            </Text>
+            <Icon w={6} h={6} as={MdArrowOutward} filter={colorMode === 'dark' ? theme.shadows.dropGlow : 'none'} />
           </Button>
-          <Text
-            id='labelSelectEdition'
-            letterSpacing='0.1em'
-            textShadow='glow'
-            style={{ marginLeft: 'auto' }}
+          <Flex
+            flexDir={ 'row' }
+            justifyContent={ 'center' }
+            alignItems={ 'center' }
+            gap={ 4 }
           >
-            Select Kacky Edition :
-          </Text>
-          <Select
-            w={80}
-            aria-label='labelSelectEdition'
-            value={curEventSelector}
-            onChange={event => handleChange(event)}
-          >
-            <optgroup label='Kacky Reloaded'>{krArray}</optgroup>
-            <optgroup label='Kackiest Kacky'>{kkArray}</optgroup>
-          </Select>
-        </HStack>
+            <Text
+              id='labelSelectEdition'
+              letterSpacing='0.1em'
+              textShadow='glow'
+              className='edition-text'
+            >
+              {selectorText}
+            </Text>
+            <Select
+              w={80}
+              aria-label='labelSelectEdition'
+              value={curEventSelector}
+              className='edition-select'
+              onChange={event => handleChange(event)}
+            >
+              <optgroup label='Kacky Reloaded'>{krArray}</optgroup>
+              <optgroup label='Kackiest Kacky'>{kkArray}</optgroup>
+            </Select>
+          </Flex>
+        </Flex>
         <TableContainer
           ref={tableContainerRef}
           w='container.xl'
