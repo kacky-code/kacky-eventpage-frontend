@@ -1,0 +1,49 @@
+name: NodeJS with Webpack
+
+on:
+  pull_request:
+    branches: 
+      - development
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+
+    - name: Build
+      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+      run: |
+        npm install
+        npx run build
+
+    - name: Deploy Development
+      if: github.head_ref == 'development'
+      uses: easingthemes/ssh-deploy@main
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rlgoDzvc -i"
+        SOURCE: "dist/"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: ${{ secrets.REMOTE_TARGET_DEV }}
+        EXCLUDE: "/.gitignore, /node_modules/, /index.html, /README.md, /package.json, /src/, /eslintrc.json, /package-lock.json, /vite.config.js, /.git/, /logos/, /.prettierignore, /.gitattributes, /mapthumbnails/, /.prettierrc, /.github/"
+        SCRIPT_BEFORE: |
+          whoami
+          ls -al
+        SCRIPT_AFTER: |
+          whoami
+          ls -al
+          echo $RSYNC_STDOUT
+
+    - name: Deploy Production
+      if: github.head_ref == 'development'
+      run: |
+        todo
