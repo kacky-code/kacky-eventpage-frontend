@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
+      - name: Dev dependencies
+        run: npm install --save-dev
       - name: Check eslint
         run: npm run lint
       - name: Check prettier
