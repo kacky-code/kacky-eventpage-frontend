@@ -37,7 +37,6 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     needs: [build, style]
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Deploy Development
         if: github.head_ref == 'development'
