@@ -65,7 +65,7 @@ jobs:
           PRIV_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
         run: |
-          mkdir .ssh
+          mkdir ~/.ssh
           echo $PRIV_KEY >> ~/.ssh/alf
           echo $KNOWN_HOSTS >> ~/.ssh/known_hosts
       - name: Copy Files
