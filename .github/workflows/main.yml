@@ -68,7 +68,7 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/*"
-          target: ${{ secrets.REMOTE_TARGET_DEV }}
+          target: development
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
