@@ -39,6 +39,8 @@ jobs:
     needs: build
     if: github.event_name == 'push'
     steps:
+      - name: List files
+        run: ls -la
       - name: Deploy Development
         if: github.ref_name == 'development'
         uses: easingthemes/ssh-deploy@main
