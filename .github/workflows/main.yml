@@ -27,6 +27,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     
     steps:
     - uses: actions/checkout@v4
@@ -34,8 +35,9 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: latest
+    - name: Install Modules
+      run: npm install
     - name: Build
-      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
       run: npm run build
         
   deployment:
@@ -48,6 +50,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
+      - name: Install Modules
+        run: npm install
       - name: Build
         run: npm run build
       - name: List files
