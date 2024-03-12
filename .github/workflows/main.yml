@@ -41,7 +41,11 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: build_dir
-        path: build
+        path: dist
+    - name: List files
+      run: ls -la
+    - name: List files build
+      run: ls -la dist
         
   deployment:
     runs-on: ubuntu-latest
@@ -51,11 +55,11 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: build_dir
-          path: build
+          path: dist
       - name: List files
         run: ls -la
       - name: List files build
-        run: ls -la build
+        run: ls -la dist
       - name: Deploy Development
         if: github.ref_name == 'development'
         uses: easingthemes/ssh-deploy@main
@@ -66,7 +70,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET_DEV }}
-          EXCLUDE: "/.gitignore, /node_modules/, /index.html, /README.md, /package.json, /src/, /eslintrc.json, /package-lock.json, /vite.config.js, /.git/, /logos/, /.prettierignore, /.gitattributes, /mapthumbnails/, /.prettierrc, /.github/"
+          EXCLUDE: ""
           SCRIPT_BEFORE: |
             ls -al
           SCRIPT_AFTER: |
