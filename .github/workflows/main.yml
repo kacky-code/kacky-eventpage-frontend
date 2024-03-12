@@ -39,6 +39,9 @@ jobs:
     needs: build
     if: github.event_name == 'push'
     steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: npm run build
       - name: List files
         run: ls -la
       - name: Deploy Development
