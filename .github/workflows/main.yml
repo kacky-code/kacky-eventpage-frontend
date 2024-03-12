@@ -61,9 +61,11 @@ jobs:
       - name: List files build
         run: ls -la dist
       - name: Setup SSH
+        env:
+          PRIV_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir .ssh
-          cat ${{ secrets.SSH_PRIVATE_KEY }} >> .ssh/alf
+          cat $PRIV_KEY >> .ssh/alf
       - name: Copy Files
         run: scp -i .ssh/alf -v -r dist/* ${{ secrets.REMOTE_HOST }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
