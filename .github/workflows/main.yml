@@ -60,21 +60,16 @@ jobs:
         run: ls -la
       - name: List files build
         run: ls -la dist
-      - name: Deploy Development
-        if: github.ref_name == 'development'
-        uses: easingthemes/ssh-deploy@main
+      - uses: actions/checkout@v4
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i"
-          SOURCE: "src/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET_DEV }}
-          EXCLUDE: ""
-          SCRIPT_BEFORE: |
-            ls -al
-          SCRIPT_AFTER: |
-            ls -al
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.REMOTE_PORT }}
+          source: "dist/*"
+          target: ${{ secrets.REMOTE_TARGET_DEV }}
   
       - name: Deploy Production
         if: github.head_ref == 'main'
