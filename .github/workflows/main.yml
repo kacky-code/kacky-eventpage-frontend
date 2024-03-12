@@ -44,6 +44,6 @@ jobs:
           echo $RSYNC_STDOUT
 
     - name: Deploy Production
-      if: github.head_ref == 'development'
+      if: github.head_ref == 'main'
       run: |
         todo
