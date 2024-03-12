@@ -66,8 +66,16 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/"
-          target: "development"
+          source: dist
+          target: development
+          rm: false
+          debug: true
+          overwrite: true
+          tar_dereference: false
+          tar_exec: tar
+          proxy_port: 22
+          proxy_timeout: 30s
+          proxy_use_insecure_cipher: false
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
