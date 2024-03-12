@@ -60,14 +60,15 @@ jobs:
         run: ls -la
       - name: List files build
         run: ls -la dist
-      - name: Set up SSH Key
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      - name: Set up SSH Key and use agent
         run: |
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-      - name: Copy files
-        run: scp -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:development
+          eval `ssh-agent -s`
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
+          scp -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:development
+      #- name: Copy files
+      #  env:
+      #    SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      #  run: scp -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
