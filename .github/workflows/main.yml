@@ -36,7 +36,7 @@ jobs:
         
   deployment:
     runs-on: ubuntu-latest
-    needs: [build, style]
+    needs: build
     if: github.event_name == 'push'
     steps:
       - name: Deploy Development
@@ -45,7 +45,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i"
-          SOURCE: "dist/"
+          SOURCE: "src/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET_DEV }}
