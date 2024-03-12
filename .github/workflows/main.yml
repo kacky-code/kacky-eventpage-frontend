@@ -60,15 +60,14 @@ jobs:
         run: ls -la
       - name: List files build
         run: ls -la dist
-      - name: copy file via ssh key
-        uses: appleboy/scp-action@v0.1.7
+      - name: Copy folder content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
         with:
+          local: dist
+          remote: development
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
-          target: development
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
