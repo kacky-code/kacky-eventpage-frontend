@@ -63,11 +63,11 @@ jobs:
       - name: Setup SSH
         env:
           PRIV_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          KOWN_HOSTS: ${{ secrets.KOWN_HOSTS }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
         run: |
           mkdir .ssh
           echo $PRIV_KEY >> .ssh/alf
-          echo $KOWN_HOSTS >> .ssh/known_hosts
+          echo $KNOWN_HOSTS >> .ssh/known_hosts
       - name: Copy Files
         run: scp -i .ssh/alf -v -r dist/* ${{ secrets.REMOTE_HOST }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
