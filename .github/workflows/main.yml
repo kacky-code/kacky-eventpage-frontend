@@ -68,6 +68,7 @@ jobs:
           mkdir ~/.ssh
           echo $PRIV_KEY >> ~/.ssh/alf
           echo $KNOWN_HOSTS >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/alf
       - name: Copy Files
         run: scp -i ~/.ssh/alf -v -r dist/* ${{ secrets.REMOTE_HOST }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
