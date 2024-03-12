@@ -40,7 +40,7 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - name: Deploy Development
-        if: github.head_ref == 'development'
+        if: github.ref_name == 'development'
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
