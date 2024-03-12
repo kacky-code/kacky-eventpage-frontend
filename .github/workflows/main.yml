@@ -60,23 +60,12 @@ jobs:
         run: ls -la
       - name: List files build
         run: ls -la dist
-      - name: Copying files to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          #key: ${{ secrets.SSH_PRIVATE_KEY }}
-          password: ${{ secrets.REMOTE_PASSWORD }}
-          source: dist
-          target: development
-          rm: false
-          debug: true
-          overwrite: true
-          tar_dereference: false
-          tar_exec: tar
-          proxy_port: 22
-          proxy_timeout: 30s
-          proxy_use_insecure_cipher: false
+      - name: Setup SSH
+        run: |
+          mkdir .ssh
+          echo ${{ secrets.SSH_PRIVATE_KEY }} >> .ssh/alf
+      - name: Copy Files
+        run: scp -i .ssh/alf -r dist/* ${{ secrets.REMOTE_HOST }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
