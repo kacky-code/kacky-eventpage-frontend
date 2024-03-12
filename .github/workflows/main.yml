@@ -60,17 +60,15 @@ jobs:
         run: ls -la
       - name: List files build
         run: ls -la dist
-      - uses: actions/checkout@v4
-      - name: copy file via ssh password
+      - name: copy file via ssh key
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.REMOTE_PORT }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/*"
           target: ${{ secrets.REMOTE_TARGET_DEV }}
-  
       - name: Deploy Production
         if: github.head_ref == 'main'
         run: |
