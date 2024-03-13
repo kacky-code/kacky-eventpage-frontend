@@ -15,9 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: latest
+          cache: 'npm'
       - name: Dev dependencies
         run: npm install --save-dev
       - name: Check eslint
@@ -31,9 +32,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js
-      uses: actions/setup-node@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: latest
+        cache: 'npm'
     - name: Install Modules
       run: npm install
     - name: Build
