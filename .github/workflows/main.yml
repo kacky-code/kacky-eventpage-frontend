@@ -71,9 +71,9 @@ jobs:
           echo "$PRIV_KEY" >> ~/.ssh/key
           echo "$KNOWN_HOSTS" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/key
-      - name: Copy Files
-        run: scp -i ~/.ssh/key -v -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:development
+      - name: Deploy Development
+        run: scp -i ~/.ssh/key -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:development
       - name: Deploy Production
         if: github.head_ref == 'main'
-        run: |
-          todo
+        run: scp -i ~/.ssh/key -r dist/* ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:production
+
