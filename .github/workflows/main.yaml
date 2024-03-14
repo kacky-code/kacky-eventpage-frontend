@@ -17,7 +17,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: lts/Hydrogen
           cache: 'npm'
       - name: Dev dependencies
         run: npm install --save-dev
@@ -34,7 +34,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: latest
+        node-version: lts/Hydrogen
         cache: 'npm'
     - name: Install Modules
       run: npm install
