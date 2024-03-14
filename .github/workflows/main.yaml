@@ -1,0 +1,78 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: 
+      - development
+      - main
+  pull_request:
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'npm'
+      - name: Dev dependencies
+        run: npm install --save-dev
+      - name: Check eslint
+        run: npm run lint
+      - name: Check prettier
+        run: npm run prettier-check
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: latest
+        cache: 'npm'
+    - name: Install Modules
+      run: npm install
+    - name: Build
+      run: npm run build
+    - uses: actions/upload-artifact@master
+      with:
+        name: build_dir
+        path: dist
+    - name: List files
+      run: ls -la
+    - name: List files build
+      run: ls -la dist
+
+  deployment:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: build_dir
+          path: dist
+      - name: List files
+        run: ls -la
+      - name: List files build
+        run: ls -la dist
+      - name: Setup SSH
+        env:
+          PRIV_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir ~/.ssh
+          echo "$PRIV_KEY" >> ~/.ssh/key
+          echo "$KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/key
+      - name: Deploy Development
+        run: scp -i ~/.ssh/key -r dist/* ${{ secrets.SSH_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.DEPLOY_DIR_DEV }}
+      - name: Deploy Production
+        if: github.head_ref == 'main'
+        run: scp -i ~/.ssh/key -r dist/* ${{ secrets.SSH_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.DEPLOY_DIR_PROD }}
