@@ -9,7 +9,7 @@ on:
 
 jobs:
   style:
-    runs-on: ubuntu-latest
+    runs-on: debian:12.5
     if: github.event_name == 'pull_request'
     continue-on-error: true
     steps:
@@ -27,7 +27,7 @@ jobs:
         run: npm run prettier-check
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: debian:12.5
 
     steps:
     - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
       run: ls -la dist
 
   deployment:
-    runs-on: ubuntu-latest
+    runs-on: debian:12.5
     needs: build
     if: github.event_name == 'push'
     steps:
