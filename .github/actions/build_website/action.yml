@@ -1,0 +1,30 @@
+name: Build
+description: Build Project and store output as an artifact
+
+inputs:
+  node-version:
+    required: true
+    type: string
+  artifact-name:
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v4
+  - name: Set up Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: ${{ inputs.node-version }}
+      cache: 'npm'
+  - name: Install Modules
+    shell: bash
+    run: npm install
+  - name: Build
+    shell: bash
+    run: npm run build
+  - uses: actions/upload-artifact@master
+    with:
+      name: ${{ inputs.artifact-name }}
+      path: dist
