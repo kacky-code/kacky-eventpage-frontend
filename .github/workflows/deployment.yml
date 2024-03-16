@@ -8,26 +8,22 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNS_ON }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/build_website
         with:
-          node-version: lts/iron
+          node-version: ${{ vars.NODE_VERSION }}
           artifact-name: website_deployment
 
   deployment:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ vars.RUNS_ON }}
     needs: build
     steps:
       - uses: actions/download-artifact@master
         with:
           name: website_deployment
           path: dist
-      - name: List files
-        run: ls -la
-      - name: List files build
-        run: ls -la dist
       - name: Setup SSH
         env:
           PRIV_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
