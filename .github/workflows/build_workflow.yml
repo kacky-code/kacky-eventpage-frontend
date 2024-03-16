@@ -1,0 +1,33 @@
+on:
+  workflow_call: 
+    inputs:
+      node-version:
+        required: true
+        type: string
+      artifact-name:
+        required: true
+        type: string
+      base-image:
+        required: false
+        type: string
+        default: ubuntu-22.04
+
+jobs:
+  build_website:
+    runs-on: ${{ inputs.base-image }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+    - name: Install Modules
+      run: npm install
+    - name: Build
+      run: npm run build
+    - uses: actions/upload-artifact@master
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: dist
