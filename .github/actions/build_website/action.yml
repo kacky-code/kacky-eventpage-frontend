@@ -8,10 +8,6 @@ inputs:
   artifact-name:
     required: true
     type: string
-  base-image:
-    required: false
-    type: string
-    default: ubuntu-22.04
 
 runs:
   using: "composite"
