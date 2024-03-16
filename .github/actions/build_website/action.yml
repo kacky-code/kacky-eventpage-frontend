@@ -25,8 +25,10 @@ runs:
       node-version: ${{ inputs.node-version }}
       cache: 'npm'
   - name: Install Modules
+    shell: bash
     run: npm install
   - name: Build
+    shell: bash
     run: npm run build
   - uses: actions/upload-artifact@master
     with:
