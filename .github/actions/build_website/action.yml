@@ -1,19 +1,17 @@
 name: Build
 description: Build Project and store output as an artifact
 
-on:
-  workflow_call: 
-    inputs:
-      node-version:
-        required: true
-        type: string
-      artifact-name:
-        required: true
-        type: string
-      base-image:
-        required: false
-        type: string
-        default: ubuntu-22.04
+inputs:
+  node-version:
+    required: true
+    type: string
+  artifact-name:
+    required: true
+    type: string
+  base-image:
+    required: false
+    type: string
+    default: ubuntu-22.04
 
 runs:
   using: "composite"
