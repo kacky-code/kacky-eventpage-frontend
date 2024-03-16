@@ -14,12 +14,10 @@ jobs:
         with:
           node-version: lts/iron
           cache: 'npm'
-      - name: Dev dependencies
-        run: npm install eslint prettier
       - name: Check eslint
-        run: npm run lint
+        run: npx eslint src
       - name: Check prettier
-        run: npm run prettier-check
+        run: npx prettier src --check
     
   build_succeeds:
     runs-on: ubuntu-latest
