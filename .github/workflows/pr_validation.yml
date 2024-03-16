@@ -24,6 +24,7 @@ jobs:
   build_succeeds:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ./.github/actions/build_website
         with:
           node-version: lts/iron
