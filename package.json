@@ -31,9 +31,9 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "prettier": "prettier . --write",
-    "prettier-check": "prettier . --check",
+    "lint": "eslint src",
+    "prettier": "prettier src --write",
+    "prettier-check": "prettier src --check",
     "serve": "vite preview",
     "dev": "vite build --outDir build",
     "deploy": "vite build --outDir live"
