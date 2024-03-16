@@ -24,7 +24,7 @@ jobs:
   build_succeeds:
     runs-on: ubuntu-latest
     steps:
-      - uses: build_website
+      - uses: ./build_website
         with:
           node-version: lts/iron
           artifact-name: website
